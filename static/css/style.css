@@ -1,0 +1,28 @@
+/* Custom CSS can go here */
+body {
+    font-family: sans-serif;
+}
+
+/* Make sure content is below the fixed navbar */
+body {
+    /* Padding moved to an inline div in top_shortcut_bar.html to avoid FOUC if CSS loads late */
+    /* Consider adding it here if navbar is always present and loaded quickly */
+}
+
+.modal-body .form-label {
+    font-weight: 500;
+}
+
+#companyDataDisplay p {
+    margin-bottom: 0.5rem;
+}
+
+#companyDataDisplay strong {
+    margin-right: 8px;
+}
+
+/* Styling for sections on company page for better visual separation if needed */
+/* section {
+    padding-top: 60px;
+    margin-top: -60px;
+} */

@@ -9,13 +9,13 @@ import (
 // User represents a user in the system
 type User struct {
 	gorm.Model
-	Name     string
-	Email    string `gorm:"uniqueIndex"`
-	Password string // Hashed password
-	RoleID   uint
-	Role     Role
+	Name      string
+	Email     string `gorm:"uniqueIndex"`
+	Password  string // Hashed password
+	RoleID    uint
+	Role      Role
 	CompanyID uint
-	Company  Company
+	Company   Company
 }
 
 // Company represents a company
@@ -55,7 +55,7 @@ type DishCategory struct {
 // Image represents an image, could be for a dish or other entities
 type Image struct {
 	gorm.Model
-	URL       string `gorm:"uniqueIndex"` // URL of the image
-	AltText   string
+	URL        string `gorm:"uniqueIndex"` // URL of the image
+	AltText    string
 	UploadedAt time.Time
 }
