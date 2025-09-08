@@ -4,6 +4,9 @@ import (
 	"log"
 	"main/database"
 	"main/initializers"
+	"os"
+	"path/filepath"
+
 	"github.com/gin-gonic/gin"
 	"github.com/heronh/menu/controllers"
 )
@@ -50,7 +53,7 @@ func main() {
 	if host_port == "" {
 		host_port = "8080" // default port if not specified
 	}
-	r.Run(":" + port)
+	r.Run(":" + host_port)
 
 }
 
