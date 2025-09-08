@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:latest        # Use the latest official PostgreSQL image
+    container_name: db            # Assign a meaningful name
+    restart: unless-stopped       # Restart unless explicitly stopped
+ 
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
