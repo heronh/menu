@@ -4,6 +4,8 @@ import (
 	"log"
 	"main/database"
 	"main/initializers"
+	"github.com/gin-gonic/gin"
+	"github.com/heronh/menu/controllers"
 )
 
 func init() {
@@ -25,9 +27,50 @@ func init() {
 
 func main() {
 	log.Println("Application setup complete. Starting application...")
-	// Application logic will go here in the future.
-	// For now, it just logs that setup is done.
-	// Example: You might start an HTTP server here.
-	// e.g., router := setupRouter()
-	// router.Run(":8080")
+
+	r := gin.Default()
+
+	// Serve template files and it's subfolders from the 'templates' directory
+	// load templates recursively
+	files, err := loadTemplates("templates")
+	if err != nil {
+		log.Println(err)
+	}
+	r.LoadHTMLFiles(files...)
+
+	// Serve static files (CSS) from the 'static' directory
+	r.Static("/static", "./static")
+	// Serve Bootstrap icons from the 'node_modules/bootstrap-icons' directory
+	r.Static("/icons", "./static/bootstrap-icons")
+
+	r.GET("/", controllers.WelcomePage)
+
+	// read port in .env file and starts the server
+	host_port := os.Getenv("HOST_PORT")
+	if host_port == "" {
+		host_port = "8080" // default port if not specified
+	}
+	r.Run(":" + port)
+
+}
+
+func loadTemplates(root string) (files []string, err error) {
+	err = filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		fileInfo, err := os.Stat(path)
+		if err != nil {
+			return err
+		}
+		if fileInfo.IsDir() {
+			if path != root {
+				loadTemplates(path)
+			}
+		} else {
+			files = append(files, path)
+		}
+		return err
+	})
+	return files, err
 }

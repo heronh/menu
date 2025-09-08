@@ -16,12 +16,12 @@ func CreateSuperUser() {
 		return
 	}
 
-	suEmail := os.Getenv("SUPER_USER_EMAIL")
-	suPassword := os.Getenv("SUPER_USER_PASSWORD")
-	suName := os.Getenv("SUPER_USER_NAME")
+	suEmail := os.Getenv("USER_SEEDER_EMAIL")
+	suPassword := os.Getenv("USER_SEEDER_PASSWORD")
+	suName := os.Getenv("USER_SEEDER_NAME")
 
 	if suEmail == "" || suPassword == "" || suName == "" {
-		log.Println("SUPER_USER_EMAIL, SUPER_USER_PASSWORD, or SUPER_USER_NAME environment variables not set. Skipping super user creation.")
+		log.Println("USER_SEEDER_EMAIL, USER_SEEDER_PASSWORD, or USER_SEEDER_NAME environment variables not set. Skipping super user creation.")
 		return
 	}
 
