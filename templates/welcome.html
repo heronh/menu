@@ -1,99 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-BR"> 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>{{ template "head" . }}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>{{ template "head" . }}
 </head>
 <body>
-<div class="container m-3">
-  
-  <h1>Elaborando a Página Inicial: Um Guia Completo</h1>
 
-  <h2>Entendendo as Necessidades do Seu Negócio</h2>
-  <p>Antes de começarmos a construir a página inicial, é fundamental entender os seguintes aspectos do seu negócio:</p>
-  <ul>
-    <li><strong>Público-alvo:</strong> Quem são seus clientes ideais? Quais são suas dores e necessidades?</li>
-    <li><strong>Serviços:</strong> Quais serviços você oferece? Quais são os principais benefícios para o cliente?</li>
-    <li><strong>Diferenciais:</strong> O que te diferencia da concorrência? Quais são seus pontos fortes?</li>
-    <li><strong>Objetivo da página:</strong> Qual é o principal objetivo da sua página inicial? Converter em vendas, gerar leads, informar os clientes?</li>
-  </ul>
+	<div class="card m-3">
+		<div class="card-header text-center h3">
+			Seu melhor cardápio digital
+		</div>
 
-  <h2>Elementos Essenciais de uma Página Inicial Eficaz</h2>
-  <p>Uma página inicial bem estruturada deve conter os seguintes elementos:</p>
-  <ul>
-    <li><strong>Cabeçalho:</strong>
-      <ul>
-        <li>Logo da empresa</li>
-        <li>Menu de navegação claro e intuitivo</li>
-        <li>Botão de chamada para ação (CTA) chamativo (ex: "Contratar agora", "Saiba mais")</li>
-      </ul>
-    </li>
-    <li><strong>Hero Section:</strong>
-      <ul>
-        <li>Título chamativo e conciso que resume o que você faz</li>
-        <li>Subtítulo que complementa o título e apresenta os principais benefícios</li>
-        <li>Imagem ou vídeo de alta qualidade que ilustre seus serviços</li>
-      </ul>
-    </li>
-    <li><strong>Seção de Serviços:</strong>
-      <ul>
-        <li>Descrição clara e concisa de cada serviço</li>
-        <li>Ícones ou imagens que representem cada serviço</li>
-        <li>CTA para cada serviço (ex: "Saiba mais", "Solicitar orçamento")</li>
-      </ul>
-    </li>
-    <li><strong>Depoimentos de clientes:</strong>
-      <ul>
-        <li>Citação de clientes satisfeitos</li>
-        <li>Foto e nome do cliente</li>
-      </ul>
-    </li>
-    <li><strong>Sobre nós:</strong>
-      <ul>
-        <li>Breve apresentação da sua empresa e equipe</li>
-        <li>Valores da empresa</li>
-      </ul>
-    </li>
-    <li><strong>Contato:</strong>
-      <ul>
-        <li>Formulário de contato</li>
-        <li>Informações de contato (telefone, e-mail, endereço)</li>
-        <li>Redes sociais</li>
-      </ul>
-    </li>
-    <li><strong>Rodapé:</strong>
-      <ul>
-        <li>Links para as principais páginas do site</li>
-        <li>Termos de uso e política de privacidade</li>
-        <li>Copyright</li>
-      </ul>
-    </li>
-  </ul>
+		<div class="card-body">
+			<span class="h4">Me fale sobre você!</span>
+			<hr>
+			<div class="list-group">
+				<div class="list-group-item">
+					<p>Sou administrador</p>
+					<div class="list-group list-group-flush">
+						<a href="#" class="list-group-item list-group-item-action small">Criar uma conta</a>
+						<a href="#" class="list-group-item list-group-item-action small">Acessar meu restaurante</a>
+					</div>
+				</div>
 
-  <h2>Exemplos e Dicas</h2>
-  <ul>
-    <li>Mantenha a página simples e objetiva: O visitante deve entender rapidamente o que você oferece.</li>
-    <li>Use uma linguagem clara e fácil de entender: Evite jargões técnicos.</li>
-    <li>Priorize a experiência do usuário: O site deve ser rápido, responsivo e fácil de navegar.</li>
-    <li>Use um design atraente e profissional: As cores, fontes e imagens devem transmitir a identidade da sua marca.</li>
-    <li>Invista em um bom call to action: O CTA deve ser claro, conciso e direcionar o visitante para a próxima ação.</li>
-    <li>Otimize para SEO: Utilize palavras-chave relevantes e meta tags para melhorar o posicionamento do seu site nos motores de busca.</li>
-  </ul>
+				<div class="list-group-item">
+					<p>Sou cliente</p>
+					<div class="list-group  list-group-flush">
+						<a href="#" class="list-group-item list-group-item-action small">Ver cardápio</a>
+						<a href="#" class="list-group-item list-group-item-action small">Fazer pedido</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 
-  <h2>Exemplo de Estrutura:</h2>
-  <ul>
-    <li>[Cabeçalho]</li>
-    <li>[Hero Section]</li>
-    <li>[Seção de Serviços]</li>
-    <li>[Depoimentos de clientes]</li>
-    <li>[Sobre nós]</li>
-    <li>[Contato]</li>
-    <li>[Rodapé]</li>
-  </ul>
-
-
-  {{ template "footer" . }}
+	{{ template "footer" . }}
 
 </div>
 

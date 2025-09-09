@@ -7,8 +7,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"main/controllers"
+
 	"github.com/gin-gonic/gin"
-	"github.com/heronh/menu/controllers"
 )
 
 func init() {
