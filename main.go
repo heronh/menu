@@ -48,7 +48,13 @@ func main() {
 	r.Static("/icons", "./static/bootstrap-icons")
 
 	r.GET("/", controllers.WelcomePage)
+
+	// Funções relativas as tarefas
 	r.GET("/todo", controllers.TodoPage)
+	r.POST("/todo", controllers.SaveTodo)
+	r.POST("/todo_delete", controllers.DeleteTodo)
+	r.POST("/todo_check", controllers.CheckTodo)
+	r.POST("/todo_uncheck", controllers.UncheckTodo)
 
 	r.GET("/register.html", controllers.RegisterPage)
 

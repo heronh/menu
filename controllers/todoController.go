@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	"main/database"
+	"main/models"
+
 	"github.com/gin-gonic/gin"
-	"github.com/heronh/menu/initializers"
-	"github.com/heronh/menu/models"
 )
 
 func UncheckTodo(c *gin.Context) {
@@ -32,14 +33,14 @@ func check_uncheck(status bool, c *gin.Context) error {
 	fmt.Println("Checking todo with id:", Id)
 
 	var todo models.Todo
-	if err := initializers.DB.Where("id = ?", Id).First(&todo).Error; err != nil {
+	if err := database.DB.Where("id = ?", Id).First(&todo).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not find todo"})
 		return err
 	}
 	todo.Completed = status
 	todo.UpdatedAt = time.Now()
 
-	if err := initializers.DB.Save(&todo).Error; err != nil {
+	if err := database.DB.Save(&todo).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not update todo"})
 		return err
 	}
@@ -57,7 +58,7 @@ func DeleteTodo(c *gin.Context) {
 	}
 
 	fmt.Println("Deleting todo with id:", Id)
-	if err := initializers.DB.Delete(&models.Todo{}, Id).Error; err != nil {
+	if err := database.DB.Delete(&models.Todo{}, Id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not delete todo"})
 		return
 	}
@@ -86,22 +87,22 @@ func SaveTodo(c *gin.Context) {
 	fmt.Println(c)
 	Id := c.PostForm("Id")
 	var userModel models.User
-	if err := initializers.DB.Where("id = ?", Id).First(&userModel).Error; err != nil {
+	if err := database.DB.Where("id = ?", Id).First(&userModel).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not find user"})
 		return
 	}
 
-	if err := initializers.DB.Create(&todo).Error; err != nil {
+	if err := database.DB.Create(&todo).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create todo"})
 		return
 	}
-	c.Redirect(http.StatusFound, "/todos")
+	c.Redirect(http.StatusFound, "/todo")
 }
 
 func TodoPage(c *gin.Context) {
 
 	var todos []models.Todo
-	if err := initializers.DB.Order("completed, updated_at desc").Find(&todos).Error; err != nil {
+	if err := database.DB.Order("completed, updated_at desc").Find(&todos).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not retrieve todos"})
 		return
 	}
