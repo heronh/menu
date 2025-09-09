@@ -49,6 +49,8 @@ func main() {
 
 	r.GET("/", controllers.WelcomePage)
 
+	r.GET("/register.html", controllers.RegisterPage)
+
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")
 	if host_port == "" {

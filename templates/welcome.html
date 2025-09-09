@@ -3,42 +3,35 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	</head>{{ template "head" . }}
-</head>
-<body>
-
-	<div class="card m-3">
-		<div class="card-header text-center h3">
+</head>{{ template "header" . }}
+<body class="bg-gray-100 min-h-screen flex flex-col">
+	<div class="max-w-xl w-full mx-auto mt-10 bg-white rounded-xl shadow-lg overflow-hidden">
+		<div class="bg-blue-600 text-white text-center py-4 text-2xl font-bold">
 			Seu melhor cardápio digital
 		</div>
-
-		<div class="card-body">
-			<span class="h4">Me fale sobre você!</span>
-			<hr>
-			<div class="list-group">
-				<div class="list-group-item">
-					<p>Sou administrador</p>
-					<div class="list-group list-group-flush">
-						<a href="#" class="list-group-item list-group-item-action small">Criar uma conta</a>
-						<a href="#" class="list-group-item list-group-item-action small">Acessar meu restaurante</a>
+		<div class="p-6">
+			<span class="block text-lg font-semibold mb-2">Me fale sobre você!</span>
+			<hr class="my-4 border-gray-300">
+			<div class="space-y-6">
+				<div class="bg-gray-50 rounded-lg p-4 shadow">
+					<p class="font-medium text-gray-700 mb-2">Sou administrador</p>
+					<div class="flex flex-col gap-2">
+						<a href="register.html" class="px-4 py-2 rounded bg-blue-500 text-white text-sm hover:bg-blue-600 transition">Criar uma conta</a>
+						<a href="#" class="px-4 py-2 rounded bg-blue-100 text-blue-700 text-sm hover:bg-blue-200 transition">Acessar meu restaurante</a>
 					</div>
 				</div>
-
-				<div class="list-group-item">
-					<p>Sou cliente</p>
-					<div class="list-group  list-group-flush">
-						<a href="#" class="list-group-item list-group-item-action small">Ver cardápio</a>
-						<a href="#" class="list-group-item list-group-item-action small">Fazer pedido</a>
+				<div class="bg-gray-50 rounded-lg p-4 shadow">
+					<p class="font-medium text-gray-700 mb-2">Sou cliente</p>
+					<div class="flex flex-col gap-2">
+						<a href="#" class="px-4 py-2 rounded bg-green-500 text-white text-sm hover:bg-green-600 transition">Ver cardápio</a>
+						<a href="#" class="px-4 py-2 rounded bg-green-100 text-green-700 text-sm hover:bg-green-200 transition">Fazer pedido</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-
 	{{ template "footer" . }}
-
+</body>
 </div>
-
 </body>
 </html>

@@ -1,12 +1,13 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 func WelcomePage(c *gin.Context) {
-	c.HTML(200, "welcome.html", gin.H{
+	c.HTML(http.StatusOK, "welcome.html", gin.H{
 		"title": "Welcome to Menu Management System",
 	})
 }
-
