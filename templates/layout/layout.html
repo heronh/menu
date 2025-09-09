@@ -1,3 +1,4 @@
+{{define "layout"}}
 <!DOCTYPE html>
 <html lang="pt-BR"> 
 
@@ -14,10 +15,13 @@
 <body>
 <div class="container m-3">
 
-   {{ template "register_content" . }}
-   {{ template "footer" . }}
+  {{ template "navbar" . }}
+  
+  {{ template "content" . }} 
+
+  {{ template "footer" . }}
 
 </div>
 </body>
 </html>
-
+{{end}}
