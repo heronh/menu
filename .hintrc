@@ -8,6 +8,14 @@
       {
         "document-title": "off"
       }
-    ]
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "meta-viewport": "off",
+    "meta-charset": "off"
   }
 }

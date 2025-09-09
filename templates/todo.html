@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> 
+
+<head>
+	 <meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	 <link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
+	 <!-- Tailwind CSS CDN -->
+	 <script src="https://cdn.tailwindcss.com"></script>
+	 <title>{{ .Title }}</title>  
+</head>
+
+
+<body class="bg-gray-100 min-h-screen">
+	<div class="max-w-2xl mx-auto py-8 px-2">
+		<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+			<div class="bg-blue-600 text-white px-6 py-4 text-xl font-bold">
+				Lista de Tarefas:
+			</div>
+			<ul class="divide-y divide-gray-200">
+				<li class="px-6 py-4">
+					<form id="todo-form" method="post" class="flex items-center gap-2">
+						<button type="submit" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition" title="Adicionar tarefa">
+							<i class="bi bi-plus-lg"></i>
+						</button>
+						<input type="text" class="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" id="description" name="description" placeholder="Descrição" required>
+						<input type="text" value="{{.Id}}" name="Id" hidden>
+					</form>
+				</li>
+				{{ range .Todos }}
+				<li class="px-6 py-4 flex items-center gap-3">
+					<button class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 btn_delete" title="Excluir">
+						<i class="bi bi-trash"></i>
+					</button>
+					{{ if .Completed }}
+						<button class="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 button-uncheck" title="Incompleto">
+							<i class="bi bi-check-square"></i>
+						</button>
+					{{ else }}
+						<button class="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-green-400 hover:text-white button-check" title="Completo">
+							<i class="bi bi-square"></i>
+						</button>
+					{{ end }}
+					<span class="text-xs text-gray-400 w-24">{{ .UpdatedAt.Format "02/01/2006" }}</span>
+					<input type="text" class="todo_id" name="{{.ID}}" value="{{.ID}}" hidden>
+					<span class="flex-1 {{if .Completed}}text-gray-400 line-through{{end}}">{{ .Description }}</span>
+				</li>
+				{{ end }}
+			</ul>
+		</div>
+		{{ template "footer" . }}
+	</div>
+
+<script>
+	$(document).ready(function() {
+		$('#description').focus();
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
+	});
+
+	$('.button-uncheck').click(function(event) {
+		event.preventDefault();
+		parseId($(this),'/todos_uncheck');
+	});
+
+	$('.button-check').click(function(event) {
+		event.preventDefault();
+		parseId($(this),'/todos_check');
+	});
+
+	$('.btn_delete').click(function(event) {
+		event.preventDefault();
+		parseId($(this),'/todos_delete');
+	});
+
+	function parseId(context,route) {
+
+		const Id = context.closest('li').find('.todo_id').val();
+		fetch(route, {
+				method: 'POST',
+				headers: {
+						'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ Id: parseInt(Id) })
+		})
+		.then(response => response.json())
+		.then(data => {
+				if (data.message) {
+						alert(data.message);
+						window.location.href = '/todos';
+				} else if (data.error) {
+						alert(data.error);
+				}
+		});
+	}
+
+
+</script>

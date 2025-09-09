@@ -48,6 +48,7 @@ func main() {
 	r.Static("/icons", "./static/bootstrap-icons")
 
 	r.GET("/", controllers.WelcomePage)
+	r.GET("/todo", controllers.TodoPage)
 
 	r.GET("/register.html", controllers.RegisterPage)
 

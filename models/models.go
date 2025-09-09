@@ -10,29 +10,29 @@ import (
 // Privilege represents the user privilege levels
 type Privilege struct {
 	gorm.Model
-	Name string `gorm:"unique;not null"` // e.g., Super Administrator, Administrator
-	Slug string `gorm:"unique;not null"` // e.g., su, admin
+	Name  string `gorm:"unique;not null"` // e.g., Super Administrator, Administrator
+	Slug  string `gorm:"unique;not null"` // e.g., su, admin
 	Users []User `gorm:"foreignKey:PrivilegeID"`
 }
 
 // User represents a user in the system
 type User struct {
 	gorm.Model
-	Name        string `gorm:"not null"`
-	Email       string `gorm:"unique;not null"`
-	Password    string `gorm:"not null"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	CompanyID   *uint // Pointer to allow null
-	Company     Company `gorm:"foreignKey:CompanyID"`
-	PrivilegeID uint    `gorm:"not null"`
-	Privilege   Privilege `gorm:"foreignKey:PrivilegeID"`
+	Name               string `gorm:"not null"`
+	Email              string `gorm:"unique;not null"`
+	Password           string `gorm:"not null"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+	CompanyID          *uint      // Pointer to allow null
+	Company            Company    `gorm:"foreignKey:CompanyID"`
+	PrivilegeID        uint       `gorm:"not null"`
+	Privilege          Privilege  `gorm:"foreignKey:PrivilegeID"`
 	AuthoredCategories []Category `gorm:"foreignKey:AuthorID"`
-	AuthoredDishes []Dish `gorm:"foreignKey:AuthorLastChangeID"`
-	InsertedImages []Image `gorm:"foreignKey:InsertedByID"`
-	SentMessages []Message `gorm:"foreignKey:SenderID"`
-	ReceivedMessages []Message `gorm:"foreignKey:RecipientID"`
-	Tasks []Task `gorm:"foreignKey:UserID"`
+	AuthoredDishes     []Dish     `gorm:"foreignKey:AuthorLastChangeID"`
+	InsertedImages     []Image    `gorm:"foreignKey:InsertedByID"`
+	SentMessages       []Message  `gorm:"foreignKey:SenderID"`
+	ReceivedMessages   []Message  `gorm:"foreignKey:RecipientID"`
+	Tasks              []Task     `gorm:"foreignKey:UserID"`
 }
 
 // Company represents a company
@@ -50,9 +50,9 @@ type Company struct {
 	Level        int    `gorm:"type:integer;check:level >= 0 AND level <= 100"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-	Users        []User `gorm:"foreignKey:CompanyID"`
-	Dishes       []Dish `gorm:"foreignKey:CompanyID"`
-	Images       []Image `gorm:"foreignKey:CompanyID"`
+	Users        []User    `gorm:"foreignKey:CompanyID"`
+	Dishes       []Dish    `gorm:"foreignKey:CompanyID"`
+	Images       []Image   `gorm:"foreignKey:CompanyID"`
 	Messages     []Message `gorm:"foreignKey:SenderCompanyID"`
 }
 
@@ -62,38 +62,38 @@ type Category struct {
 	Description string `gorm:"not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	AuthorID    uint `gorm:"not null"`
-	Author      User `gorm:"foreignKey:AuthorID"`
+	AuthorID    uint   `gorm:"not null"`
+	Author      User   `gorm:"foreignKey:AuthorID"`
 	Dishes      []Dish `gorm:"foreignKey:CategoryID"`
 }
 
 // Dish represents a dish
 type Dish struct {
 	gorm.Model
-	Description        string `gorm:"not null"`
-	Value              float64 `gorm:"not null"`
+	Description        string         `gorm:"not null"`
+	Value              float64        `gorm:"not null"`
 	Time               pq.StringArray `gorm:"type:text[]"` // List with 3 times
 	DaysOfWeekServed   pq.StringArray `gorm:"type:text[]"`
-	Active             bool   `gorm:"default:true"`
+	Active             bool           `gorm:"default:true"`
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
-	AuthorLastChangeID uint `gorm:"not null"`
-	AuthorLastChange   User `gorm:"foreignKey:AuthorLastChangeID"`
-	CategoryID         uint `gorm:"not null"`
+	AuthorLastChangeID uint     `gorm:"not null"`
+	AuthorLastChange   User     `gorm:"foreignKey:AuthorLastChangeID"`
+	CategoryID         uint     `gorm:"not null"`
 	Category           Category `gorm:"foreignKey:CategoryID"`
-	CompanyID          uint `gorm:"not null"`
-	Company            Company `gorm:"foreignKey:CompanyID"`
+	CompanyID          uint     `gorm:"not null"`
+	Company            Company  `gorm:"foreignKey:CompanyID"`
 }
 
 // Image represents an image file
 type Image struct {
 	gorm.Model
-	OriginalFileName string `gorm:"not null"`
-	UniqueName       string `gorm:"unique;not null"`
-	Storage          string // e.g., local, s3
-	InsertedByID     uint   `gorm:"not null"`
-	InsertedBy       User   `gorm:"foreignKey:InsertedByID"`
-	CompanyID        uint   `gorm:"not null"`
+	OriginalFileName string  `gorm:"not null"`
+	UniqueName       string  `gorm:"unique;not null"`
+	Storage          string  // e.g., local, s3
+	InsertedByID     uint    `gorm:"not null"`
+	InsertedBy       User    `gorm:"foreignKey:InsertedByID"`
+	CompanyID        uint    `gorm:"not null"`
 	Company          Company `gorm:"foreignKey:CompanyID"`
 	CreatedAt        time.Time
 }
@@ -103,12 +103,12 @@ type Message struct {
 	gorm.Model
 	Text            string `gorm:"not null"`
 	Subject         string
-	SenderID        uint `gorm:"not null"`
-	Sender          User `gorm:"foreignKey:SenderID"`
-	SenderCompanyID uint // Can be null if sender is SU or not associated with a company for the message
+	SenderID        uint    `gorm:"not null"`
+	Sender          User    `gorm:"foreignKey:SenderID"`
+	SenderCompanyID uint    // Can be null if sender is SU or not associated with a company for the message
 	SenderCompany   Company `gorm:"foreignKey:SenderCompanyID"`
-	RecipientID     uint `gorm:"not null"`
-	Recipient       User `gorm:"foreignKey:RecipientID"`
+	RecipientID     uint    `gorm:"not null"`
+	Recipient       User    `gorm:"foreignKey:RecipientID"`
 	SendDate        time.Time
 }
 
@@ -117,7 +117,7 @@ type Log struct {
 	gorm.Model
 	Text           string `gorm:"not null"`
 	CreatedAt      time.Time
-	ModelChangedID *uint // Pointer to allow null, representing the ID of the changed record
+	ModelChangedID *uint  // Pointer to allow null, representing the ID of the changed record
 	ModelType      string // e.g., "User", "Company", "Dish" - to know which table ModelChangedID refers to
 }
 
@@ -130,6 +130,15 @@ type Task struct {
 	UserID    uint `gorm:"not null"`
 	User      User `gorm:"foreignKey:UserID"`
 	Finished  bool `gorm:"default:false"`
+}
+
+type Todo struct {
+	gorm.Model
+	ID          uint      `json:"id" gorm:"primary_key"`
+	Completed   bool      `json:"completed"`
+	CreatedAt   time.Time `json:"createdat"`
+	UpdatedAt   time.Time `json:"updatedat"`
+	Description string    `json:"description"`
 }
 
 // Ensure all models have CreatedAt and UpdatedAt managed by GORM by default
