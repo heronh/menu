@@ -2,22 +2,68 @@
 <html lang="pt-BR"> 
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
-   <!-- Tailwind CSS CDN -->
-   <script src="https://cdn.tailwindcss.com"></script>
-   <title>{{ .Title }}</title>  
+	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
+	<!-- Tailwind CSS CDN -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<title>{{ .Title }}</title>  
 </head>
 
 <body>
 <div class="container m-3">
 
-   {{ template "register_content" . }}
-   {{ template "footer" . }}
+	{{ template "register_content" . }}
+	{{ template "footer" . }}
 
 </div>
 </body>
 </html>
 
+<script>
+
+	// Execute when the document is fully loaded
+	document.addEventListener('DOMContentLoaded', function() {
+		// Focus on the user_name input field
+		document.getElementById('user_name').focus();
+	});
+
+	// Execute when email input loses focus
+	document.getElementById('user_email').addEventListener('blur', function() {
+		const email = this.value;
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex pattern
+		if (!emailPattern.test(email)) {
+			alert('Por favor, insira um email válido.');
+			this.value = '';
+			this.focus();
+		}
+	});
+	
+	// Execute when company_zip loses focus
+	document.getElementById('company_zip').addEventListener('blur', function() {
+			const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
+			if (zip.length === 8) { // Check if zip has 8 digits
+				fetch(`https://viacep.com.br/ws/${zip}/json/`)
+					.then(response => response.json())
+					.then(data => {
+						if (!data.erro) {
+							console.log(data);
+							document.getElementById('company_state').value = data.uf || '';
+							document.getElementById('company_city').value = data.localidade || '';
+						} else {
+							alert('CEP não encontrado.');
+						}
+					})
+					.catch(() => {
+						alert('Erro ao buscar o CEP.');
+					});
+			} else {
+				alert('CEP inválido. Deve conter 8 dígitos.');
+				this.value = '';
+				document.getElementById('company_state').value = '';
+				document.getElementById('company_city').value = '';
+			}
+	});
+
+</script>   

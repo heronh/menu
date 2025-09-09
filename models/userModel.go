@@ -25,3 +25,27 @@ type User struct {
 	PrivilegeID        uint       `gorm:"not null"`
 	Privilege          Privilege  `gorm:"foreignKey:PrivilegeID"`
 }
+
+type Todo struct {
+	gorm.Model
+	ID          uint      `json:"id" gorm:"primary_key"`
+	Completed   bool      `json:"completed"`
+	CreatedAt   time.Time `json:"createdat"`
+	UpdatedAt   time.Time `json:"updatedat"`
+	DeletedAt   time.Time `json:"deletedat"`
+	Description string    `json:"description"`
+	UserID      uint      `json:"userId"`
+	User        User      `gorm:"foreignKey:UserID"`
+}
+
+// Privilege represents the user privilege levels
+// e.g., Super Administrator, Administrator
+// Slug: su, admin
+// Users: relation to User
+
+type Privilege struct {
+	gorm.Model
+	Name  string `gorm:"unique;not null"`
+	Slug  string `gorm:"unique;not null"`
+	Users []User `gorm:"foreignKey:PrivilegeID"`
+}

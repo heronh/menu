@@ -7,27 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Company represents a company
-type Company struct {
-	gorm.Model
-	Name         string `gorm:"unique;not null"`
-	CEP          string
-	Street       string
-	Number       string
-	Neighborhood string
-	City         string
-	State        string
-	Active       bool   `gorm:"default:true"`
-	CNPJ         string `gorm:"unique;not null"`
-	Level        int    `gorm:"type:integer;check:level >= 0 AND level <= 100"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	Users        []User    `gorm:"foreignKey:CompanyID"`
-	Dishes       []Dish    `gorm:"foreignKey:CompanyID"`
-	Images       []Image   `gorm:"foreignKey:CompanyID"`
-	Messages     []Message `gorm:"foreignKey:SenderCompanyID"`
-}
-
 // Category represents a dish category
 type Category struct {
 	gorm.Model
@@ -70,20 +49,6 @@ type Image struct {
 	CreatedAt        time.Time
 }
 
-// Message represents a message between users
-type Message struct {
-	gorm.Model
-	Text            string `gorm:"not null"`
-	Subject         string
-	SenderID        uint    `gorm:"not null"`
-	Sender          User    `gorm:"foreignKey:SenderID"`
-	SenderCompanyID uint    // Can be null if sender is SU or not associated with a company for the message
-	SenderCompany   Company `gorm:"foreignKey:SenderCompanyID"`
-	RecipientID     uint    `gorm:"not null"`
-	Recipient       User    `gorm:"foreignKey:RecipientID"`
-	SendDate        time.Time
-}
-
 // Log represents a log entry for model changes
 type Log struct {
 	gorm.Model
@@ -91,18 +56,6 @@ type Log struct {
 	CreatedAt      time.Time
 	ModelChangedID *uint  // Pointer to allow null, representing the ID of the changed record
 	ModelType      string // e.g., "User", "Company", "Dish" - to know which table ModelChangedID refers to
-}
-
-type Todo struct {
-	gorm.Model
-	ID          uint      `json:"id" gorm:"primary_key"`
-	Completed   bool      `json:"completed"`
-	CreatedAt   time.Time `json:"createdat"`
-	UpdatedAt   time.Time `json:"updatedat"`
-	DeletedAt   time.Time `json:"deletedat"`
-	Description string    `json:"description"`
-	UserID      uint      `json:"userId"`
-	User        User      `gorm:"foreignKey:UserID"`
 }
 
 // Ensure all models have CreatedAt and UpdatedAt managed by GORM by default
