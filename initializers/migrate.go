@@ -21,7 +21,6 @@ func SyncDatabase() {
 		&models.Image{},
 		&models.Message{},
 		&models.Log{},
-		&models.Task{},
 		&models.Todo{},
 	)
 	if err != nil {

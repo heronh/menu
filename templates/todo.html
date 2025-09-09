@@ -9,7 +9,7 @@
 	 <!-- Tailwind CSS CDN -->
 	 <script src="https://cdn.tailwindcss.com"></script>
 	 <script src="/static/jquery-3.7.1.min.js"></script>
-	 
+
 	 <title>{{ .Title }}</title>  
 </head>
 
@@ -30,23 +30,25 @@
 					</form>
 				</li>
 				{{ range .Todos }}
-				<li class="px-6 py-4 flex items-center gap-3">
-					<button class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 btn_delete" title="Excluir">
-						<i class="bi bi-trash"></i>
-					</button>
-					{{ if .Completed }}
-						<button class="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 button-uncheck" title="Incompleto">
-							<i class="bi bi-check-square"></i>
-						</button>
-					{{ else }}
-						<button class="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-green-400 hover:text-white button-check" title="Completo">
-							<i class="bi bi-square"></i>
-						</button>
-					{{ end }}
-					<span class="text-xs text-gray-400 w-24">{{ .UpdatedAt.Format "02/01/2006" }}</span>
-					<input type="text" class="todo_id" name="{{.ID}}" value="{{.ID}}" hidden>
-					<span class="flex-1 {{if .Completed}}text-gray-400 line-through{{end}}">{{ .Description }}</span>
-				</li>
+					<li class="px-6 py-4">
+						<div class="flex items-center gap-3">
+							<button class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 btn_delete" title="Excluir">
+								<i class="bi bi-trash"></i>
+							</button>
+							{{ if .Completed }}
+								<button class="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 button-uncheck" title="Incompleto">
+									<i class="bi bi-check-square"></i>
+								</button>
+							{{ else }}
+								<button class="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-green-400 hover:text-white button-check" title="Completo">
+									<i class="bi bi-square"></i>
+								</button>
+							{{ end }}
+							<span class="text-xs text-gray-400 w-24">{{ .UpdatedAt.Format "02/01/2006" }}</span>
+							<input type="text" class="todo_id" name="{{.ID}}" value="{{.ID}}" hidden>
+						</div>
+						<span class="block mt-2 ml-14 {{if .Completed}}text-gray-400 line-through{{end}}">{{ .Description }}</span>
+					</li>
 				{{ end }}
 			</ul>
 		</div>
@@ -61,17 +63,17 @@
 
 	$('.button-uncheck').click(function(event) {
 		event.preventDefault();
-		parseId($(this),'/todos_uncheck');
+		parseId($(this),'/todo_uncheck');
 	});
 
 	$('.button-check').click(function(event) {
 		event.preventDefault();
-		parseId($(this),'/todos_check');
+		parseId($(this),'/todo_check');
 	});
 
 	$('.btn_delete').click(function(event) {
 		event.preventDefault();
-		parseId($(this),'/todos_delete');
+		parseId($(this),'/todo_delete');
 	});
 
 	function parseId(context,route) {
@@ -88,7 +90,7 @@
 		.then(data => {
 				if (data.message) {
 						alert(data.message);
-						window.location.href = '/todos';
+						window.location.href = '/todo';
 				} else if (data.error) {
 						alert(data.error);
 				}

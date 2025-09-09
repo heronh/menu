@@ -7,34 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Privilege represents the user privilege levels
-type Privilege struct {
-	gorm.Model
-	Name  string `gorm:"unique;not null"` // e.g., Super Administrator, Administrator
-	Slug  string `gorm:"unique;not null"` // e.g., su, admin
-	Users []User `gorm:"foreignKey:PrivilegeID"`
-}
-
-// User represents a user in the system
-type User struct {
-	gorm.Model
-	Name               string `gorm:"not null"`
-	Email              string `gorm:"unique;not null"`
-	Password           string `gorm:"not null"`
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
-	CompanyID          *uint      // Pointer to allow null
-	Company            Company    `gorm:"foreignKey:CompanyID"`
-	PrivilegeID        uint       `gorm:"not null"`
-	Privilege          Privilege  `gorm:"foreignKey:PrivilegeID"`
-	AuthoredCategories []Category `gorm:"foreignKey:AuthorID"`
-	AuthoredDishes     []Dish     `gorm:"foreignKey:AuthorLastChangeID"`
-	InsertedImages     []Image    `gorm:"foreignKey:InsertedByID"`
-	SentMessages       []Message  `gorm:"foreignKey:SenderID"`
-	ReceivedMessages   []Message  `gorm:"foreignKey:RecipientID"`
-	Tasks              []Task     `gorm:"foreignKey:UserID"`
-}
-
 // Company represents a company
 type Company struct {
 	gorm.Model
@@ -121,24 +93,16 @@ type Log struct {
 	ModelType      string // e.g., "User", "Company", "Dish" - to know which table ModelChangedID refers to
 }
 
-// Task represents a task for a user
-type Task struct {
-	gorm.Model
-	Text      string `gorm:"not null"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	UserID    uint `gorm:"not null"`
-	User      User `gorm:"foreignKey:UserID"`
-	Finished  bool `gorm:"default:false"`
-}
-
 type Todo struct {
 	gorm.Model
 	ID          uint      `json:"id" gorm:"primary_key"`
 	Completed   bool      `json:"completed"`
 	CreatedAt   time.Time `json:"createdat"`
 	UpdatedAt   time.Time `json:"updatedat"`
+	DeletedAt   time.Time `json:"deletedat"`
 	Description string    `json:"description"`
+	UserID      uint      `json:"userId"`
+	User        User      `gorm:"foreignKey:UserID"`
 }
 
 // Ensure all models have CreatedAt and UpdatedAt managed by GORM by default

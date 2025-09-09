@@ -1,7 +1,6 @@
 {{define "layout"}}
 <!DOCTYPE html>
 <html lang="pt-BR"> 
-
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,9 @@
    <link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
    <!-- Tailwind CSS CDN -->
    <script src="https://cdn.tailwindcss.com"></script>
-   <title>{{ .Title }}</title>  
-</head>
 
+  <title>{{ .Title }}</title>  
+</head>
 <body>
 <div class="container m-3">
 
@@ -22,6 +21,7 @@
   {{ template "footer" . }}
 
 </div>
+
 </body>
 </html>
 {{end}}

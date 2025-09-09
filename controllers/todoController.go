@@ -85,13 +85,17 @@ func SaveTodo(c *gin.Context) {
 	todo.Description = c.PostForm("description")
 
 	fmt.Println(c)
-	Id := c.PostForm("Id")
-	var userModel models.User
-	if err := database.DB.Where("id = ?", Id).First(&userModel).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not find user"})
+
+	// look for first user by privilege
+	var user models.User
+	user, err := getUserByPrivilege("su")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not find user with privilege 'su'"})
 		return
 	}
+	fmt.Println("User found:", user.Email)
 
+	todo.UserID = user.ID
 	if err := database.DB.Create(&todo).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create todo"})
 		return
@@ -101,18 +105,49 @@ func SaveTodo(c *gin.Context) {
 
 func TodoPage(c *gin.Context) {
 
+	fmt.Println("Retrieving todos")
 	var todos []models.Todo
 	if err := database.DB.Order("completed, updated_at desc").Find(&todos).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not retrieve todos"})
 		return
 	}
+	for _, todo := range todos {
+		fmt.Printf("Todo: %s\n", todo.Description)
+	}
+
+	// look for first user by privilege
+	var user models.User
+	user, err := getUserByPrivilege("su")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError,
+			gin.H{"error": "Could not find user with privilege 'su'"})
+		return
+	}
+	fmt.Println("User found:", user.Email)
 
 	// retrieve email and user id from the context
-	Email, _ := c.Get("email")
-	ID, _ := c.Get("ID")
+	Email := user.Email
+	ID := user.ID
 	c.HTML(http.StatusOK, "todo.html", gin.H{
 		"Todos": todos,
 		"Email": Email,
 		"Id":    ID,
 	})
+}
+
+func getUserByPrivilege(slug string) (models.User, error) {
+
+	var user models.User
+
+	// List all available privileges
+	var privilege models.Privilege
+	if err := database.DB.First(&privilege, "slug = ?", slug).Error; err != nil {
+		return user, err
+	}
+	fmt.Println("Privilege found:", privilege.Name, "Slug:", privilege.Slug)
+	// Find first user with this privilege
+	if err := database.DB.First(&user, "privilege_id = ?", privilege.ID).Error; err != nil {
+		return user, err
+	}
+	return user, nil
 }
