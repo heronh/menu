@@ -26,8 +26,33 @@
 
 	// Execute when the document is fully loaded
 	document.addEventListener('DOMContentLoaded', function() {
-		// Focus on the user_name input field
-		document.getElementById('user_name').focus();
+		// Focus on the name input field
+		document.getElementById('name').focus();
+	});
+
+	// Execute when confirm_password input loses focus
+	document.getElementById('password_confirm').addEventListener('blur', function() {
+		const password = document.getElementById('password').value;
+		const confirmPassword = this.value;
+		if (password !== confirmPassword) {
+			createToast('As senhas não coincidem. Por favor, verifique.', 'error');
+			this.classList.add('border-red-500');
+			this.focus();
+		} else {
+			this.classList.remove('border-red-500');
+		}
+	});
+
+	// Execute when password input loses focus
+	document.getElementById('password').addEventListener('blur', function() {
+		const password = this.value;
+		if (password.length < 6) {
+			createToast('A senha deve ter pelo menos 6 caracteres.', 'error');
+			this.classList.add('border-red-500');
+			this.focus();
+		} else {
+			this.classList.remove('border-red-500');
+		}
 	});
 
 	// Execute when email input loses focus
@@ -36,8 +61,7 @@
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex pattern
 		if (!emailPattern.test(email)) {
 			alert('Por favor, insira um email válido.');
-			this.value = '';
-			this.focus();
+			document.getElementById('email').focus();
 			return;
 		}
 
@@ -56,13 +80,29 @@
 				alert('Este email já está cadastrado. Por favor, use outro email.');
 				document.getElementById('email').value = '';
 				document.getElementById('email').focus();
+				document.getElementById('email').classList.add('border-red-500');
+				document.getElementById('email').focus();
 			}
 			else {
 				// Email is available
+				document.getElementById('email').classList.remove('border-red-500');
 			}
 		}).catch(error => {
 			console.error('Erro ao verificar o email:', error);
 		});
+	});
+
+	// Execute when name input loses focus
+	document.getElementById('name').addEventListener('blur', function() {
+		const name = this.value.trim();
+		if (name.length < 3) {
+			createToast('O nome deve ter pelo menos 3 caracteres.', 'error');
+			document.getElementById('name').classList.add('border-red-500');
+			document.getElementById('name').focus();
+		}
+		else {
+			document.getElementById('name').classList.remove('border-red-500');
+		}
 	});
 
 	// Execute when company_zip loses focus
@@ -90,5 +130,20 @@
 				document.getElementById('company_city').value = '';
 			}
 	});
+
+	// Create toast notification at center of screen
+	function createToast(message, type='info') {
+		const toast = document.createElement('div');
+		toast.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 py-2 rounded shadow-lg text-white text-center z-50 ${
+			type === 'success' ? 'bg-green-500' :
+			type === 'error' ? 'bg-red-500' :
+			'bg-blue-500'
+		}`;
+		toast.textContent = message;
+		document.body.appendChild(toast);
+		setTimeout(() => {
+			toast.remove();
+		}, 3000);
+	}
 
 </script>   
