@@ -8,6 +8,7 @@
 	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
 	<!-- Tailwind CSS CDN -->
 	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="/static/jquery-3.7.1.min.js"></script>
 	<title>{{ .Title }}</title>  
 </head>
 
@@ -30,16 +31,40 @@
 	});
 
 	// Execute when email input loses focus
-	document.getElementById('user_email').addEventListener('blur', function() {
-		const email = this.value;
+	document.getElementById('email').addEventListener('blur', function() {
+		const email = document.getElementById('email').value;
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex pattern
 		if (!emailPattern.test(email)) {
 			alert('Por favor, insira um email válido.');
 			this.value = '';
 			this.focus();
+			return;
 		}
+
+		// Additional AJAX call to check if email is already registered can be added here
+		console.log(email);
+		fetch('/is-email-available', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams({ email: email })
+		}).then(response => response.json())
+		.then(data => {
+			console.log(data);
+			if (data.exists) {
+				alert('Este email já está cadastrado. Por favor, use outro email.');
+				document.getElementById('email').value = '';
+				document.getElementById('email').focus();
+			}
+			else {
+				// Email is available
+			}
+		}).catch(error => {
+			console.error('Erro ao verificar o email:', error);
+		});
 	});
-	
+
 	// Execute when company_zip loses focus
 	document.getElementById('company_zip').addEventListener('blur', function() {
 			const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters

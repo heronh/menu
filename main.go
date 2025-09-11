@@ -56,6 +56,8 @@ func main() {
 	r.POST("/todo_check", controllers.CheckTodo)
 	r.POST("/todo_uncheck", controllers.UncheckTodo)
 
+	// Funções relativas aos usuários
+	r.POST("/is-email-available", controllers.IsEmailAvailable)
 	r.GET("/register.html", controllers.RegisterPage)
 
 	// read port in .env file and starts the server
