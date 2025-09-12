@@ -1,15 +1,26 @@
 {
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.13"
-  },
-  "name": "menu",
-  "description": "Criar instruções",
+  "name": "heronmenu",
   "version": "1.0.0",
+  "description": "Criar instruções",
+  "keywords": [],
+  "homepage": "https://github.com/heronh/menu#readme",
+  "bugs": {
+    "url": "https://github.com/heronh/menu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heronh/menu.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "postcss.config.js",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/styles.css -o ./static/styles.css",
+    "watch": "tailwindcss -i ./assets/styles.css -o ./static/styles.css --watch"
+  },
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.13",
     "browserslist": "^4.25.4",
     "caniuse-lite": "^1.0.30001741",
     "electron-to-chromium": "^1.5.217",
@@ -23,7 +34,10 @@
     "source-map-js": "^1.2.1",
     "update-browserslist-db": "^1.1.3"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.13"
+  }
 }
