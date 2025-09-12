@@ -6,9 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
-	<!-- Tailwind CSS CDN -->
-	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="/static/jquery-3.7.1.min.js"></script>
+	<script src="/static/postcss.config.js"></script>
 	<title>{{ .Title }}</title>  
 </head>
 
@@ -28,6 +27,103 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		// Focus on the name input field
 		document.getElementById('name').focus();
+	});
+
+	// Execute when company_phone input loses focus
+	document.getElementById('company_phone').addEventListener('blur', function() {
+		const phone = this.value.replace(/\D/g, ''); // Remove non-digit characters
+		if (phone.length === 10 || phone.length === 11) { // Check if phone has 10 or 11 digits
+			// Fetch the phone information if needed
+		} else {
+			createToast('Número de telefone inválido. Deve conter 10 ou 11 dígitos.');
+			this.value = '';
+		}
+	});
+
+	// Execute when company_ddd input loses focus
+	document.getElementById('company_ddd').addEventListener('blur', function() {
+		const ddd = this.value.replace(/\D/g, ''); // Remove non-digit characters
+		if (ddd.length === 2) { // Check if DDD has 2 digits
+			// Fetch the area code information if needed
+		} else {
+			createToast('DDD inválido. Deve conter 2 dígitos.');
+			this.value = '';
+		}
+	});
+
+
+	// Execute when company_zip loses focus
+	document.getElementById('company_zip').addEventListener('blur', function() {
+			const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
+			if (zip.length === 8) { // Check if zip has 8 digits
+				fetch(`https://viacep.com.br/ws/${zip}/json/`)
+					.then(response => response.json())
+					.then(data => {
+						if (!data.erro) {
+							console.log(data);
+							document.getElementById('company_state').value = data.uf || '';
+							document.getElementById('company_city').value = data.localidade || '';
+							document.getElementById('company_address').value = data.logradouro || '';
+							document.getElementById('company_neighborhood').value = data.bairro || '';
+							document.getElementById('company_number').focus();
+						} else {
+							alert('CEP não encontrado.');
+						}
+					})
+					.catch(() => {
+						alert('Erro ao buscar o CEP.');
+					});
+			} else {
+				alert('CEP inválido. Deve conter 8 dígitos.');
+				this.value = '';
+				document.getElementById('company_state').value = '';
+				document.getElementById('company_city').value = '';
+			}
+	});
+
+	// execute when company_cnpj input loses focus
+	/*
+	document.getElementById('company_cnpj').addEventListener('blur', function() {
+		const cnpj = this.value.replace(/\D/g, ''); // Remove non-digit characters
+		if (cnpj.length === 14) { // Check if CNPJ has 14 digits
+			fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`)
+				.then(response => response.json())
+				.then(data => {
+					if (data.status === 'OK') {
+						console.log(data);
+						document.getElementById('company_name').value = data.nome || '';
+						document.getElementById('company_zip').value = data.cep ? data.cep.replace(/\D/g, '') : '';
+						document.getElementById('company_state').value = data.uf || '';
+						document.getElementById('company_city').value = data.municipio || '';
+					} else {
+						alert('CNPJ não encontrado ou inválido.');
+						document.getElementById('company_cnpj').focus();
+					}
+				})
+				.catch(() => {
+					alert('Erro ao buscar o CNPJ.');
+				});
+		} else {
+			alert('CNPJ inválido. Deve conter 14 dígitos.');
+			this.value = '';
+			document.getElementById('company_name').value = '';
+			document.getElementById('company_zip').value = '';
+			document.getElementById('company_state').value = '';
+			document.getElementById('company_city').value = '';
+		}
+	});
+	*/
+
+	// execute when company_name input loses focus
+	document.getElementById('company_name').addEventListener('blur', function() {
+		const companyName = this.value.trim();
+		if (companyName.length === 0) {
+			createToast('O nome da empresa é obrigatório.', 'error');
+			this.classList.add('border-red-500');
+			this.focus();
+		} else {
+			this.classList.remove('border-red-500');
+		}
 	});
 
 	// Execute when confirm_password input loses focus
@@ -103,32 +199,6 @@
 		else {
 			document.getElementById('name').classList.remove('border-red-500');
 		}
-	});
-
-	// Execute when company_zip loses focus
-	document.getElementById('company_zip').addEventListener('blur', function() {
-			const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
-			if (zip.length === 8) { // Check if zip has 8 digits
-				fetch(`https://viacep.com.br/ws/${zip}/json/`)
-					.then(response => response.json())
-					.then(data => {
-						if (!data.erro) {
-							console.log(data);
-							document.getElementById('company_state').value = data.uf || '';
-							document.getElementById('company_city').value = data.localidade || '';
-						} else {
-							alert('CEP não encontrado.');
-						}
-					})
-					.catch(() => {
-						alert('Erro ao buscar o CEP.');
-					});
-			} else {
-				alert('CEP inválido. Deve conter 8 dígitos.');
-				this.value = '';
-				document.getElementById('company_state').value = '';
-				document.getElementById('company_city').value = '';
-			}
 	});
 
 	// Create toast notification at center of screen

@@ -32,7 +32,6 @@ type Todo struct {
 	Completed   bool      `json:"completed"`
 	CreatedAt   time.Time `json:"createdat"`
 	UpdatedAt   time.Time `json:"updatedat"`
-	DeletedAt   time.Time `json:"deletedat"`
 	Description string    `json:"description"`
 	UserID      uint      `json:"userId"`
 	User        User      `gorm:"foreignKey:UserID"`
