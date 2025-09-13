@@ -32,11 +32,6 @@ func RegisterCompanyUser(c *gin.Context) {
 		return
 	}
 
-	// for test purposes, return to caller
-	fmt.Printf("Registered company: %+v\n", company)
-	c.Redirect(http.StatusSeeOther, "/register")
-	return
-
 	// Placeholder for user registration logic
 	user := models.User{}
 	if err := c.ShouldBind(&user); err != nil {
@@ -52,6 +47,10 @@ func RegisterCompanyUser(c *gin.Context) {
 	if privilege == "" {
 		privilege = "user" // Default privilege if none provided
 	}
+	user.Name = c.PostForm("name")
+	user.Email = c.PostForm("email")
+	user.Password = c.PostForm("password")
+	// For debugging purposes, print the privilege being assigned
 	fmt.Println("Registering user with privilege:", privilege)
 	var priv models.Privilege
 	if err := database.DB.Where("slug = ?", privilege).First(&priv).Error; err != nil {
