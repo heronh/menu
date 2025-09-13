@@ -58,7 +58,7 @@ func main() {
 
 	// Funções relativas aos usuários
 	r.POST("/is-email-available", controllers.IsEmailAvailable)
-	r.GET("/register.html", controllers.RegisterPage)
+	r.GET("/register", controllers.RegisterPage)
 
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")

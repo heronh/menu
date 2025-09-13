@@ -16,6 +16,7 @@
   "type": "commonjs",
   "main": "postcss.config.js",
   "scripts": {
+    "dev": "nodemon --watch './**/*.go' --watch './templates/**/*.html' --exec 'go run main.go'",
     "build": "tailwindcss -i ./assets/styles.css -o ./static/styles.css",
     "watch": "tailwindcss -i ./assets/styles.css -o ./static/styles.css --watch"
   },
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "autoprefixer": "^10.4.21",
+    "nodemon": "^3.1.10",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13"
   }
