@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> 
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/static/styles.css">
+	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
+	<script src="/static/jquery-3.7.1.min.js"></script>
+	<script src="/static/postcss.config.js"></script>
+	<title>{{ .Title }}</title>  
+</head>
+<body>
+<div class="container m-3">
+	{{ template "company_content" . }}
+	{{ template "footer" . }}
+</div>
+</body>
+</html>
+
+<script>
+</script>

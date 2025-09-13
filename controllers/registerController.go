@@ -65,7 +65,7 @@ func RegisterCompanyUser(c *gin.Context) {
 	}
 
 	// Redirect to welcome page after registration
-	c.Redirect(http.StatusSeeOther, "/")
+	c.Redirect(http.StatusSeeOther, "/company")
 }
 
 func RegisterPage(c *gin.Context) {

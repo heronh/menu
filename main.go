@@ -61,6 +61,9 @@ func main() {
 	r.GET("/register", controllers.RegisterPage)
 	r.POST("/register", controllers.RegisterCompanyUser)
 
+	// Funções relativas às empresas
+	r.GET("/company", controllers.CompanyPage)
+
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")
 	if host_port == "" {
