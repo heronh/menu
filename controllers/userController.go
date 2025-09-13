@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"main/database"
 	"main/models"
@@ -22,4 +23,20 @@ func IsEmailAvailable(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Usuário encontrado", "exists": true})
+}
+
+func SaveUser(user models.User) error {
+
+	// Hash the user's password before saving
+	user.Password = HashPassword(user.Password)
+	if err := database.DB.Create(&user).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func HashPassword(password string) string {
+	hash := sha256.New()
+	hash.Write([]byte(password))
+	return fmt.Sprintf("%x", hash.Sum(nil))
 }

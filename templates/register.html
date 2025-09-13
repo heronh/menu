@@ -14,7 +14,6 @@
 
 <body>
 <div class="container m-3">
-	<h1>{{ .Title }} teste</h1>
 	{{ template "register_content" . }}
 	{{ template "footer" . }}
 </div>
@@ -27,10 +26,48 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		// Focus on the name input field
 		document.getElementById('name').focus();
+		// Create a random Name for the user
+		const randomNames = ['Ana', 'Bruno', 'Carla', 'Diego', 'Elisa', 'Fernando', 'Gabriela', 'Hugo', 'Isabela', 'João', 'Karla', 'Lucas', 'Mariana', 'Nicolas', 'Olivia', 'Pedro', 'Quésia', 'Rafael', 'Sofia', 'Tiago', 'Úrsula', 'Vitor', 'Yasmin', 'Zeca'];
+		const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+		document.getElementById('name').value = randomName;
+		// Create a random Email for the user based on the name
+		const emailProviders = ['example.com', 'mail.com', 'test.com', 'demo.com'];
+		const emailProvider = emailProviders[Math.floor(Math.random() * emailProviders.length)];
+		const email = randomName
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLowerCase() + '@' + emailProvider;
+		document.getElementById('email').value = email;
+		// Create a fixed random password for the user
+		const password = '123456';
+		document.getElementById('password').value = password;
+		document.getElementById('password_confirm').value = password;
+		// Create a random Company Name in a group of 40 predefined options
+		const companyNames = ['Cantina da Nena', 'Restaurante do Zé', 'Pizzaria Bella', 'Café Central', 'Bistrô Gourmet', 'Churrascaria Fogo de Chão', 'Hamburgueria do Chef', 'Sushi House', 'Padaria Pão Quente', 'Sorveteria Gelato', 'Lanchonete Fast Food', 'Cozinha Caseira', 'Bar do Amigo', 'Cervejaria Artesanal', 'Doceria Doce Sabor', 'Cafeteria Expresso', 'Restaurante Vegetariano', 'Food Truck Delícia', 'Buffet Festivo', 'Cozinha Internacional', 'Culinária Regional', 'Empório Gourmet', 'Mercado Natural', 'Loja de Conveniência', 'Supermercado Econômico', 'Hortifruti Frescor', 'Peixaria Maré Alta', 'Açougue Prime Cuts', 'Padaria Artesanal', 'Café da Manhã & Cia', 'Bistrô Romântico', 'Churrascaria Gaúcha', 'Hamburgueria Gourmet', 'Sushi Bar Premium', 'Pizzaria Napolitana', 'Sorveteria Tropical', 'Lanchonete Saudável', 'Cozinha Mediterrânea', 'Bar e Grill Sunset', 'Cervejaria Local Brew', 'Doceria Confeitaria Real'];
+		const companyName = companyNames[Math.floor(Math.random() * companyNames.length)];
+		document.getElementById('company_name').value = companyName + '_' + (Math.floor(Math.random() * 900) + 100);
+		// Create a random phone number for the company
+		const randomPhone = Math.floor(Math.random() * 9000000000) + 1000000000; // Generates a 10-digit number
+		document.getElementById('company_phone').value = randomPhone;
+		// Format the phone number
+		document.getElementById('company_phone').value = formatPhone(document.getElementById('company_phone').value);
+		// Create a random number for the company address
+		const randomNumber = Math.floor(Math.random() * 900) + 100; // Generates a 3-digit number
+		document.getElementById('company_number').value = randomNumber;
+		// Set focus in zip code input
+		document.getElementById('company_zip').focus();
 	});
 
+	// Execute when button is clicked
+	document.getElementById('register_button').addEventListener('click', function(event) {
+		// Prevent the default form submission
+		//event.preventDefault();
+	});
+	
 	// Execute when company_phone input loses focus
 	document.getElementById('company_phone').addEventListener('blur', function() {
+		// Format the phone number
+		this.value = formatPhone(this.value);
 		const phone = this.value.replace(/\D/g, ''); // Remove non-digit characters
 		if (phone.length === 10 || phone.length === 11) { // Check if phone has 10 or 11 digits
 			// Fetch the phone information if needed
@@ -49,49 +86,54 @@
 			this.value = phone;
 			return;
 		}
-		
+
 		// Format the phone number as (XX) XXXXX-XXXX or (XX) XXXX-XXXX
-		let formattedPhone = '';
-		if (phone.length > 0) {
-			formattedPhone += '(' + phone.slice(0, 2) + ') ';
-			if (phone.length > 2) {
-				if (phone.length === 11) {
-					formattedPhone += phone.slice(2, 7) + '-' + phone.slice(7, 11);
-				} else {
-					formattedPhone += phone.slice(2, 6) + '-' + phone.slice(6, 10);
-				}
-			}
+		this.value = formatPhone(phone);
+	});
+
+	// Execute every time company_zip input changes
+	document.getElementById('company_zip').addEventListener('input', function() {
+		let zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
+		if (zip.length > 8) zip = zip.slice(0, 8); // Limit to 8 digits
+		// if backspace is pressed, do not format
+		if (this.value.length > zip.length) {
+			this.value = zip;
+			return;
 		}
-		this.value = formattedPhone;
+		// Format the zip code as XXXXX-XXX
+		this.value = formatZip(zip);
 	});
 
 	// Execute when company_zip loses focus
 	document.getElementById('company_zip').addEventListener('blur', function() {
-			const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
-			if (zip.length === 8) { // Check if zip has 8 digits
-				fetch(`https://viacep.com.br/ws/${zip}/json/`)
-					.then(response => response.json())
-					.then(data => {
-						if (!data.erro) {
-							console.log(data);
-							document.getElementById('company_state').value = data.uf || '';
-							document.getElementById('company_city').value = data.localidade || '';
-							document.getElementById('company_address').value = data.logradouro || '';
-							document.getElementById('company_neighborhood').value = data.bairro || '';
-							document.getElementById('company_number').focus();
-						} else {
-							alert('CEP não encontrado.');
-						}
-					})
-					.catch(() => {
-						alert('Erro ao buscar o CEP.');
-					});
-			} else {
-				alert('CEP inválido. Deve conter 8 dígitos.');
-				this.value = '';
-				document.getElementById('company_state').value = '';
-				document.getElementById('company_city').value = '';
-			}
+
+		// Format the zip code
+		this.value = formatZip(this.value);
+		const zip = this.value.replace(/\D/g, ''); // Remove non-digit characters
+		if (zip.length === 8) { // Check if zip has 8 digits
+			fetch(`https://viacep.com.br/ws/${zip}/json/`)
+				.then(response => response.json())
+				.then(data => {
+					if (!data.erro) {
+						console.log(data);
+						document.getElementById('company_state').value = data.uf || '';
+						document.getElementById('company_city').value = data.localidade || '';
+						document.getElementById('company_street').value = data.logradouro || '';
+						document.getElementById('company_neighborhood').value = data.bairro || '';
+						document.getElementById('company_number').focus();
+					} else {
+						alert('CEP não encontrado.');
+					}
+				})
+				.catch(() => {
+					alert('Erro ao buscar o CEP.');
+				});
+		} else {
+			alert('CEP inválido. Deve conter 8 dígitos.');
+			this.value = '';
+			document.getElementById('company_state').value = '';
+			document.getElementById('company_city').value = '';
+		}
 	});
 
 	// execute when company_cnpj input loses focus
@@ -228,5 +270,37 @@
 			toast.remove();
 		}, 3000);
 	}
+
+	function formatPhone(phone) {
+		phone = phone.replace(/\D/g, ''); // Remove non-digit characters
+		if (phone.length > 11) phone = phone.slice(0, 11); // Limit to 11 digits
+
+		let formattedPhone = '';
+		if (phone.length > 0) {
+			formattedPhone += '(' + phone.slice(0, 2) + ') ';
+			if (phone.length > 2) {
+				if (phone.length === 11) {
+					formattedPhone += phone.slice(2, 7) + '-' + phone.slice(7, 11);
+				} else {
+					formattedPhone += phone.slice(2, 6) + '-' + phone.slice(6, 10);
+				}
+			}
+		}
+		return formattedPhone;
+	}
+
+	function formatZip(zip) {
+		zip = zip.replace(/\D/g, ''); // Remove non-digit characters
+		if (zip.length > 8) zip = zip.slice(0, 8); // Limit to 8 digits
+
+		let formattedZip = '';
+		if (zip.length > 0) {
+			formattedZip += zip.slice(0, 5);
+			if (zip.length > 5) {
+				formattedZip += '-' + zip.slice(5, 8);
+			}
+		}
+		return formattedZip;
+	}	
 
 </script>   

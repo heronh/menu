@@ -31,7 +31,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div>
             <label class="block text-gray-700 mb-1" for="company_name">Nome da Empresa</label>
-            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_name" name="company_name" required value="Cantina da Nena">
+            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_name" name="company_name">
           </div>
 
           <!-- <div>
@@ -41,7 +41,7 @@
 
           <div>
             <label class="block text-gray-700 mb-1" for="company_zip">CEP</label>
-            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_zip" name="company_zip">
+            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_zip" name="company_zip" value="12233460">
           </div>
           <div>
             <label class="block text-gray-700 mb-1" for="company_state">Estado</label>
@@ -56,8 +56,8 @@
             <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_neighborhood" name="company_neighborhood">
           </div>
           <div>
-            <label class="block text-gray-700 mb-1" for="company_address">Endereço</label>
-            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_address" name="company_address">
+            <label class="block text-gray-700 mb-1" for="company_street">Endereço</label>
+            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_street" name="company_street">
           </div>
           <div>
             <label class="block text-gray-700 mb-1" for="company_number">Número</label>
@@ -69,12 +69,14 @@
           </div>
           <div>
             <label class="block text-gray-700 mb-1" for="company_phone">DDD + Telefone</label>
-            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_phone" name="company_phone">
+            <input class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="text" id="company_phone" name="company_phone" value="1234567890">
           </div>
+          <!-- Usuário criado com perfil manager -->
+          <input type="hidden" id="privilege" name="privilege" value="manager">
         </div>
       </div>
       <div class="flex justify-center mt-4">
-        <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold transition text-base">Cadastrar</button>
+        <button id="register_button" type="submit" class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold transition text-base">Cadastrar</button>
       </div>
     </form>
   </div>

@@ -16,16 +16,17 @@ type Company struct {
 	Neighborhood string
 	City         string
 	State        string
-	Active       bool   `gorm:"default:true"`
-	CNPJ         string `gorm:"unique;not null"`
-	Level        int    `gorm:"type:integer;check:level >= 0 AND level <= 100"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    time.Time
-	Users        []User    `gorm:"foreignKey:CompanyID"`
-	Dishes       []Dish    `gorm:"foreignKey:CompanyID"`
-	Images       []Image   `gorm:"foreignKey:CompanyID"`
-	Messages     []Message `gorm:"foreignKey:SenderCompanyID"`
+	Phone        string
+	Active       bool `gorm:"default:true"`
+	//CNPJ         string `gorm:"unique;not null"`
+	Level     int `gorm:"type:integer;check:level >= 0 AND level <= 100"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
+	Users     []User    `gorm:"foreignKey:CompanyID"`
+	Dishes    []Dish    `gorm:"foreignKey:CompanyID"`
+	Images    []Image   `gorm:"foreignKey:CompanyID"`
+	Messages  []Message `gorm:"foreignKey:SenderCompanyID"`
 }
 
 // Message represents a message between users
