@@ -49,9 +49,18 @@ func LoginPage(c *gin.Context) {
 		fmt.Println("Error fetching users:", err)
 	}
 
+	// Check for error message in query parameters
+	errorMessage := c.Query("error")
+	// Remove any existing error message from the URL after displaying it
+	if errorMessage != "" {
+		c.Request.URL.RawQuery = ""
+	}
+
+	// Render the login page with users and error message (if any)
 	c.HTML(http.StatusOK, "login.html", gin.H{
 		"title": "Acesse sua conta",
 		"users": users,
+		"error": errorMessage,
 	})
 }
 
@@ -63,14 +72,10 @@ func LoginUser(c *gin.Context) {
 
 	var user models.User
 	if err := database.DB.Where("email = ? AND password = ?", email, hashedPassword).First(&user).Error; err != nil {
-		c.HTML(http.StatusUnauthorized, "login.html", gin.H{
-			"error": "Email ou senha inválidos",
-		})
+		c.Redirect(http.StatusSeeOther, "/login?error=Credenciais inválidas, senha ou email incorretos")
 		return
 	}
 
 	// Successful login
-	c.HTML(http.StatusOK, "company.html", gin.H{
-		"message": "Login bem-sucedido! Bem-vindo, " + user.Name,
-	})
+	c.Redirect(http.StatusSeeOther, "/company")
 }

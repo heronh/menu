@@ -11,6 +11,12 @@
 	<title>{{ .Title }}</title>  
 </head>
 <body>
+{{ if .error }}
+   <div class="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md mx-auto mt-6" role="alert">
+      <strong class="font-bold">Erro:</strong>
+      <span class="block sm:inline">{{ .error }}</span>
+   </div>
+{{ end }}
 <div class="flex flex-col items-center justify-center min-h-screen py-6">
    <div class="w-3/4 max-w-md bg-white rounded-lg shadow-md p-8">
       <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
@@ -43,4 +49,9 @@
 </html>
 
 <script>
+   $(document).ready(function() {
+      setTimeout(function() {
+         $('.error-message').fadeOut('slow');
+      }, 5000); // Tempo em milissegundos (5 segundos)
+   });
 </script>
