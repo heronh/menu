@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"main/database"
 	"main/models"
+	"main/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -76,6 +77,12 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	// Successful login
+	// Successful login: generate JWT
+	token, err := utils.GenerateJWT(user.ID)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/login?error=Erro ao gerar token JWT")
+		return
+	}
+	c.SetCookie("token", token, 3600*24, "/", "", false, true)
 	c.Redirect(http.StatusSeeOther, "/company")
 }

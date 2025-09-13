@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"main/controllers"
+	"main/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -64,7 +65,7 @@ func main() {
 	r.POST("/login", controllers.LoginUser)
 
 	// Funções relativas às empresas
-	r.GET("/company", controllers.CompanyPage)
+	r.GET("/company", middleware.JWTAuthMiddleware(), controllers.CompanyPage)
 
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")
