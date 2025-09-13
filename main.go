@@ -60,6 +60,8 @@ func main() {
 	r.POST("/is-email-available", controllers.IsEmailAvailable)
 	r.GET("/register", controllers.RegisterPage)
 	r.POST("/register", controllers.RegisterCompanyUser)
+	r.GET("/login", controllers.LoginPage)
+	r.POST("/login", controllers.LoginUser)
 
 	// Funções relativas às empresas
 	r.GET("/company", controllers.CompanyPage)

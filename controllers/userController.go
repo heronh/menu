@@ -40,3 +40,37 @@ func HashPassword(password string) string {
 	hash.Write([]byte(password))
 	return fmt.Sprintf("%x", hash.Sum(nil))
 }
+
+func LoginPage(c *gin.Context) {
+
+	// For test purposes, list all users in the console
+	var users []models.User
+	if err := database.DB.Find(&users).Error; err != nil {
+		fmt.Println("Error fetching users:", err)
+	}
+
+	c.HTML(http.StatusOK, "login.html", gin.H{
+		"title": "Acesse sua conta",
+		"users": users,
+	})
+}
+
+func LoginUser(c *gin.Context) {
+
+	email := c.PostForm("email")
+	password := c.PostForm("password")
+	hashedPassword := HashPassword(password)
+
+	var user models.User
+	if err := database.DB.Where("email = ? AND password = ?", email, hashedPassword).First(&user).Error; err != nil {
+		c.HTML(http.StatusUnauthorized, "login.html", gin.H{
+			"error": "Email ou senha inválidos",
+		})
+		return
+	}
+
+	// Successful login
+	c.HTML(http.StatusOK, "company.html", gin.H{
+		"message": "Login bem-sucedido! Bem-vindo, " + user.Name,
+	})
+}
