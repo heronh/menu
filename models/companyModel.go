@@ -22,11 +22,11 @@ type Company struct {
 	Level     int `gorm:"type:integer;check:level >= 0 AND level <= 100"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
-	Users     []User    `gorm:"foreignKey:CompanyID"`
-	Dishes    []Dish    `gorm:"foreignKey:CompanyID"`
-	Images    []Image   `gorm:"foreignKey:CompanyID"`
-	Messages  []Message `gorm:"foreignKey:SenderCompanyID"`
+	DeletedAt gorm.DeletedAt `gorm:"index;default:null"`
+	Users     []User         `gorm:"foreignKey:CompanyID"`
+	Dishes    []Dish         `gorm:"foreignKey:CompanyID"`
+	Images    []Image        `gorm:"foreignKey:CompanyID"`
+	Messages  []Message      `gorm:"foreignKey:SenderCompanyID"`
 }
 
 // Message represents a message between users

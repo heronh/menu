@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR"> 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="/static/styles.css">
-	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
-	<script src="/static/jquery-3.7.1.min.js"></script>
-	<script src="/static/postcss.config.js"></script>
-	<title>{{ .Title }}</title>  
-</head>
+{{ template "header" . }}
+
 <body>
 {{ if .error }}
    <div class="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md mx-auto mt-6" role="alert">
