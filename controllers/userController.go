@@ -57,11 +57,21 @@ func LoginPage(c *gin.Context) {
 		c.Request.URL.RawQuery = ""
 	}
 
+	// Get a random user from the database (for demonstration) witch privilege_id != 1
+	var user models.User
+	if err := database.DB.Where("privilege_id != ?", 1).Order("RANDOM()").First(&user).Error; err != nil {
+		fmt.Println("Error fetching random user:", err)
+	} else {
+		fmt.Println("Random user fetched for demo:", user.Email)
+	}
+
 	// Render the login page with users and error message (if any)
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"title": "Acesse sua conta",
-		"users": users,
-		"error": errorMessage,
+		"title":    "Acesse sua conta",
+		"users":    users,
+		"error":    errorMessage,
+		"email":    user.Email,
+		"password": "123456", // Default password for demo purposes
 	})
 }
 

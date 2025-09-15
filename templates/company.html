@@ -1,22 +1,82 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> 
+<html lang="en" class="scroll-smooth">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="/static/styles.css">
-	<link rel="icon" type="image/x-icon" href="./static/menu-icon.jpg"> 
-	<script src="/static/jquery-3.7.1.min.js"></script>
-	<script src="/static/postcss.config.js"></script>
-	<title>{{ .Title }}</title>  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar with Tailwind CSS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts - Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body>
-<div class="container m-3">
-	{{ template "company_content" . }}
-	{{ template "footer" . }}
-</div>
+<body class="bg-gray-50">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md rounded-b-lg">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <!-- Logo/Brand Name -->
+      <a href="#" class="text-xl font-bold text-blue-600 transition duration-300 hover:text-blue-800">
+        MyGoApp
+      </a>
+      
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="#" class="text-gray-600 transition duration-300 hover:text-blue-600 font-medium">Home</a>
+        <a href="#" class="text-gray-600 transition duration-300 hover:text-blue-600 font-medium">About</a>
+        <a href="#" class="text-gray-600 transition duration-300 hover:text-blue-600 font-medium">Services</a>
+        <a href="#" class="text-gray-600 transition duration-300 hover:text-blue-600 font-medium">Contact</a>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          Get Started
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-gray-600 focus:outline-none focus:text-blue-600 transition duration-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 py-2 border-t border-gray-200">
+      <a href="#" class="block py-2 text-gray-600 transition duration-300 hover:text-blue-600 font-medium border-b border-gray-100">Home</a>
+      <a href="#" class="block py-2 text-gray-600 transition duration-300 hover:text-blue-600 font-medium border-b border-gray-100">About</a>
+      <a href="#" class="block py-2 text-gray-600 transition duration-300 hover:text-blue-600 font-medium border-b border-gray-100">Services</a>
+      <a href="#" class="block py-2 text-gray-600 transition duration-300 hover:text-blue-600 font-medium">Contact</a>
+      <button class="w-full mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        Get Started
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Section -->
+  <div class="container mx-auto px-4 py-12">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to Your Web Page</h1>
+      <p class="text-gray-600 leading-relaxed">
+        This is a simple landing page to demonstrate a responsive navbar built with Tailwind CSS. The navbar
+        adjusts its layout for different screen sizes, providing a clear navigation experience on both
+        desktop and mobile devices.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
 </body>
 </html>
-
-<script>
-</script>
