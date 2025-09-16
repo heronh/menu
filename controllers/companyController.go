@@ -34,11 +34,19 @@ func CompanyPage(c *gin.Context) {
 		return
 	}
 
+	// List all dishes of the company
+	var dishes []models.Dish
+	if err := database.DB.Where("company_id = ?", company.ID).Find(&dishes).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching dishes: %v", err)
+		return
+	}
+
 	// Fetch user details from the database using userID if needed
 	c.HTML(http.StatusOK, "company.html", gin.H{
 		"title":        "Administre seu negócio!",
 		"user_name":    user.Name,
 		"user_email":   user.Email,
 		"company_name": company.Name,
+		"dishes":       dishes,
 	})
 }

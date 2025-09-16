@@ -3,25 +3,43 @@
 <!-- Main Content Section -->
 <div class="container mx-auto px-4 py-12">
 	<div class="bg-white p-8 rounded-lg shadow-md">
-		<h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to Your Web Page</h1>
+		<h1 class="text-4xl font-bold text-gray-800 mb-4">Administre seu negócio</h1>
 		<p class="text-gray-600 leading-relaxed">
-			This is a simple landing page to demonstrate a responsive navbar built with Tailwind CSS. The navbar
-			adjusts its layout for different screen sizes, providing a clear navigation experience on both
-			desktop and mobile devices.
+			Aqui você vai encontrar todas as ferramentas necessárias para gerenciar seu restaurante de forma eficiente e moderna. Nossa plataforma foi desenvolvida para simplificar a administração do seu negócio, permitindo que você se concentre no que realmente importa: oferecer uma experiência excepcional aos seus clientes.
 		</p>
-	</div>
 
-	<br><hr><br>
-	<ul>
-		<li>Criar função de logout no navbar</li>
-		<li>Adicionar nome da empresa no navbar</li>
-		<li>Adicionar página de empresa com informações</li>
-		<li>Criar página para adicionar colaboradores</li>
-		<li>Adicionar lista de colaboradores na página da empresa</li>
-		<li>Criar página para visualização de pratos</li>
-		<li>Cria atalho para impressão de cardápio</li>
-		</li>
-	</ul>
+		<br><hr><br>
+		<ul class="list-disc list-inside space-y-2 mt-4 text-gray-700">
+			
+			{{ if not .Dishes }}
+			<li class="text-red-600"><strong>Nenhum prato cadastrado:</strong> Adicione pratos para começar a usar todas as funcionalidades.</li>
+			{{ else }}
+			<li class="text-green-600"><strong>Pratos cadastrados:</strong> Você tem {{ len .Dishes }} prato(s) cadastrado(s). Continue adicionando mais!</li>
+			{{ end }}
+
+			<li><a href="/dishes/new" class="text-blue-600 underline hover:text-blue-800">Adicionar prato</a></li>
+			<li><strong>Gerenciar cardápios:</strong> Crie, edite e organize seus menus facilmente.</li>
+			<li><strong>Controlar pedidos:</strong> Acompanhe pedidos em tempo real e otimize o atendimento.</li>
+			<li><strong>Administrar reservas:</strong> Gerencie reservas de mesas de forma prática.</li>
+			<li><strong>Visualizar relatórios de vendas:</strong> Acesse dados detalhados para tomar melhores decisões.</li>
+			<li><strong>Adicionar colaboradores:</strong> Cadastre e gerencie sua equipe com facilidade.</li>
+			<li><strong>Criar/editar pratos:</strong> Atualize informações e imagens dos pratos.</li>
+			<li><strong>Imprimir cardápios:</strong> Gere versões impressas dos seus menus.</li>
+			<li><strong>Visualizar pratos:</strong> Consulte rapidamente todos os pratos cadastrados.</li>
+		</ul>
+
+
+		<p>Here are some icons:</p>
+		<!-- A home icon -->
+		<i data-lucide="home" class="icon"></i>
+		
+		<!-- An alert icon with a different color -->
+		<i data-lucide="alert-triangle" class="icon" style="color: red;"></i>
+		
+		<!-- A settings icon -->
+		<i data-lucide="settings" class="icon"></i>
+
+	</div>
 </div>
 
 {{ end }}
