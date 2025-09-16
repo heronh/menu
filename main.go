@@ -63,6 +63,7 @@ func main() {
 	r.POST("/register", controllers.RegisterCompanyUser)
 	r.GET("/login", controllers.LoginPage)
 	r.POST("/login", controllers.LoginUser)
+	r.GET("/logout", controllers.LogoutUser)
 
 	// Funções relativas às empresas
 	r.GET("/company", middleware.JWTAuthMiddleware(), controllers.CompanyPage)

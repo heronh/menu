@@ -96,3 +96,9 @@ func LoginUser(c *gin.Context) {
 	c.SetCookie("token", token, 3600*24, "/", "", false, true)
 	c.Redirect(http.StatusSeeOther, "/company")
 }
+
+func LogoutUser(c *gin.Context) {
+	// Clear the JWT cookie by setting its MaxAge to -1
+	c.SetCookie("token", "", -1, "/", "", false, true)
+	c.Redirect(http.StatusSeeOther, "/")
+}
