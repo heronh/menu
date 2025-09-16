@@ -9,12 +9,24 @@
 	{{ template "new_dish_content" . }}
 
    <!-- Lista com modais -->
-   
+   {{ template "modal-dish-name" . }}
+   template "modal-dish-description" .
+   template "modal-dish-price" .
+   template "modal-dish-time" . 
+   template "modal-dish-days-of-week" .
+   template "modal-dish-section" .
+   template "modal-dish-active" .
+   template "modal-dish-show-price" .
+   <!-- Fim da lista com modais -->
 
 	{{ template "footer" . }}
 
 <script>
-
+document.addEventListener('DOMContentLoaded', function() {
+   // Open modal-dish-name
+   console.log('Opening modal-dish-name');
+   document.getElementById('modal-dish-name').style.display = 'block';
+});
 </script>
 
 </body>

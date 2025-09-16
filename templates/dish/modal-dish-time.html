@@ -1,0 +1,13 @@
+{{ define "modal_dish_time" }}
+<div id="modal-dish-time" class="modal">
+   <div class="modal-content">
+      <span class="close" onclick="closeModal('modal-dish-time')">&times;</span>
+      <h2>Editar Horário do Prato</h2>
+      <form id="form-dish-time">
+         <label for="dish-time">Horário do Prato:</label>
+         <input type="text" id="dish-time" name="dish-time" required>
+         <button type="submit">Salvar</button>
+      </form>
+   </div>
+</div>
+{{ end }}

@@ -16,7 +16,7 @@ func SyncDatabase() {
 		&models.Privilege{},
 		&models.User{},
 		&models.Company{},
-		&models.Category{},
+		&models.Section{},
 		&models.Dish{},
 		&models.Image{},
 		&models.Message{},

@@ -1,0 +1,43 @@
+{{ define "modal_dish_days_of_week" }}
+<!-- Modal Background -->
+<div id="modal-dish-days-of-week" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <!-- Modal Content -->
+    <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6">
+        <h2 class="text-xl font-bold mb-4">Dias da Semana</h2>
+        <form id="days-of-week-form" class="space-y-4">
+            <div class="flex items-center">
+                <input type="checkbox" id="monday" name="days_of_week_served" title="Segunda-feira" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Monday" checked>
+                <label for="monday" class="text-gray-700 font-medium ml-2">Segunda-feira</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="tuesday" name="days_of_week_served" title="Terça-feira" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Tuesday" checked>
+                <label for="tuesday" class="text-gray-700 font-medium ml-2">Terça-feira</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="wednesday" name="days_of_week_served" title="Quarta-feira" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Wednesday" checked>
+                <label for="wednesday" class="text-gray-700 font-medium ml-2">Quarta-feira</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="thursday" name="days_of_week_served" title="Quinta-feira" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Thursday" checked>
+                <label for="thursday" class="text-gray-700 font-medium ml-2">Quinta-feira</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="friday" name="days_of_week_served" title="Sexta-feira" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Friday" checked>
+                <label for="friday" class="text-gray-700 font-medium ml-2">Sexta-feira</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="saturday" name="days_of_week_served" title="Sábado" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Saturday" checked>
+                <label for="saturday" class="text-gray-700 font-medium ml-2">Sábado</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="sunday" name="days_of_week_served" title="Domingo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="Sunday" checked>
+                <label for="sunday" class="text-gray-700 font-medium ml-2">Domingo</label>
+            </div>
+            <div class="flex justify-end space-x-4 mt-6">
+                <button type="button" id="close-days-of-week-modal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>   
+{{ end }}

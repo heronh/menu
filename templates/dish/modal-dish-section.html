@@ -1,0 +1,13 @@
+{{ define "modal_dish_section" }}
+<div id="modal-dish-section" class="modal">
+   <div class="modal-content">
+      <span class="close" onclick="closeModal('modal-dish-section')">&times;</span>
+      <h2>Editar Setor do Cardápio</h2>
+      <form id="form-dish-section">
+         <label for="dish-section">Setor do Cardápio:</label>
+         <input type="text" id="dish-section" name="dish-section" required>
+         <button type="submit">Salvar</button>
+      </form>
+   </div>
+</div>
+{{ end }}

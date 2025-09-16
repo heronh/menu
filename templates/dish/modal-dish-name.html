@@ -1,0 +1,13 @@
+{{ define "modal-dish-name" }}
+<div id="modal-dish-name" class="modal">
+   <div class="modal-content">
+      <span class="close" onclick="closeModal('modal-dish-name')">&times;</span>
+      <h2>Editar Nome do Prato</h2>
+      <form id="form-dish-name">
+         <label for="dish-name">Nome do Prato:</label>
+         <input type="text" id="dish-name" name="dish-name" required>
+         <button type="submit">Salvar</button>
+      </form>
+   </div>
+</div>
+{{ end }}

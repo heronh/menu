@@ -48,5 +48,5 @@ type Section struct {
 	UpdatedAt   time.Time
 	AuthorID    uint   `gorm:"not null"`
 	Author      User   `gorm:"foreignKey:AuthorID"`
-	Dishes      []Dish `gorm:"foreignKey:CategoryID"`
+	Dishes      []Dish `gorm:"foreignKey:SectionID"`
 }
