@@ -68,6 +68,13 @@ func main() {
 	// Funções relativas às empresas
 	r.GET("/company", middleware.JWTAuthMiddleware(), controllers.CompanyPage)
 
+	// Funções relativas aos pratos
+	r.GET("/dishes/new", middleware.JWTAuthMiddleware(), controllers.NewDishPage)
+	r.POST("/dishes/new", middleware.JWTAuthMiddleware(), controllers.CreateDish)
+	r.GET("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.EditDishPage)
+	r.POST("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.UpdateDish)
+	r.POST("/dishes/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteDish)
+
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")
 	if host_port == "" {
