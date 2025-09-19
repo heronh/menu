@@ -1,13 +1,20 @@
-{{ define "modal_dish_section" }}
+{{ define "modal-dish-section" }}
 <div id="modal-dish-section" class="modal">
    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal-dish-section')">&times;</span>
-      <h2>Editar Setor do Cardápio</h2>
-      <form id="form-dish-section">
-         <label for="dish-section">Setor do Cardápio:</label>
-         <input type="text" id="dish-section" name="dish-section" required>
-         <button type="submit">Salvar</button>
-      </form>
+      <div class="container mx-auto px-4 py-12">  
+         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+            <div class="flex items-center">
+               <label for="sector" class="block text-gray-700 font-medium mb-2">Informe o setor do cardápio em que o prato será exibido.</label>
+               <input type="text" id="sector" name="sector" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Pratos Principais, Sobremesas, Bebidas, etc...">
+            </div>
+         </div>
+         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+            {{ range .Sections }}
+               <input type="checkbox" id="section_{{ .ID }}" name="section_id" title="{{ .Description }}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="{{ .ID }}">
+               <label for="section_{{ .ID }}" class="text-gray-700 font-medium mr-4">{{ .Description }}</label><br>
+            {{ end }}
+         </div>
+      </div>
    </div>
 </div>
 {{ end }}

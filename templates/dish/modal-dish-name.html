@@ -1,13 +1,26 @@
 {{ define "modal-dish-name" }}
 <div id="modal-dish-name" class="modal">
-   <div class="modal-content">
-      <span class="close" onclick="closeModal('modal-dish-name')">&times;</span>
-      <h2>Editar Nome do Prato</h2>
-      <form id="form-dish-name">
-         <label for="dish-name">Nome do Prato:</label>
-         <input type="text" id="dish-name" name="dish-name" required>
-         <button type="submit">Salvar</button>
-      </form>
-   </div>
+	<div class="modal-content">
+		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
+			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto" style="background-color: rgba(133, 168, 143, 0.7);">
+				<div>
+					<label for="name" class="block text-gray-900 mb-2">Nome</label>
+					<input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					placeholder="Ex: Spaghetti Carbonara">
+				</div>
+				<div>
+					<div class="flex items-center">
+						<input type="checkbox" id="active" name="active" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4" value="true" checked>&nbsp;&nbsp;
+						<label for="active" class="ml-8 text-gray-700 font-medium">Exibir prato</label>
+					</div>
+				</div>
+				<br><hr><br>
+				<div>
+					<label for="description" class="block text-gray-900 mb-2">Descrição</label>
+					<textarea id="description" name="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Descreva o prato aqui, ingredientes, se é vegano, acompanhamentos, etc....."></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {{ end }}

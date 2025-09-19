@@ -75,6 +75,9 @@ func main() {
 	r.POST("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.UpdateDish)
 	r.POST("/dishes/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteDish)
 
+	// Exemplo de componentes do tailwind
+	r.StaticFile("/components", "templates/components.html")
+
 	// read port in .env file and starts the server
 	host_port := os.Getenv("HOST_PORT")
 	if host_port == "" {

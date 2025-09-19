@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Componentes Tailwind CSS</title>
+    <!-- CDN do Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Lato do Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700&display=swap">
+
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md rounded-b-lg p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-600 transition-colors duration-300 hover:text-blue-800">Guia Tailwind</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#buttons" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Botões</a>
+                <a href="#forms" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Formulários</a>
+                <a href="#cards" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Cartões</a>
+                <a href="#dropdown" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Dropdown</a>
+                <a href="#icons-emojis" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Ícones e Emojis</a>
+                <a href="#modal-alerts" class="text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Modal & Alertas</a>
+            </div>
+            <!-- Botão de Menu Mobile -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none" aria-label="Abrir menu de navegação">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden mt-2 border-t pt-2 space-y-2">
+            <a href="#buttons" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Botões</a>
+            <a href="#forms" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Formulários</a>
+            <a href="#cards" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Cartões</a>
+            <a href="#dropdown" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Dropdown</a>
+            <a href="#icons-emojis" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Ícones e Emojis</a>
+            <a href="#modal-alerts" class="block text-gray-600 font-medium hover:text-blue-600 transition-colors duration-300">Modal & Alertas</a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mx-auto p-6 lg:p-12">
+
+        <!-- Seção de Botões -->
+        <section id="buttons" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Botões</h2>
+            <div class="flex flex-wrap items-center gap-4">
+                <!-- Botão Primário -->
+                <button class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                    Botão Primário
+                </button>
+                <!-- Botão Secundário -->
+                <button class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-300 transition-colors duration-300">
+                    Botão Secundário
+                </button>
+                <!-- Botão de Sucesso -->
+                <button class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition-colors duration-300">
+                    Botão de Sucesso
+                </button>
+                <!-- Botão de Alerta -->
+                <button class="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors duration-300">
+                    Botão de Alerta
+                </button>
+                <!-- Botão com Borda -->
+                <button class="px-6 py-3 text-blue-600 font-semibold rounded-lg border-2 border-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-300">
+                    Botão com Borda
+                </button>
+                <!-- Botão desativado -->
+                <button disabled class="px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
+                    Botão Desativado
+                </button>
+            </div>
+        </section>
+
+        <!-- Seção de Formulários -->
+        <section id="forms" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Formulários</h2>
+            <form class="space-y-6">
+                <!-- Input de Texto -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <input type="text" id="name" placeholder="Digite seu nome completo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200">
+                </div>
+                <!-- Input de E-mail -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="email" placeholder="seu-email@exemplo.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200">
+                </div>
+                <!-- Textarea -->
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                    <textarea id="message" rows="4" placeholder="Deixe sua mensagem aqui..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"></textarea>
+                </div>
+                <!-- Checkbox -->
+                <div class="flex items-center">
+                    <input id="newsletter" type="checkbox" class="h-4 w-4 text-blue-600 rounded-md border-gray-300 focus:ring-blue-500">
+                    <label for="newsletter" class="ml-2 block text-sm text-gray-900">
+                        Receber newsletter
+                    </label>
+                </div>
+                <!-- Botão de Enviar -->
+                <div>
+                    <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Seção de Cartões -->
+        <section id="cards" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Cartões</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cartão Simples -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Título do Cartão</h3>
+                    <p class="text-gray-600">Este é um cartão simples, ótimo para exibir informações ou links de forma organizada.</p>
+                </div>
+                <!-- Cartão com Imagem -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <img src="https://placehold.co/600x400/0858C2/white?text=Imagem" alt="Placeholder" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Cartão com Imagem</h3>
+                        <p class="text-gray-600">Este cartão combina uma imagem com texto, ideal para posts de blog ou itens de e-commerce.</p>
+                    </div>
+                </div>
+                <!-- Cartão com Rodapé -->
+                <div class="bg-gray-50 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Cartão com Rodapé</h3>
+                        <p class="text-gray-600">Um cartão com um rodapé distinto para ações secundárias ou metadados.</p>
+                    </div>
+                    <div class="bg-gray-200 px-6 py-4 border-t border-gray-300 flex justify-end">
+                        <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-300">
+                            Saiba Mais
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Dropdown -->
+        <section id="dropdown" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Dropdown</h2>
+            <div class="relative inline-block text-left">
+                <!-- Botão do Dropdown -->
+                <button id="dropdownButton" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 inline-flex items-center">
+                    <span>Opções</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Conteúdo do Dropdown -->
+                <div id="dropdownMenu" class="origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="dropdownButton">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Opção 1</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Opção 2</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Opção 3</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Ícones e Emojis -->
+        <section id="icons-emojis" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Ícones e Emojis</h2>
+            <div class="flex flex-wrap items-center gap-6 text-gray-600 text-2xl">
+                <!-- Ícones do Bootstrap -->
+                <i class="bi bi-house-door-fill text-blue-600"></i>
+                <i class="bi bi-gear-fill text-yellow-500"></i>
+                <i class="bi bi-bell-fill text-red-500"></i>
+                <i class="bi bi-check-circle-fill text-green-500"></i>
+                <i class="bi bi-search text-gray-400"></i>
+                <!-- Emojis -->
+                <span>😀</span>
+                <span>🚀</span>
+                <span>💡</span>
+                <span>❤️</span>
+                <span>🔥</span>
+            </div>
+        </section>
+        
+        <!-- Seção de Modal e Alertas -->
+        <section id="modal-alerts" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Modal e Alertas</h2>
+            <div class="flex flex-wrap items-center gap-4">
+                <button id="openModal" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                    Abrir Modal
+                </button>
+                <button id="showAlertSuccess" class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition-colors duration-300">
+                    Mostrar Alerta (Sucesso)
+                </button>
+                <button id="showAlertError" class="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors duration-300">
+                    Mostrar Alerta (Erro)
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+        <div id="modal-content" class="bg-white rounded-xl shadow-2xl p-8 max-w-lg mx-auto modal-content scale-95 opacity-0">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-900">Exemplo de Modal</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700 transition-colors" title="Fechar modal" aria-label="Fechar modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-600">Este é um modal de exemplo. Use-o para exibir informações importantes ou coletar dados dos usuários.</p>
+        </div>
+    </div>
+
+    <!-- Container para Alertas -->
+    <div id="alert-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Script para o menu mobile, dropdown, modal e alertas -->
+    <script>
+        // Lógica do menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Lógica do dropdown
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+        window.addEventListener('click', (event) => {
+            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+
+        // Lógica do Modal
+        const openModalButton = document.getElementById('openModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('opacity-100');
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('invisible');
+            }, 300); // tempo de espera para a transição
+        });
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModalButton.click();
+            }
+        });
+
+        // Lógica dos Alertas
+        const alertContainer = document.getElementById('alert-container');
+        const showAlertSuccessButton = document.getElementById('showAlertSuccess');
+        const showAlertErrorButton = document.getElementById('showAlertError');
+
+        function createAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.classList.add(
+                'alert', 'relative', 'p-4', 'pr-10', 'rounded-lg', 'shadow-md', 'text-white',
+                'transition-all', 'duration-500', 'transform', 'translate-x-full'
+            );
+
+            // Estilo do alerta com base no tipo
+            if (type === 'success') {
+                alert.classList.add('bg-green-500');
+            } else if (type === 'error') {
+                alert.classList.add('bg-red-500');
+            }
+
+            alert.innerHTML = `
+                <div class="font-medium">${message}</div>
+                <button class="absolute top-1 right-1 text-white p-1 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
+
+            alertContainer.appendChild(alert);
+
+            // Forçar reflow para iniciar a transição
+            setTimeout(() => {
+                alert.classList.remove('translate-x-full');
+            }, 10);
+
+            // Fechar ao clicar no botão
+            alert.querySelector('button').addEventListener('click', () => {
+                closeAlert(alert);
+            });
+
+            // Fechar automaticamente após 5 segundos
+            setTimeout(() => {
+                closeAlert(alert);
+            }, 5000);
+        }
+
+        function closeAlert(alert) {
+            alert.classList.add('translate-x-full');
+            setTimeout(() => {
+                alert.remove();
+            }, 500); // Tempo para a transição terminar
+        }
+
+        showAlertSuccessButton.addEventListener('click', () => {
+            createAlert('Ação realizada com sucesso!', 'success');
+        });
+
+        showAlertErrorButton.addEventListener('click', () => {
+            createAlert('Ocorreu um erro ao processar a ação.', 'error');
+        });
+    </script>
+</body>
+</html>
