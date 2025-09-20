@@ -12,7 +12,8 @@ type Dish struct {
 	gorm.Model
 	Name               string         `gorm:"not null"`
 	Active             bool           `gorm:"default:true"`
-	Description        string         `gorm:"not null"`
+	Description        string         `gorm:"type:text"`
+	ShowDescription    bool           `gorm:"default:true"`
 	Price              float64        `gorm:"not null"`
 	ShowPrice          bool           `gorm:"default:true"`
 	Time               pq.StringArray `gorm:"type:text[]"` // List with 3 times

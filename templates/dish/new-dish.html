@@ -7,33 +7,81 @@
 
   	{{ template "navbar" . }}
 
-   <!-- Lista com modais -->
-   {{ template "modal-dish-name" . }}
-   
-   <!-- Fim da lista com modais -->
+	<!-- Lista com modais -->
+	{{ template "modal-dish-name" . }}
+	{{ template "modal-dish-description" . }}
+	
+	<!-- Fim da lista com modais -->
 
 	{{ template "footer" . }}
 </html>
 </body>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
-      //console.log('Opening modal');
-      //closeModal('modal-dish-name');
-      //closeModal('modal-dish-details');
-      //closeModal('modal-dish-time');
-      // openModal('modal-dish-section');
-   });
-   
-   // Close modal function
-   window.closeModal = function(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-   };
+	document.addEventListener('DOMContentLoaded', function() {
+		console.log('Opening modal');
+		//openModal('modal_dish_name');
+		openModal('modal_dish_description');
+		//closeModal('modal-dish-details');
+		//closeModal('modal-dish-time');
+		// openModal('modal-dish-section');
+	});
+	
+	// Executar quando closeModalName for pressionado
+	document.getElementById('closeModalName').addEventListener('click', function() {
+		console.log('Closing modal name');
+		closeModal('modal_dish_name');
+	});
 
-   // Open modal function
-   window.openModal = function(modalId) {
-      document.getElementById(modalId).style.display = 'block';
-   };
+	// Executar quando nextModalName for pressionado
+	document.getElementById('nextModalName').addEventListener('click', function() {
+		console.log('Opening modal description');
+		closeModal('modal_dish_name');
+		openModal('modal_dish_description');
+	});
+	
+	// Executar quando closeModalDescription for pressionado
+	document.getElementById('closeModalDescription').addEventListener('click', function() {
+		console.log('Closing modal description');
+		closeModal('modal_dish_description');
+	});
+	
+	// Executar quando prevModalDescription for pressionado
+	document.getElementById('prevModalDescription').addEventListener('click', function() {
+		console.log('Opening modal name');
+		closeModal('modal_dish_description');
+		openModal('modal_dish_name');
+	});
+
+	// Executar quando nextModalDescription for pressionado
+	document.getElementById('nextModalDescription').addEventListener('click', function() {
+		console.log('Closing modal description');
+		closeModal('modal_dish_description');
+	});
+	
+	// Close modal function
+	window.closeModal = function(modalId) {
+		const modal = document.getElementById(modalId);
+		const modalContent = modal.querySelector('.modal-content');
+		// Adiciona classes para animação de fechamento
+		modalContent.classList.remove('scale-100', 'opacity-100');
+		modalContent.classList.add('scale-95', 'opacity-0');
+		modal.classList.remove('opacity-100');
+		modal.classList.add('opacity-0');
+		setTimeout(() => {
+				modal.classList.add('invisible');
+		}, 300); // tempo de espera para a transição
+	};
+
+	// Open modal function
+	window.openModal = function(modalId) {
+		const modal = document.getElementById(modalId);
+		const modalContent = modal.querySelector('.modal-content');
+		modal.classList.remove('invisible', 'opacity-0');
+		modal.classList.add('opacity-100');
+		modalContent.classList.remove('scale-95', 'opacity-0');
+		modalContent.classList.add('scale-100', 'opacity-100');
+	};
 
 </script>
 

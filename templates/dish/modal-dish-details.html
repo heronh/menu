@@ -1,26 +1,36 @@
 {{ define "modal-dish-details" }}
-<div id="modal-dish-details" class="modal">
-   <div class="modal-content">
-		<div class="container mx-auto px-4 py-12 mr-4 mt-4"> 
+<div id="modal_dish_details" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+	<div class="modal-content">
+		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
 			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
 				<div>
-					<span class="text-lg font-semibold">Editar Detalhes do Prato</span>
+					<label for="details" class="block text-gray-900 mb-2">Detalhes</label>
+					<textarea id="details" name="details" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+						placeholder="Ex: Batata frita com bacon e cobertura de queijo. Acompanha ketchup e maionese." rows="4" cols="50">
+					</textarea>
 				</div>
-
+				<div class="mt-4">
+					<div class="flex items-center">
+						<input type="checkbox" id="showDetails" name="showDetails" title="showDetails" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="true" checked>&nbsp;&nbsp;
+						<label for="showDetails" class="text-gray-700 font-medium">Exibir detalhes</label>
+					</div>
+				</div>
 				<br><hr><br>
-				<div class="flex items-center">
-					<label class="text-small">O preço pode ser registrado e não exibido no cardápio.</label>
-				</div>
-				<div class="flex items-center">
-					<label for="price" class="block text-gray-700 font-small mb-2">Preço:</label>&nbsp;&nbsp;
-					<input type="text" id="price" name="price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: R$ 29,90">
-				</div>
-				<div class="flex items-center">
-					<input type="checkbox" id="show_price" name="show_price" title="Mostrar Preço" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-4" value="true" checked>&nbsp;&nbsp;
-					<label for="show_price" class="ml-8 text-gray-700 font-medium">Mostrar Preço</label>
-				</div>
+				<span class="text-gray-700 font-small">O nome do prato deve ser único dentro do seu cardápio.</span>
+				<span class="text-gray-700 font-small">A opção "Exibir prato" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</span>
 			</div>
 		</div>
-   </div>
+		<div class="flex justify-end space-x-4 px-4 pb-4">
+			<button id="closeModalDetails" class="text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+				Cancelar
+			</button>
+			<button id="prevModalDetails" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+				Anterior
+			</button>
+			<button id="nextModalDetails" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+				Próximo
+			</button>
+		</div>
+	</div>
 </div>
 {{ end }}

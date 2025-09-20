@@ -1,0 +1,37 @@
+{{ define "modal-dish-description" }}
+<div id="modal_dish_description" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+	<div class="modal-content">
+		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
+			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+				<div>
+					<label for="description" class="block text-gray-900 mb-2">Detalhes</label>
+					<textarea id="description" name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+						rows="4">
+					</textarea>
+				</div>
+				<div>
+					<div class="flex items-center">
+						<input type="checkbox" id="showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="true" checked>&nbsp;&nbsp;
+						<label for="showdescription" class="text-gray-700 font-medium">Exibir detalhes</label>
+					</div>
+				</div>
+				<br><hr><br>
+				<span class="text-gray-700 font-small">O nome do prato deve ser único dentro do seu cardápio.</span>
+			</div>
+         <div class="flex justify-end space-x-1 mt-4">
+            <button id="prevModalDescription" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+               Anterior
+            </button>
+            <button id="nextModalDescription" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+               Próximo
+            </button>
+         </div>
+         <div class="flex justify-end space-x-1 mt-4">
+            <button id="closeModalDescription" class="text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+               Cancelar
+            </button>
+         </div>
+		</div>
+	</div>
+</div>
+{{ end }}
