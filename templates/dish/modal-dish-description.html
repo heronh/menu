@@ -17,22 +17,11 @@
 				</div>
 				<div class="mt-2 mb-1 text-gray-700 font-small">
 					<p>Descreva o seu prato.</p>
-					<p>Mostre os ingredientes e o modo de preparo.</p>
 					<p>Inclua informações sobre porções e tempo de preparo.</p>
 				</div>
-			</div>
-			<div class="flex justify-end space-x-1 mt-4">
-				<button id="prevModalDescription" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-					Anterior
-				</button>
-				<button id="nextModalDescription" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-					Próximo
-				</button>
-			</div>
-			<div class="flex justify-end space-x-1 mt-4">
-				<button id="closeModalDescription" class="text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-					Cancelar
-				</button>
+
+				<!-- área dos botões -->
+				{{ template "modal-button" "Description" }}
 			</div>
 		</div>
 	</div>

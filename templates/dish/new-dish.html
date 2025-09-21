@@ -13,6 +13,7 @@
 	{{ template "modal-dish-price" . }}
 	{{ template "modal-dish-section" . }}
 	{{ template "modal-dish-week-days" . }}
+	{{ template "modal-dish-time" . }}
 	<!-- Fim da lista com modais -->
 
 
@@ -26,11 +27,50 @@
 		openModal('modal_dish_name');
 	});
 
+	// Executar quando nextModalWeekDays for pressionado
+	document.getElementById('nextModalWeekDays').addEventListener('click', function() {
+		console.log('Opening modal week days');
+		closeModal('modal_dish_week_days');
+	});
+
+	// Executar quando prevModalWeekDays for pressionado
+	document.getElementById('prevModalWeekDays').addEventListener('click', function() {
+		console.log('Opening modal time');
+		closeModal('modal_dish_week_days');
+		openModal('modal_dish_time');
+	});
+	
+	// Executar quando closeModalWeekDays for pressionado
+	document.getElementById('closeModalWeekDays').addEventListener('click', function() {
+		console.log('Closing modal week days');
+		closeModal('modal_dish_week_days');
+	});
+
+	// Executar quando nextModalTime for pressionado
+	document.getElementById('nextModalTime').addEventListener('click', function() {
+		console.log('Opening modal time');
+		closeModal('modal_dish_time');
+		openModal('modal_dish_week_days');
+	});
+
+	// Executar quando prevModalTime for pressionado
+	document.getElementById('prevModalTime').addEventListener('click', function() {
+		console.log('Opening modal description');
+		closeModal('modal_dish_time');
+		openModal('modal_dish_price');
+	});
+
+	// Executar quando closeModalTime for pressionado
+	document.getElementById('closeModalTime').addEventListener('click', function() {
+		console.log('Closing modal time');
+		closeModal('modal_dish_time');
+	});
+
 	// Executar quando nextModalPrice for pressionado
 	document.getElementById('nextModalPrice').addEventListener('click', function() {
-		console.log('Opening modal description');
+		console.log('Opening modal price');
 		closeModal('modal_dish_price');
-		openModal('modal_dish_description');
+		openModal('modal_dish_time');
 	});
 
 	// Executar quando prevModalPrice for pressionado
