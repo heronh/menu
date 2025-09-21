@@ -10,6 +10,7 @@ import (
 // Dish represents a dish
 type Dish struct {
 	gorm.Model
+	ID                 uint           `json:"id" gorm:"primary_key"`
 	Name               string         `gorm:"not null"`
 	Active             bool           `gorm:"default:true"`
 	Description        string         `gorm:"type:text"`
@@ -31,6 +32,7 @@ type Dish struct {
 // Image represents an image file
 type Image struct {
 	gorm.Model
+	ID               uint    `json:"id" gorm:"primary_key"`
 	OriginalFileName string  `gorm:"not null"`
 	UniqueName       string  `gorm:"unique;not null"`
 	Storage          string  // e.g., local, s3
@@ -44,6 +46,7 @@ type Image struct {
 // Section represents a dish section
 type Section struct {
 	gorm.Model
+	ID          uint   `gorm:"primaryKey"`
 	Description string `gorm:"not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

@@ -10,8 +10,19 @@ import (
 )
 
 func NewDishPage(c *gin.Context) {
+
+	sections := []models.Section{}
+	database.DB.Find(&sections)
+
+	// Popular sections para testes
+	sections = append(sections, models.Section{ID: 1, Description: "Entradas"})
+	sections = append(sections, models.Section{ID: 2, Description: "Pratos Principais"})
+	sections = append(sections, models.Section{ID: 3, Description: "Sobremesas"})
+	sections = append(sections, models.Section{ID: 4, Description: "Bebidas"})
+
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
-		"title": "Adicionar novo prato",
+		"title":    "Adicionar novo prato",
+		"Sections": sections,
 	})
 }
 

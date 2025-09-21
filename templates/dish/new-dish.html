@@ -7,13 +7,14 @@
 
   	{{ template "navbar" . }}
 
-
 	<!-- Lista com modais -->
 	{{ template "modal-dish-name" . }}
 	{{ template "modal-dish-description" . }}
 	{{ template "modal-dish-price" . }}
 	{{ template "modal-dish-section" . }}
+	{{ template "modal-dish-week-days" . }}
 	<!-- Fim da lista com modais -->
+
 
 	{{ template "footer" . }}
 </html>
@@ -22,7 +23,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_section');
+		openModal('modal_dish_name');
 	});
 
 	// Executar quando nextModalPrice for pressionado
