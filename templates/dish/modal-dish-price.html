@@ -1,0 +1,37 @@
+{{ define "modal-dish-price" }}
+<div id="modal_dish_price" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+	<div class="modal-content">
+		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
+			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+				<div>
+					<label for="price" class="block text-gray-900 mb-2">Preço</label>
+					<input type="text" id="price" name="price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					placeholder="Ex: R$ 29,90">
+				</div>
+				<div>
+					<div class="flex items-center">
+						<input type="checkbox" id="showPrice" name="showPrice" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="true" checked>
+						<label for="showPrice" class="text-gray-700 font-medium ml-2">Exibir preço</label>
+					</div>
+				</div>
+				<div class="mt-4 mb-2 text-gray-700 font-small">
+					<p>A opção "Exibir preço" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</p>
+				</div>
+			</div>
+			<div class="flex justify-end space-x-4 mt-4">
+				<button id="prevModalPrice" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+					Anterior
+				</button>
+				<button id="nextModalPrice" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+					Próximo
+				</button>
+			</div>
+			<div class="flex justify-end space-x-4 mt-4">
+				<button id="closeModalPrice" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+					Cancelar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+{{ end }}

@@ -10,6 +10,7 @@
 	<!-- Lista com modais -->
 	{{ template "modal-dish-name" . }}
 	{{ template "modal-dish-description" . }}
+	{{ template "modal-dish-price" . }}
 	
 	<!-- Fim da lista com modais -->
 
@@ -21,16 +22,50 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
 		//openModal('modal_dish_name');
-		openModal('modal_dish_description');
+		openModal('modal_dish_price');
 		//closeModal('modal-dish-details');
 		//closeModal('modal-dish-time');
 		// openModal('modal-dish-section');
 	});
-	
-	// Executar quando closeModalName for pressionado
-	document.getElementById('closeModalName').addEventListener('click', function() {
-		console.log('Closing modal name');
-		closeModal('modal_dish_name');
+
+	// Executar quando nextModalPrice for pressionado
+	document.getElementById('nextModalPrice').addEventListener('click', function() {
+		console.log('Opening modal description');
+		closeModal('modal_dish_price');
+		openModal('modal_dish_description');
+	});
+
+	// Executar quando prevModalPrice for pressionado
+	document.getElementById('prevModalPrice').addEventListener('click', function() {
+		console.log('Opening modal description');
+		closeModal('modal_dish_price');
+		openModal('modal_dish_description');
+	});
+
+	// Executar quando closeModalPrice for pressionado
+	document.getElementById('closeModalPrice').addEventListener('click', function() {
+		console.log('Closing modal price');
+		closeModal('modal_dish_price');
+	});
+
+	// Executar quando nextModalDescription for pressionado
+	document.getElementById('nextModalDescription').addEventListener('click', function() {
+		console.log('Closing modal description');
+		closeModal('modal_dish_description');
+		openModal('modal_dish_price');
+	});
+
+	// Executar quando prevModalDescription for pressionado
+	document.getElementById('prevModalDescription').addEventListener('click', function() {
+		console.log('Opening modal name');
+		closeModal('modal_dish_description');
+		openModal('modal_dish_name');
+	});
+
+	// Executar quando closeModalDescription for pressionado
+	document.getElementById('closeModalDescription').addEventListener('click', function() {
+		console.log('Closing modal description');
+		closeModal('modal_dish_description');
 	});
 
 	// Executar quando nextModalName for pressionado
@@ -39,26 +74,13 @@
 		closeModal('modal_dish_name');
 		openModal('modal_dish_description');
 	});
-	
-	// Executar quando closeModalDescription for pressionado
-	document.getElementById('closeModalDescription').addEventListener('click', function() {
-		console.log('Closing modal description');
-		closeModal('modal_dish_description');
-	});
-	
-	// Executar quando prevModalDescription for pressionado
-	document.getElementById('prevModalDescription').addEventListener('click', function() {
-		console.log('Opening modal name');
-		closeModal('modal_dish_description');
-		openModal('modal_dish_name');
+
+	// Executar quando closeModalName for pressionado
+	document.getElementById('closeModalName').addEventListener('click', function() {
+		console.log('Closing modal name');
+		closeModal('modal_dish_name');
 	});
 
-	// Executar quando nextModalDescription for pressionado
-	document.getElementById('nextModalDescription').addEventListener('click', function() {
-		console.log('Closing modal description');
-		closeModal('modal_dish_description');
-	});
-	
 	// Close modal function
 	window.closeModal = function(modalId) {
 		const modal = document.getElementById(modalId);
