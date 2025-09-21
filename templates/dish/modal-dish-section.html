@@ -1,20 +1,25 @@
 {{ define "modal-dish-section" }}
-<div id="modal-dish-section" class="modal">
+<div id="modal_dish_section" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
    <div class="modal-content">
-      <div class="container mx-auto px-4 py-12">  
-         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
+			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
             <div class="flex items-center">
-               <label for="sector" class="block text-gray-700 font-medium mb-2">Informe o setor do cardápio em que o prato será exibido.</label>
-               <input type="text" id="sector" name="sector" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Pratos Principais, Sobremesas, Bebidas, etc...">
+               <div class="w-full mb-4">
+                  <label for="sector" class="block text-gray-700 font-medium mb-2">Crie um novo setor:</label>
+                  <input type="text" id="sector" name="sector" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Entradas,Sobremesas, Bebidas, etc...">
+               </div>
             </div>
-         </div>
-         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
-            {{ range .Sections }}
-               <input type="checkbox" id="section_{{ .ID }}" name="section_id" title="{{ .Description }}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="{{ .ID }}">
-               <label for="section_{{ .ID }}" class="text-gray-700 font-medium mr-4">{{ .Description }}</label><br>
-            {{ end }}
-         </div>
+            <label class="block text-gray-700 font-medium mb-2">Escolha os setores:</label>
+            <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+               {{ range .Sections }}
+                  <input type="radio" id="section_{{ .ID }}" name="section_id" title="{{ .Description }}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="{{ .ID }}">
+                  <label for="section_{{ .ID }}" class="text-gray-700 font-medium mr-4">{{ .Description }}</label><br>
+               {{ end }}
+            </div>
+         </div>            
+         <!-- Área de botões -->
+         {{ template "modal-button" "Section" }}
       </div>
    </div>
-</div>
+<!-- </div> -->
 {{ end }}

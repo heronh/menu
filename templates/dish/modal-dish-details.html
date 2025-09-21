@@ -1,36 +1,21 @@
 {{ define "modal-dish-details" }}
 <div id="modal_dish_details" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
-	<div class="modal-content">
-		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
-			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
-				<div>
-					<label for="details" class="block text-gray-900 mb-2">Detalhes</label>
-					<textarea id="details" name="details" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-						placeholder="Ex: Batata frita com bacon e cobertura de queijo. Acompanha ketchup e maionese." rows="4" cols="50">
-					</textarea>
-				</div>
-				<div class="mt-4">
-					<div class="flex items-center">
-						<input type="checkbox" id="showDetails" name="showDetails" title="showDetails" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="true" checked>&nbsp;&nbsp;
-						<label for="showDetails" class="text-gray-700 font-medium">Exibir detalhes</label>
-					</div>
-				</div>
-				<br><hr><br>
-				<span class="text-gray-700 font-small">O nome do prato deve ser único dentro do seu cardápio.</span>
-				<span class="text-gray-700 font-small">A opção "Exibir prato" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</span>
-			</div>
-		</div>
-		<div class="flex justify-end space-x-4 px-4 pb-4">
-			<button id="closeModalDetails" class="text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-				Cancelar
-			</button>
-			<button id="prevModalDetails" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-				Anterior
-			</button>
-			<button id="nextModalDetails" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-				Próximo
-			</button>
-		</div>
-	</div>
+   <div class="modal-content">
+      <div class="container mx-auto px-4 py-12 mr-4 mt-4"> 
+         <h1>Detalhes do Prato</h1>
+         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+            <div class="flex items-center">
+               <label for="preparation_time" class="block text-gray-700 font-medium mb-2">Informe o tempo médio de preparo do prato.</label>
+               <input type="text" id="preparation_time" name="preparation_time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: 20 minutos, 1 hora, etc...">
+            </div>
+            <div class="flex items-center mt-4">
+               <label for="days_of_week_served" class="block text-gray-700 font-medium mb-2">Selecione os dias da semana em que o prato será servido.</label>
+               <button type="button" id="open-days-of-week-modal" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none">Selecionar Dias</button>
+            </div>
+         </div>            
+         <!-- Área de botões -->
+         {{ template "modal-button" "Details" }}
+      </div>
+   </div>
 </div>
 {{ end }}
