@@ -1,0 +1,15 @@
+{{ define "modal-button" }}
+<div class="flex justify-end space-x-4 mt-4">
+	<button id="prevModal{{ . }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+		Anterior
+	</button>
+	<button id="nextModal{{ . }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+		Próximo
+	</button>
+</div>
+<div class="flex justify-end space-x-4 mt-4">
+	<button id="closeModal{{ . }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+		Cancelar
+	</button>
+</div>
+{{ end }}

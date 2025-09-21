@@ -18,19 +18,8 @@
 					<p>A opção "Exibir preço" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</p>
 				</div>
 			</div>
-			<div class="flex justify-end space-x-4 mt-4">
-				<button id="prevModalPrice" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-					Anterior
-				</button>
-				<button id="nextModalPrice" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-					Próximo
-				</button>
-			</div>
-			<div class="flex justify-end space-x-4 mt-4">
-				<button id="closeModalPrice" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-					Cancelar
-				</button>
-			</div>
+         <!-- Área de botões -->
+         {{ template "modal-button" "Price" }}
 		</div>
 	</div>
 </div>
