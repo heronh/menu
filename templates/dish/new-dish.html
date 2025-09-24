@@ -14,6 +14,7 @@
 	{{ template "modal-dish-section" . }}
 	{{ template "modal-dish-week-days" . }}
 	{{ template "modal-dish-time" . }}
+	{{ template "modal-dish-images" . }}
 	<!-- Fim da lista com modais -->
 
 
@@ -24,13 +25,14 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_name');
+		openModal('modal_dish_images');
 	});
 
 	// Executar quando nextModalWeekDays for pressionado
 	document.getElementById('nextModalWeekDays').addEventListener('click', function() {
 		console.log('Opening modal week days');
 		closeModal('modal_dish_week_days');
+		openModal('modal_dish_images');
 	});
 
 	// Executar quando prevModalWeekDays for pressionado
@@ -40,10 +42,29 @@
 		openModal('modal_dish_time');
 	});
 	
+	// Executar quando nextModalImages for pressionado
+	document.getElementById('upload-button').addEventListener('click', function() {
+		console.log('Closing modal images');
+		saveImages();
+	});
+
+	// Executar quando prevModalImages for pressionado
+	document.getElementById('prevModalImages').addEventListener('click', function() {
+		console.log('Opening modal week days');
+		closeModal('modal_dish_images');
+		openModal('modal_dish_week_days');
+	});
+
 	// Executar quando closeModalWeekDays for pressionado
 	document.getElementById('closeModalWeekDays').addEventListener('click', function() {
 		console.log('Closing modal week days');
 		closeModal('modal_dish_week_days');
+	});
+
+	// Executar quando closeModalImages for pressionado
+	document.getElementById('closeModalImages').addEventListener('click', function() {
+		console.log('Closing modal images');
+		closeModal('modal_dish_images');
 	});
 
 	// Executar quando nextModalTime for pressionado
@@ -118,6 +139,40 @@
 		console.log('Closing modal name');
 		closeModal('modal_dish_name');
 	});
+
+	// Function to save images (placeholder)
+	function saveImages() {
+		console.log('Saving images...');
+		// Aqui você pode adicionar a lógica para salvar as imagens
+		const fileInput = document.getElementById('images');
+		const files = fileInput.files;
+		if (files.length == 0) {
+			console.log('No images selected.');
+			return;
+		}
+		
+		// Cria um objeto FormData
+		const formData = new FormData();
+
+		// Adiciona cada arquivo ao objeto FormData
+		for (let i = 0; i < files.length; i++) {
+			formData.append('images[]', files[i]);
+			console.log('Added file:', files[i].name);
+		}
+
+		// Envia os arquivos para o servidor usando fetch
+		fetch('images/upload-images', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data => {
+			console.log('Success:', data);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	}
 
 	// Close modal function
 	window.closeModal = function(modalId) {

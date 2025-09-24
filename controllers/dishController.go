@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"main/database"
 	"main/models"
 	"net/http"
@@ -121,3 +122,94 @@ func DeleteDish(c *gin.Context) {
 	}
 	c.Redirect(http.StatusSeeOther, "/company")
 }
+
+func UploadDishImage(c *gin.Context) {
+	dishID := c.Param("id")
+
+	// Fetch the dish to ensure it exists
+	var dish models.Dish
+	if err := database.DB.Where("id = ?", dishID).First(&dish).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching dish: %v", err)
+		return
+	}
+
+	// Retrieve the file from the form data
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.String(http.StatusBadRequest, "Error retrieving file: %v", err)
+		return
+	}
+
+	// Save the file to a specific location (e.g., "./uploads/")
+	filePath := "./uploads/" + file.Filename
+	if err := c.SaveUploadedFile(file, filePath); err != nil {
+		c.String(http.StatusInternalServerError, "Error saving file: %v", err)
+		return
+	}
+	// Create a new Image record
+	dishImage := models.Image{
+		ID:               dish.ID,
+		OriginalFileName: filePath, // In a real app, this would be a URL accessible by the frontend
+	}
+	if err := database.DB.Create(&dishImage).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error saving image record: %v", err)
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/dishes/edit/"+dishID)
+}
+
+func DeleteDishImage(c *gin.Context) {
+	dishID := c.Param("dish_id")
+	imageID := c.Param("image_id")
+
+	// Fetch the dish image to ensure it exists
+	var dishImage models.Image
+	if err := database.DB.Where("id = ? AND dish_id = ?", imageID, dishID).First(&dishImage).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching dish image: %v", err)
+		return
+	}
+
+	// Delete the dish image record
+	if err := database.DB.Delete(&dishImage).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error deleting dish image: %v", err)
+		return
+	}
+
+	c.Redirect(http.StatusSeeOther, "/dishes/edit/"+dishID)
+}
+
+func UploadMultipleDishImages(c *gin.Context) {
+
+	// list of files
+	fmt.Println("Uploading multiple images...")
+
+	form, err := c.MultipartForm()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": fmt.Sprintf("Erro ao ler o formulário: %s", err.Error()),
+		})
+		c.Redirect(http.StatusFound, c.Request.Referer())
+		return
+	}
+	files := form.File["images[]"]
+	for _, file := range files {
+		// Save the file to a specific location (e.g., "./uploads/")
+		fmt.Println("Uploading file:", file.Filename)
+	}
+	c.Redirect(http.StatusFound, c.Request.Referer())
+}
+
+/*
+type Image struct {
+	gorm.Model
+	ID               uint    `json:"id" gorm:"primary_key"`
+	OriginalFileName string  `gorm:"not null"`
+	UniqueName       string  `gorm:"unique;not null"`
+	Storage          string  // e.g., local, s3
+	InsertedByID     uint    `gorm:"not null"`
+	InsertedBy       User    `gorm:"foreignKey:InsertedByID"`
+	CompanyID        uint    `gorm:"not null"`
+	Company          Company `gorm:"foreignKey:CompanyID"`
+	CreatedAt        time.Time
+*/

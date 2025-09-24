@@ -75,6 +75,11 @@ func main() {
 	r.POST("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.UpdateDish)
 	r.POST("/dishes/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteDish)
 
+	// Funções relativas as imagens dos pratos
+	r.POST("/dishes/images/upload/:id", middleware.JWTAuthMiddleware(), controllers.UploadDishImage)
+	r.POST("/dishes/images/delete/:dish_id/:image_id", middleware.JWTAuthMiddleware(), controllers.DeleteDishImage)
+	r.POST("/dishes/images/upload-images", middleware.JWTAuthMiddleware(), controllers.UploadMultipleDishImages)
+
 	// Exemplo de componentes do tailwind
 	r.StaticFile("/components", "templates/components.html")
 
