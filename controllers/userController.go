@@ -87,8 +87,12 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	// Successful login: generate JWT
-	token, err := utils.GenerateJWT(user.ID)
+	// Successful login: generate JWT with companyID
+	companyID := uint(0)
+	if user.CompanyID != nil {
+		companyID = *user.CompanyID
+	}
+	token, err := utils.GenerateJWT(user.ID, companyID)
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/login?error=Erro ao gerar token JWT")
 		return

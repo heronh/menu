@@ -5,7 +5,9 @@ import (
 	"main/database"
 	"main/models"
 	"net/http"
+	"os"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -192,10 +194,59 @@ func UploadMultipleDishImages(c *gin.Context) {
 		c.Redirect(http.StatusFound, c.Request.Referer())
 		return
 	}
+
+	// Create a subfolder based on current user or company
+	userID, _ := c.Get("user_id")
+	companyID, _ := c.Get("company_id")
+	uploadPath := fmt.Sprintf("./uploads/company_%d/user_%d/", companyID, userID)
+	os.MkdirAll(uploadPath, os.ModePerm)
+
 	files := form.File["images[]"]
 	for _, file := range files {
 		// Save the file to a specific location (e.g., "./uploads/")
 		fmt.Println("Uploading file:", file.Filename)
+		//Limit file types to images only
+		if file.Header.Get("Content-Type") != "image/jpeg" && file.Header.Get("Content-Type") != "image/png" && file.Header.Get("Content-Type") != "image/gif" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"success": false,
+				"message": "Apenas arquivos de imagem (JPEG, PNG, GIF) são permitidos.",
+			})
+			return
+		}
+
+		// Save the file
+		fmt.Println("Saving file to:", uploadPath+file.Filename)
+		if err := c.SaveUploadedFile(file, uploadPath+file.Filename); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"success": false,
+				"message": fmt.Sprintf("Erro ao salvar o arquivo: %s", err.Error()),
+			})
+			return
+		}
+
+		// Update image database
+		fmt.Println("Creating image record in database...")
+		fmt.Println("For user ID:", userID)
+		fmt.Println("For company ID:", companyID)
+		dishImage := models.Image{
+			OriginalFileName: file.Filename,
+			UniqueName:       uploadPath + file.Filename,
+			Storage:          "local",
+			InsertedByID:     userID.(uint),
+			CompanyID:        companyID.(uint),
+			CreatedAt:        time.Now(),
+		}
+		fmt.Println("Saving image record to database:", dishImage)
+		fmt.Println("With path:", uploadPath+file.Filename)
+		fmt.Println("At time:", time.Now())
+		// Save record to database
+		if err := database.DB.Create(&dishImage).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"success": false,
+				"message": fmt.Sprintf("Erro ao salvar o registro da imagem: %s", err.Error()),
+			})
+			return
+		}
 	}
 	c.Redirect(http.StatusFound, c.Request.Referer())
 }
