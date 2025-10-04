@@ -236,8 +236,9 @@ func UploadMultipleDishImages(c *gin.Context) {
 	// Create a subfolder based on current user or company
 	userID, _ := c.Get("user_id")
 	companyID, _ := c.Get("company_id")
-	uploadPath := fmt.Sprintf("./uploads/company_%d/user_%d/", companyID, userID)
+	uploadPath := fmt.Sprintf("/uploads/_%d/", companyID)
 	os.MkdirAll(uploadPath, os.ModePerm)
+	fmt.Println("Upload path:", uploadPath)
 
 	files := form.File["images[]"]
 	for _, file := range files {
@@ -254,7 +255,8 @@ func UploadMultipleDishImages(c *gin.Context) {
 
 		// Save the file
 		fmt.Println("Saving file to:", uploadPath+file.Filename)
-		if err := c.SaveUploadedFile(file, uploadPath+file.Filename); err != nil {
+		if err := c.SaveUploadedFile(file, "."+uploadPath+file.Filename); err != nil {
+			fmt.Println("Error saving file:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"success": false,
 				"message": fmt.Sprintf("Erro ao salvar o arquivo: %s", err.Error()),

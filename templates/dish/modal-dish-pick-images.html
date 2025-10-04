@@ -13,12 +13,11 @@
                   <div class="grid grid-cols-3 gap-4">
                      {{ range .Images }}
                         <div class="relative">
-                           <img src="localhost/uploads/company_26/feijoada.png" alt="Image {{ .ID }}" class="w-full h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer select-image" data-image-id="{{ .ID }}">
-                           <label for="image_{{ .ID }}" class="sr-only">Selecionar imagem {{ .ID }}</label>
+                           <img src="{{ .UniqueName }}" alt="Image {{ .ID }}" class="w-full h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer select-image" data-image-id="{{ .ID }}">
                            <input type="checkbox" id="image_{{ .ID }}" name="image_{{ .ID }}" title="Selecionar imagem {{ .ID }}" class="absolute top-2 right-2 h-5 w-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 select-image-checkbox" data-image-id="{{ .ID }}">
                         </div>
                      {{ else }}
-                        <p class="col-span-3 text-center text-gray-500">No images available. Please upload images first.</p>
+                        <p class="col-span-3 text-center text-gray-500">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
                      {{ end }}
                   </div>
                </form>
