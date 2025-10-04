@@ -47,6 +47,8 @@ func main() {
 	r.Static("/static", "./static")
 	// Serve Bootstrap icons from the 'node_modules/bootstrap-icons' directory
 	r.Static("/icons", "./static/bootstrap-icons")
+	// Serve uploaded files (images) from the 'uploads' directory
+	r.Static("/uploads", "./uploads")
 
 	r.GET("/", controllers.WelcomePage)
 

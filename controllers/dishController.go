@@ -14,6 +14,9 @@ import (
 
 func NewDishPage(c *gin.Context) {
 
+	//userID, _ := c.Get("user_id")
+	companyID, _ := c.Get("company_id")
+
 	sections := []models.Section{}
 	database.DB.Find(&sections)
 
@@ -23,9 +26,27 @@ func NewDishPage(c *gin.Context) {
 	sections = append(sections, models.Section{ID: 3, Description: "Sobremesas"})
 	sections = append(sections, models.Section{ID: 4, Description: "Bebidas"})
 
+	var Images []models.Image
+	if err := database.DB.Where("company_id = ?", companyID).Find(&Images).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching images: %v", err)
+		return
+	}
+	fmt.Println("Total images found:", len(Images))
+
+	for _, img := range Images {
+		fmt.Println("Image:", img.ID, img.OriginalFileName, img.UniqueName)
+		// Check if file exists
+		if _, err := os.Stat(img.UniqueName); os.IsNotExist(err) {
+			fmt.Println("File does not exist:", img.UniqueName)
+		} else {
+			fmt.Println("File exists:", img.UniqueName)
+		}
+	}
+
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
 		"title":    "Adicionar novo prato",
 		"Sections": sections,
+		"Images":   Images,
 	})
 }
 
@@ -80,9 +101,26 @@ func EditDishPage(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "Error fetching dish: %v", err)
 		return
 	}
+
+	var Images []models.Image
+	if err := database.DB.Where("company_id = ?", dish.CompanyID).Find(&Images).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching images: %v", err)
+		return
+	}
+	for _, img := range Images {
+		fmt.Println("Image:", img.ID, img.OriginalFileName, img.UniqueName)
+		// Check if file exists
+		if _, err := os.Stat(img.UniqueName); os.IsNotExist(err) {
+			fmt.Println("File does not exist:", img.UniqueName)
+		} else {
+			fmt.Println("File exists:", img.UniqueName)
+		}
+	}
+
 	c.HTML(http.StatusOK, "edit_dish.html", gin.H{
-		"title": "Editar prato",
-		"dish":  dish,
+		"title":  "Editar prato",
+		"dish":   dish,
+		"Images": Images,
 	})
 }
 

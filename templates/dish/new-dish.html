@@ -15,6 +15,7 @@
 	{{ template "modal-dish-week-days" . }}
 	{{ template "modal-dish-time" . }}
 	{{ template "modal-dish-images" . }}
+	{{ template "modal-dish-pick-images" . }}
 	<!-- Fim da lista com modais -->
 
 
@@ -25,7 +26,46 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
+		openModal('modal_dish_pick_images');
+	});
+
+	// Executar quando prevModalPickImages for pressionado
+	document.getElementById('prevModalPickImages').addEventListener('click', function() {
+		console.log('Opening modal images');
+		closeModal('modal_dish_pick_images');
 		openModal('modal_dish_images');
+	});
+
+	// Executar quando closeModalPickImages for pressionado
+	document.getElementById('closeModalPickImages').addEventListener('click', function() {
+		console.log('Closing modal pick images');
+		closeModal('modal_dish_pick_images');
+	});
+
+	// Executar quando upload-button for pressionado
+	document.getElementById('upload-button').addEventListener('click', function() {
+		console.log('Closing modal images');
+		saveImages();
+	});
+
+	// Executar quando nextModalImages for pressionado
+	document.getElementById('nextModalImages').addEventListener('click', function() {
+		console.log('Opening modal pick images');
+		closeModal('modal_dish_images');
+		openModal('modal_dish_pick_images');
+	});
+
+	// Executar quando prevModalImages for pressionado
+	document.getElementById('prevModalImages').addEventListener('click', function() {
+		console.log('Opening modal week days');
+		closeModal('modal_dish_images');
+		openModal('modal_dish_week_days');
+	});
+
+	// Executar quando closeModalImages for pressionado
+	document.getElementById('closeModalImages').addEventListener('click', function() {
+		console.log('Closing modal images');
+		closeModal('modal_dish_images');
 	});
 
 	// Executar quando nextModalWeekDays for pressionado
@@ -41,30 +81,11 @@
 		closeModal('modal_dish_week_days');
 		openModal('modal_dish_time');
 	});
-	
-	// Executar quando nextModalImages for pressionado
-	document.getElementById('upload-button').addEventListener('click', function() {
-		console.log('Closing modal images');
-		saveImages();
-	});
-
-	// Executar quando prevModalImages for pressionado
-	document.getElementById('prevModalImages').addEventListener('click', function() {
-		console.log('Opening modal week days');
-		closeModal('modal_dish_images');
-		openModal('modal_dish_week_days');
-	});
 
 	// Executar quando closeModalWeekDays for pressionado
 	document.getElementById('closeModalWeekDays').addEventListener('click', function() {
 		console.log('Closing modal week days');
 		closeModal('modal_dish_week_days');
-	});
-
-	// Executar quando closeModalImages for pressionado
-	document.getElementById('closeModalImages').addEventListener('click', function() {
-		console.log('Closing modal images');
-		closeModal('modal_dish_images');
 	});
 
 	// Executar quando nextModalTime for pressionado
