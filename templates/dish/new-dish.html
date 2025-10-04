@@ -18,6 +18,10 @@
 	{{ template "modal-dish-pick-images" . }}
 	<!-- Fim da lista com modais -->
 
+	<!-- Usuário e empresa -->
+	<input type="text" id="user_id" value="{{ .UserId }}" readonly hidden>
+	<input type="text" id="company_id" value="{{ .CompanyId }}" readonly hidden>
+	<!-- Fim usuário e empresa -->
 
 	{{ template "footer" . }}
 </html>
@@ -27,6 +31,7 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
 		openModal('modal_dish_pick_images');
+		loadDishImages();
 	});
 
 	// Executar quando prevModalPickImages for pressionado
@@ -53,6 +58,7 @@
 		console.log('Opening modal pick images');
 		closeModal('modal_dish_images');
 		openModal('modal_dish_pick_images');
+		loadDishImages();
 	});
 
 	// Executar quando prevModalImages for pressionado
@@ -193,6 +199,34 @@
 		.catch(error => {
 			console.error('Error:', error);
 		});
+	}
+
+	// Function to load dish images (placeholder)
+	async function loadDishImages() {
+
+		console.log('Loading dish images...');
+		let CompanyId = document.getElementById('company_id').value;
+		console.log('CompanyId:', CompanyId);
+
+		try {
+			const response = await fetch(`/dishes/images/list/${CompanyId}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const responseData = await response.json();
+			console.log('Dish images:', responseData);
+			// Atualiza o conteúdo do form com o json retornado
+			const formPickImages = document.getElementById('formPickImages');
+			formPickImages.innerHTML = responseData.html;
+
+		} catch (error) {
+			console.log('Error fetching dish images:', error);
+		}
 	}
 
 	// Close modal function

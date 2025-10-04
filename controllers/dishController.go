@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"bytes"
 	"fmt"
 	"main/database"
 	"main/models"
 	"net/http"
 	"os"
 	"strconv"
+	"text/template"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +18,7 @@ func NewDishPage(c *gin.Context) {
 
 	//userID, _ := c.Get("user_id")
 	companyID, _ := c.Get("company_id")
+	userID, _ := c.Get("user_id")
 
 	sections := []models.Section{}
 	database.DB.Find(&sections)
@@ -44,9 +47,11 @@ func NewDishPage(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
-		"title":    "Adicionar novo prato",
-		"Sections": sections,
-		"Images":   Images,
+		"title":     "Adicionar novo prato",
+		"Sections":  sections,
+		"Images":    Images,
+		"CompanyId": companyID,
+		"UserId":    userID,
 	})
 }
 
@@ -289,6 +294,87 @@ func UploadMultipleDishImages(c *gin.Context) {
 		}
 	}
 	c.Redirect(http.StatusFound, c.Request.Referer())
+}
+
+func ListDishImages(c *gin.Context) {
+
+	fmt.Println("Listing images...")
+	companyID, _ := c.Get("company_id")
+	fmt.Println("For company ID:", companyID)
+	var Images []models.Image
+	if err := database.DB.Where("company_id = ?", companyID).Find(&Images).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": fmt.Sprintf("Erro ao buscar imagens: %s", err.Error()),
+		})
+		return
+	}
+
+	var renderedImageBoxes string
+	for _, img := range Images {
+		fmt.Println("Rendering image box for image ID:", img.ID)
+		renderedHTML, err := renderImageBox(img)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"success": false,
+				"message": fmt.Sprintf("Erro ao renderizar imagem: %s", err.Error()),
+			})
+			return
+		}
+		renderedImageBoxes += renderedHTML
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"html":    renderedImageBoxes,
+	})
+}
+
+func CreateImageBox(c *gin.Context) {
+	imageIDStr := c.PostForm("image_id")
+	imageID, err := strconv.Atoi(imageIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": "ID da imagem inválido.",
+		})
+		return
+	}
+
+	var image models.Image
+	if err := database.DB.Where("id = ?", imageID).First(&image).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": fmt.Sprintf("Erro ao buscar imagem: %s", err.Error()),
+		})
+		return
+	}
+
+	renderedHTML, err := renderImageBox(image)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": fmt.Sprintf("Erro ao renderizar imagem: %s", err.Error()),
+		})
+		return
+	}
+	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(renderedHTML))
+}
+
+func renderImageBox(image models.Image) (string, error) {
+
+	var tmpl, err = template.ParseFiles("templates/dish/image-box.html")
+	if err != nil {
+		fmt.Println("Error loading template:", err)
+		return "", err
+	}
+
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, image); err != nil {
+		fmt.Println("Error rendering template:", err)
+		return "", err
+	}
+	return buf.String(), nil
 }
 
 /*
