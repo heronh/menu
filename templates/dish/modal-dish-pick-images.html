@@ -1,5 +1,5 @@
-{{ define "modal-dish-pick-images" }}
-<div id="modal_dish_pick_images" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+{{ define "modal-dish-pickimages" }}
+<div id="modal_dish_pickimages" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
 	<div class="modal-content">
 		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
 			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
@@ -27,10 +27,10 @@
             <!-- área dos botões -->
             <div class="modal-buttons">
                {{ template "modal-button" "PickImages" }}
-               <span class="modal-identifier" title="Identificador do modal">PickImages</span>
-               <span class="modal-next" title="Identificador do modal">Images</span>
-               <span class="modal-prev" title="Identificador do modal">Time</span>
+               <span class="modal-next">Images</span>
+               <span class="modal-prev">Time</span>
             </div>
+         </div>
 		</div>
 	</div>
 </div>
