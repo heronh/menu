@@ -18,7 +18,14 @@
 					<p>O nome do prato deve ser único dentro do seu cardápio.</p>
 					<p>A opção "Exibir prato" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</p>
 				</div>
-				{{ template "modal-button" "Name" }}
+				<!-- área dos botões -->
+				<div class="modal-buttons">
+					{{ template "modal-button" "Name" }}
+					<span class="modal-identifier">Name</span>
+					<span class="modal-next">Description</span>
+					<span class="modal-prev">Name</span>
+				</div>
+				<!-- área dos botões -->
 			</div>
 		</div>
 	</div>

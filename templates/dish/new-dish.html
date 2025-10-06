@@ -14,8 +14,8 @@
 	{{ template "modal-dish-section" . }}
 	{{ template "modal-dish-week-days" . }}
 	{{ template "modal-dish-time" . }}
-	{{ template "modal-dish-images" . }}
 	{{ template "modal-dish-pick-images" . }}
+	{{ template "modal-dish-images" . }}
 	<!-- Fim da lista com modais -->
 
 	<!-- Usuário e empresa -->
@@ -23,6 +23,8 @@
 	<input type="text" id="company_id" value="{{ .CompanyId }}" readonly hidden>
 	<!-- Fim usuário e empresa -->
 
+	<!-- Resumo do prato -->
+	 <span class="modal-identifier" title="Identificador do modal">Nome do prato: </span>
 	{{ template "footer" . }}
 </html>
 </body>
@@ -30,21 +32,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_pick_images');
-		loadDishImages();
-	});
-
-	// Executar quando prevModalPickImages for pressionado
-	document.getElementById('prevModalPickImages').addEventListener('click', function() {
-		console.log('Opening modal images');
-		closeModal('modal_dish_pick_images');
-		openModal('modal_dish_images');
-	});
-
-	// Executar quando closeModalPickImages for pressionado
-	document.getElementById('closeModalPickImages').addEventListener('click', function() {
-		console.log('Closing modal pick images');
-		closeModal('modal_dish_pick_images');
+		openModal('modal_dish_name');
 	});
 
 	// Executar quando upload-button for pressionado
@@ -53,118 +41,45 @@
 		saveImages();
 	});
 
-	// Executar quando nextModalImages for pressionado
-	document.getElementById('nextModalImages').addEventListener('click', function() {
-		console.log('Opening modal pick images');
-		closeModal('modal_dish_images');
-		openModal('modal_dish_pick_images');
-		loadDishImages();
+	// Executar quando a classe closeModal for pressionado
+	document.querySelectorAll('.closeModal').forEach(button => {
+		button.addEventListener('click', function(event) {
+			const clickedButton = this;
+			const parentContainer = clickedButton.closest('.modal-buttons');
+			const modalId = parentContainer.querySelector('.modal-identifier').textContent;
+			console.log('Closing modal from', modalId);
+			closeModal('modal_dish_' + modalId.toLowerCase());
+		});
 	});
 
-	// Executar quando prevModalImages for pressionado
-	document.getElementById('prevModalImages').addEventListener('click', function() {
-		console.log('Opening modal week days');
-		closeModal('modal_dish_images');
-		openModal('modal_dish_week_days');
+	// Executar quando a classe nextModal for pressionado
+	document.querySelectorAll('.nextModal').forEach(function(button) {
+		button.addEventListener('click', function() {
+			const modalId = this.closest('.modal-buttons').querySelector('span.modal-identifier').textContent;
+			console.log('Next modal from', modalId);
+			const nextModalElement = this.closest('.modal-buttons').querySelector('span.modal-next').textContent;
+			console.log('Next modal element:', nextModalElement);
+			if (nextModalElement) {
+				closeModal('modal_dish_' + modalId.toLowerCase());
+				openModal('modal_dish_' + nextModalElement.toLowerCase());
+			} else {
+				console.log('No next modal found for', modalId);
+			}
+		});
 	});
 
-	// Executar quando closeModalImages for pressionado
-	document.getElementById('closeModalImages').addEventListener('click', function() {
-		console.log('Closing modal images');
-		closeModal('modal_dish_images');
-	});
-
-	// Executar quando nextModalWeekDays for pressionado
-	document.getElementById('nextModalWeekDays').addEventListener('click', function() {
-		console.log('Opening modal week days');
-		closeModal('modal_dish_week_days');
-		openModal('modal_dish_images');
-	});
-
-	// Executar quando prevModalWeekDays for pressionado
-	document.getElementById('prevModalWeekDays').addEventListener('click', function() {
-		console.log('Opening modal time');
-		closeModal('modal_dish_week_days');
-		openModal('modal_dish_time');
-	});
-
-	// Executar quando closeModalWeekDays for pressionado
-	document.getElementById('closeModalWeekDays').addEventListener('click', function() {
-		console.log('Closing modal week days');
-		closeModal('modal_dish_week_days');
-	});
-
-	// Executar quando nextModalTime for pressionado
-	document.getElementById('nextModalTime').addEventListener('click', function() {
-		console.log('Opening modal time');
-		closeModal('modal_dish_time');
-		openModal('modal_dish_week_days');
-	});
-
-	// Executar quando prevModalTime for pressionado
-	document.getElementById('prevModalTime').addEventListener('click', function() {
-		console.log('Opening modal description');
-		closeModal('modal_dish_time');
-		openModal('modal_dish_price');
-	});
-
-	// Executar quando closeModalTime for pressionado
-	document.getElementById('closeModalTime').addEventListener('click', function() {
-		console.log('Closing modal time');
-		closeModal('modal_dish_time');
-	});
-
-	// Executar quando nextModalPrice for pressionado
-	document.getElementById('nextModalPrice').addEventListener('click', function() {
-		console.log('Opening modal price');
-		closeModal('modal_dish_price');
-		openModal('modal_dish_time');
-	});
-
-	// Executar quando prevModalPrice for pressionado
-	document.getElementById('prevModalPrice').addEventListener('click', function() {
-		console.log('Opening modal description');
-		closeModal('modal_dish_price');
-		openModal('modal_dish_description');
-	});
-
-	// Executar quando closeModalPrice for pressionado
-	document.getElementById('closeModalPrice').addEventListener('click', function() {
-		console.log('Closing modal price');
-		closeModal('modal_dish_price');
-	});
-
-	// Executar quando nextModalDescription for pressionado
-	document.getElementById('nextModalDescription').addEventListener('click', function() {
-		console.log('Closing modal description');
-		closeModal('modal_dish_description');
-		openModal('modal_dish_price');
-	});
-
-	// Executar quando prevModalDescription for pressionado
-	document.getElementById('prevModalDescription').addEventListener('click', function() {
-		console.log('Opening modal name');
-		closeModal('modal_dish_description');
-		openModal('modal_dish_name');
-	});
-
-	// Executar quando closeModalDescription for pressionado
-	document.getElementById('closeModalDescription').addEventListener('click', function() {
-		console.log('Closing modal description');
-		closeModal('modal_dish_description');
-	});
-
-	// Executar quando nextModalName for pressionado
-	document.getElementById('nextModalName').addEventListener('click', function() {
-		console.log('Opening modal description');
-		closeModal('modal_dish_name');
-		openModal('modal_dish_description');
-	});
-
-	// Executar quando closeModalName for pressionado
-	document.getElementById('closeModalName').addEventListener('click', function() {
-		console.log('Closing modal name');
-		closeModal('modal_dish_name');
+	// Executar quando a classe prevModal for pressionado
+	document.querySelectorAll('.prevModal').forEach(function(button) {
+		button.addEventListener('click', function() {
+			const modalId = this.closest('.modal-buttons').querySelector('.modal-identifier').textContent;
+			const prevModalId = this.closest('.modal-buttons').querySelector('.modal-prev').textContent;
+			if (prevModalId) {
+				closeModal('modal_dish_' + modalId.toLowerCase());
+				openModal('modal_dish_' + prevModalId.toLowerCase());
+			} else {
+				console.log('No previous modal found for', modalId);
+			}
+		});
 	});
 
 	// Function to save images (placeholder)
@@ -233,6 +148,7 @@
 	window.closeModal = function(modalId) {
 		const modal = document.getElementById(modalId);
 		const modalContent = modal.querySelector('.modal-content');
+		console.log('Closing modal', modalId);
 		// Adiciona classes para animação de fechamento
 		modalContent.classList.remove('scale-100', 'opacity-100');
 		modalContent.classList.add('scale-95', 'opacity-0');
@@ -247,6 +163,8 @@
 	window.openModal = function(modalId) {
 		const modal = document.getElementById(modalId);
 		const modalContent = modal.querySelector('.modal-content');
+		console.log('Opening modal', modalId);
+		// Adiciona classes para animação de abertura
 		modal.classList.remove('invisible', 'opacity-0');
 		modal.classList.add('opacity-100');
 		modalContent.classList.remove('scale-95', 'opacity-0');

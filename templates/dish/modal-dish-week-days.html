@@ -37,7 +37,13 @@
 					<p class="text-gray-600">Selecione os dias da semana em que o prato estará disponível.</p>
 					<p class="text-gray-600">Por exemplo, feijoada é um prato que pode ser servido às quartas e sábados.</p>
 				</div>
-				{{ template "modal-button" "WeekDays" }}
+				<!-- área dos botões -->
+				<div class="modal-buttons">
+					{{ template "modal-button" "WeekDays" }}
+					<span class="modal-identifier">WeekDays</span>
+					<span class="modal-next">Time</span>
+					<span class="modal-prev">Section</span>
+				</div>
 			</div>
 		</div>
 	</div>
