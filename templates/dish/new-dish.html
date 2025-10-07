@@ -24,7 +24,9 @@
 	<!-- Fim usuário e empresa -->
 
 	<!-- Resumo do prato -->
-	 <span class="modal-identifier" title="Identificador do modal">Nome do prato: </span>
+	<span>Nome do prato:</span>
+	<span id="summary-modal-name"></span>
+
 	{{ template "footer" . }}
 </html>
 </body>
@@ -156,7 +158,17 @@
 		modal.classList.add('opacity-0');
 		setTimeout(() => {
 				modal.classList.add('invisible');
-		}, 300); // tempo de espera para a transição
+		}, 300);
+
+		// Cria nome para função de callback
+		const callbackFunctionName = modalId.replace('modal_dish_', 'modal_dish_') + '_closed';
+		// Verifica se a função existe e a chama
+		if (typeof window[callbackFunctionName] === 'function') {
+			window[callbackFunctionName]();
+		}
+		else {
+			console.log('No callback function found for', modalId);
+		}
 	};
 
 	// Open modal function
@@ -171,5 +183,12 @@
 		modalContent.classList.add('scale-100', 'opacity-100');
 	};
 
+	function modal_dish_name_closed(event) {
+		console.log('Modal dish name closed');
+		var name = document.getElementById('modal-name').value;
+		var active = document.getElementById('modal-active').checked;
+		document.getElementById('summary-modal-name').textContent = name + (active ? ' (Ativo)' : ' (Inativo)');
+	}
+	
 </script>
 
