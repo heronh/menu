@@ -1,12 +1,12 @@
-{{ define "modal-dish-images" }}
-<div id="modal_dish_images" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
+{{ define "modal-dish-uploadimages" }}
+<div id="modal_dish_uploadimages" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
 	<div class="modal-content">
 		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
 			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
 				<div>
                <form id="formImages">
-					   <label for="images" class="block text-xl font-medium mb-2">Imagens</label>
-					   <input type="file" id="images" name="image-list[]" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" multiple>
+					   <label for="upload-images" class="block text-xl font-medium mb-2">Imagens</label>
+					   <input type="file" id="upload-images" name="upload-image-list[]" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" multiple>
 						<button id="upload-button" type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
 							Upload
 						</button>
@@ -19,9 +19,9 @@
             <hr class="my-4">
 				<!-- área dos botões -->
 				<div class="modal-buttons">
-					{{ template "modal-button" "Images" }}
-					<span class="modal-next">Name</span>
-					<span class="modal-prev">PickImages</span>
+					{{ template "modal-button" "UploadImages" }}
+					<span class="modal-next" hidden>PickImages</span>
+					<span class="modal-prev" hidden>Time</span>
 				</div>
 				<!-- área dos botões -->			
 			</div>

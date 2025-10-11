@@ -14,8 +14,8 @@
 	{{ template "modal-dish-section" . }}
 	{{ template "modal-dish-weekdays" . }}
 	{{ template "modal-dish-time" . }}
-	{{ template "modal-dish-pickimages" . }}
-	{{ template "modal-dish-images" . }}
+	{{ template "modal-dish-uploadimages" . }}
+	{{ template "modal-dish-pick-images" . }}
 	<!-- Fim da lista com modais -->
 
 	<!-- Usuário e empresa -->
@@ -24,8 +24,113 @@
 	<!-- Fim usuário e empresa -->
 
 	<!-- Resumo do prato -->
-	<span>Nome do prato:</span>
-	<span id="summary-modal-name"></span>
+	<form action="">
+		<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+			<h1 class="text-2xl font-semibold text-gray-900 mb-4">Novo Prato</h1>
+			<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 lg:p-8">
+				<div class="space-y-6">
+					<!-- Nome do prato -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Nome do Prato</h2>
+							<input type="checkbox" id="summary-active" name="active" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500" placeholder="Defina o nome do prato." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_name')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim nome do prato -->
+					<!-- Descrição do prato -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Descrição do Prato</h2>
+							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-description" name="description" class="mt-1 text-sm text-gray-500" placeholder="Defina a descrição do prato." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_description')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim descrição do prato -->
+					<!-- Preço do prato -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Preço do Prato</h2>
+							<input type="checkbox" id="summary-showPrice" name="showPrice" title="showPrice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-price" name="price" class="mt-1 text-sm text-gray-500" placeholder="Defina o preço do prato." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_price')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim preço do prato -->
+					<!-- Seção do prato -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Seção do Prato</h2>
+							<input type="text" id="summary-section" name="section" class="mt-1 text-sm text-gray-500" placeholder="Defina a seção do prato." value="" readonly>
+							<input hidden id="summary-section-id" name="section_id" class="mt-1 text-sm text-gray-500">
+						</div>
+						<button type="button" onclick="openModal('modal_dish_section')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim seção do prato -->
+					<!-- Dias da semana -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Dias da Semana</h2>
+							<input type="text" id="summary-weekdays" name="weekdays" class="mt-1 text-sm text-gray-500" placeholder="Defina os dias da semana." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_weekdays')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim dias da semana -->
+					<!-- Horário -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Horário</h2>
+							<input type="text" id="summary-time" name="time" class="mt-1 text-sm text-gray-500" placeholder="Defina o horário de disponibilidade do prato." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_time')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Editar
+						</button>
+					</div>
+					<!-- Fim horário -->
+					<!-- Imagens do prato -->
+					<div class="flex items-center justify-between">
+						<div>
+							<h2 class="text-lg font-medium text-gray-900">Imagens do Prato</h2>
+							<input type="text" id="summary-images" name="images" class="mt-1 text-sm text-gray-500" placeholder="Defina as imagens do prato." readonly>
+						</div>
+						<button type="button" onclick="openModal('modal_dish_pickimages'); loadDishImages();" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">	
+							Editar
+						</button>
+					</div>
+					<!-- Fim imagens do prato -->
+					<!-- Resumo -->
+					<div class="border-t pt-4">
+						<h2 class="text-lg font-medium text-gray-900">Resumo do Prato</h2>
+						<p class="mt-1 text-sm text-gray-500">Confira as informações do prato antes de salvar.</p>
+						<div class="mt-4 space-y-2">
+							<p id="summary-modal-name" class="text-gray-700">Nome do prato não definido.</p>
+							<!-- Adicione mais resumos conforme necessário -->
+						</div>
+					</div>
+					<!-- Fim resumo -->
+					<!-- Botão salvar -->
+					<div class="flex justify-end">
+						<button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+							Salvar Prato
+						</button>
+					</div>
+					<!-- Fim botão salvar -->
+				</div>
+			</div>
+		</div>
+	</form>
 
 	{{ template "footer" . }}
 </html>
@@ -35,6 +140,81 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
 		openModal('modal_dish_name');
+	});
+
+	function updateSummary() {
+		// Atualiza o resumo com os valores dos modais
+		console.log('Updating summary...');
+		// Nome e ativo
+		var name = document.getElementById('modal-name').value;
+		var active = document.getElementById('modal-active').checked;
+		console.log('Name:', name, 'Active:', active);
+		document.getElementById('summary-name').value = name;
+		document.getElementById('summary-active').checked = active;
+		// Descrição e mostrar descrição
+		var description = document.getElementById('modal-description').value;
+		var showDescription = document.getElementById('modal-showdescription').checked;
+		console.log('Description:', description, 'ShowDescription:', showDescription);
+		document.getElementById('summary-description').value = description ? description : 'Descrição do prato não definida.';
+		document.getElementById('summary-showdescription').checked = showDescription;
+		// Preço e mostrar preço
+		var price = document.getElementById('modal-price').value;
+		var showPrice = document.getElementById('modal-showPrice').checked;
+		console.log('Price:', price, 'ShowPrice:', showPrice);
+		document.getElementById('summary-price').value = price ? 'R$' + parseFloat(price).toFixed(2) : 'Preço do prato não definido.';
+		document.getElementById('summary-showPrice').checked = showPrice;
+		// Seção
+		var checkedSection = document.querySelector('input[name="modal_section"]:checked');
+		var section = checkedSection ? (checkedSection.title ? checkedSection.title : 'Seção do prato não definida.') : 'Seção do prato não definida.';
+		var sectionid = checkedSection ? checkedSection.value : '';
+		console.log('Section:', section, 'SectionID:', sectionid);
+		document.getElementById('summary-section').value = section;
+		document.getElementById('summary-section-id').value = sectionid;
+		// Dias da semana
+		var weekdays = Array.from(document.querySelectorAll('input[name="modal-weekdays"]:checked')).map(cb => cb.title);
+		console.log('Weekdays:', weekdays);
+		document.getElementById('summary-weekdays').value = weekdays.length > 0 ? weekdays.join(', ') : 'Dias da semana não definidos.';
+		// Horário
+		var time = document.getElementById('modal-selected-times').textContent;
+		console.log('Time:', time);
+		document.getElementById('summary-time').value = time ? time : 'Horário do prato não definido.';
+		// Imagens
+		var images = document.querySelectorAll('#selected-images img');
+		console.log('Images:', images);
+		document.getElementById('summary-images').textContent = images.length > 0 ? images.length + ' imagem(s) selecionada(s).' : 'Nenhuma imagem selecionada.';
+	};
+
+	// Executar quando clear-times for pressionado
+	document.getElementById('clear-times').addEventListener('click', function() {
+		document.getElementById('modal-selected-times').textContent = '';
+	});
+
+	// Executar quando adicionar horários for pressionado
+	document.getElementById('add-times').addEventListener('click', function() {
+		const selectStart = document.querySelector('.form-select-start');
+		const selectEnd = document.querySelector('.form-select-end');
+		const selectedTimes = document.getElementById('modal-selected-times');
+
+		const startTime = selectStart.value;
+		const endTime = selectEnd.value;
+
+		if (startTime === 'Das' || endTime === 'Até') {
+			alert('Por favor, selecione ambos os horários.');
+			return;
+		}
+
+		if (startTime >= endTime) {
+			alert('O horário de início deve ser anterior ao horário de término.');
+			return;
+		}
+
+		const newTimeRange = `${startTime} - ${endTime}`;
+		if (selectedTimes.textContent.includes(newTimeRange)) {
+			alert('Este intervalo de horário já foi adicionado.');
+			return;
+		}
+		selectedTimes.textContent += (selectedTimes.textContent ? ', ' : '') + newTimeRange;
+		console.log('Added time range:', newTimeRange);
 	});
 
 	// Executar quando upload-button for pressionado
@@ -148,9 +328,9 @@
 
 	// Close modal function
 	window.closeModal = function(modalId) {
+		console.log('Closing modal', modalId);
 		const modal = document.getElementById(modalId);
 		const modalContent = modal.querySelector('.modal-content');
-		console.log('Closing modal', modalId);
 		// Adiciona classes para animação de fechamento
 		modalContent.classList.remove('scale-100', 'opacity-100');
 		modalContent.classList.add('scale-95', 'opacity-0');
@@ -169,13 +349,15 @@
 		else {
 			console.log('No callback function found for', modalId);
 		}
-	};
 
+		// Ao sair do modal, atualiza o resumo
+		updateSummary();
+	};
 	// Open modal function
 	window.openModal = function(modalId) {
+		console.log('Opening modal', modalId);
 		const modal = document.getElementById(modalId);
 		const modalContent = modal.querySelector('.modal-content');
-		console.log('Opening modal', modalId);
 		// Adiciona classes para animação de abertura
 		modal.classList.remove('invisible', 'opacity-0');
 		modal.classList.add('opacity-100');

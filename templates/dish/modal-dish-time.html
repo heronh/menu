@@ -3,17 +3,38 @@
 	<div class="modal-content">
 		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
 			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+				<div class="flex w-full gap-4">
+					<select class="form-select-start flex-1" aria-label="Default select example">
+						<option selected>Das</option>
+						{{ range .TimeList }}
+						<option value="{{ . }}">{{ . }}</option>
+						{{ end }}
+					</select>
+					<select class="form-select-end flex-1" aria-label="Default select example">
+						<option selected>Até</option>
+						{{ range .TimeList }}
+						<option value="{{ . }}">{{ . }}</option>
+						{{ end }}
+					</select>
+				</div>
+				<div class="mt-4 mb-2 text-gray-700 font-small">
+					<button type="button" id="add-times" class="text-blue-500 hover:underline">Adicionar horários</button>
+				</div>
+				<hr class="my-6">
 				<div>
-					<label for="time" class="block text-2xl font-medium mb-2">Disponibilidade</label>
-					<label for="time" class="block text-gray-700 font-medium mb-2">Informe os horários em que o prato está disponível, separados por vírgula. Se este campo não for preenchido, o prato estará disponível o dia todo.</label>
-					<input type="text" id="time" name="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: 11:00-14:00, 18:00-20:00">
+					<label for="modal-time" class="block text-gray-700 font-medium mb-2">Horários Selecionados:</label>
+					<p id="modal-selected-times" class="text-gray-600"></p>
+				</div>
+				<div class="mt-4 mb-2 text-gray-700 font-small">
+					<button type="button" id="clear-times" class="text-blue-500 hover:underline">Limpar Seleção</button>
 				</div>
 
 				<!-- Área de botões -->
+				 <hr>
 				<div class="modal-buttons">
 					{{ template "modal-button" "Time" }}
-					<span class="modal-next">PickImages</span>
-					<span class="modal-prev">Weekdays</span>
+					<span class="modal-next" hidden>UploadImages</span>
+					<span class="modal-prev" hidden>Weekdays</span>
 				</div>
 				<!-- Área de botões -->
 			</div>
