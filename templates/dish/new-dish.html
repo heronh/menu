@@ -201,9 +201,55 @@
 		}
 	};
 
-	// Executar quando clear-times for pressionado
-	document.getElementById('clear-times').addEventListener('click', function() {
-		document.getElementById('modal-selected-times').textContent = '';
+	// Executar quando enter for pressionado em section
+	document.getElementById('modal-input-section').addEventListener('keypress', function(event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			let sectionDescription = document.getElementById('modal-input-section').value.trim();
+			if (sectionDescription === '') {
+				alert('Por favor, insira a descrição do setor.');
+				return;
+			}
+			console.log('Creating new section:', sectionDescription);
+			let CompanyId = document.getElementById('company_id').value;
+			console.log('CompanyId:', CompanyId);
+			fetch('/sections/new', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"description": sectionDescription,
+					"author_id": document.getElementById('user_id').value,
+					"company_id": CompanyId
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log('Success:', data);
+				if (data.success) {
+					// Adiciona a nova seção na lista de opções
+					const sectionList = document.getElementById('modal-section-list');
+					const newOption = document.createElement('div');
+					newOption.className = 'flex items-center';
+					newOption.innerHTML = `
+						<input type="radio" id="section-${data.section.id}" name="modal_section" value="${data.section.id}" title="${data.section.description}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+						<label for="section-${data.section.id}" class="text-gray-700 font-medium mr-4">${data.section.description}</label>
+						<button type="button" data-section-id="${data.section.id}" class="delete-section text-red-600 hover:text-red-800 focus:outline-none">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L10 8.586 7.707 6.293a1 1 0 00-1.414 1.414L8.586 10l-2.293 2.293a1 1 0 001.414 1.414L10 11.414l2.293 2.293a1 1 0 001.414-1.414L11.414 10l2.293-2.293z" clip-rule="evenodd" />
+							</svg>
+						</button>
+					`;
+					sectionList.appendChild(newOption);
+					// Limpa o campo de entrada
+					document.getElementById('modal-input-section').value = '';
+				} else {
+					console.log('Error creating section:', data);
+					alert(data.error || 'Erro ao criar a seção.');
+				}
+			});
+		}
 	});
 
 	// Executar quando adicionar horários for pressionado

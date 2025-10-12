@@ -50,12 +50,6 @@ func NewDishPage(c *gin.Context) {
 	sections := []models.Section{}
 	database.DB.Find(&sections)
 
-	// Popular sections para testes
-	sections = append(sections, models.Section{ID: 1, Description: "Entradas"})
-	sections = append(sections, models.Section{ID: 2, Description: "Pratos Principais"})
-	sections = append(sections, models.Section{ID: 3, Description: "Sobremesas"})
-	sections = append(sections, models.Section{ID: 4, Description: "Bebidas"})
-
 	var Images []models.Image
 	if err := database.DB.Where("company_id = ?", companyID).Find(&Images).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error fetching images: %v", err)

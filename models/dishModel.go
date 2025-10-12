@@ -50,7 +50,9 @@ type Section struct {
 	Description string `gorm:"not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	AuthorID    uint   `gorm:"not null"`
-	Author      User   `gorm:"foreignKey:AuthorID"`
-	Dishes      []Dish `gorm:"foreignKey:SectionID"`
+	AuthorID    uint    `gorm:"not null"`
+	Author      User    `gorm:"foreignKey:AuthorID"`
+	Dishes      []Dish  `gorm:"foreignKey:SectionID"`
+	CompanyID   uint    `gorm:"not null"`
+	Company     Company `gorm:"foreignKey:CompanyID"`
 }
