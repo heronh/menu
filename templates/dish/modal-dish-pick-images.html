@@ -1,37 +1,35 @@
 {{ define "modal-dish-pick-images" }}
 <div id="modal_dish_pickimages" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
-	<div class="modal-content">
-		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
-			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+   <div class="modal-content max-h-screen overflow-y-auto">
+      <div class="container mx-auto px-4 py-12 mr-4 mt-4">  
+         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
 
-            <div class="mt-2 mb-1 text-gray-700 font-medium">
-               <p>Selecione imagens para este prato.</p>
-            </div>
+         <div class="mt-2 mb-1 text-gray-700 font-medium">
+            <p>Imagens para este prato.</p>
+         </div>
 
-            <div>
-               <form id="formPickImages">
-                  <div class="flex overflow-x-auto space-x-4 py-2">
-                     {{ range .Images }}
-                        <div class="relative flex-shrink-0 w-32">
-                           <img src="{{ .UniqueName }}" alt="Image {{ .ID }}" class="w-32 h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer select-image" data-image-id="{{ .ID }}">
-                           <input type="checkbox" id="image_{{ .ID }}" name="image_{{ .ID }}" title="Selecionar imagem {{ .ID }}" class="absolute top-2 right-2 h-5 w-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 select-image-checkbox" data-image-id="{{ .ID }}">
-                        </div>
-                     {{ else }}
-                        <p class="text-center text-gray-500">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
-                     {{ end }}
-                  </div>
-               </form>
-            </div>
-
-            <hr class="my-4">
-            <!-- área dos botões -->
-            <div class="modal-buttons">
-               {{ template "modal-button" "PickImages" }}
-               <span class="modal-next" hidden>Name</span>
-               <span class="modal-prev" hidden>UploadImages</span>
+         <div class="mb-4">
+            <div id="image-selection" class="grid grid-cols-2 sm:flex sm:overflow-x-auto sm:space-x-4 py-2 gap-4">
+               {{ range .Images }}
+               <div class="relative flex-shrink-0 w-full sm:w-32 px-1 mb-4">
+                  <img src="{{ .UniqueName }}" alt="{{ .OriginalFileName }}" class="w-full h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer">
+                  <input type="checkbox" id="image_{{ .ID }}" name="modal-dish-pick-images" title="__{{ .ID }}" value="{{ .OriginalFileName }}" class="absolute top-2 right-2 h-5 w-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+               </div>
+               {{ else }}
+               <p class="text-center text-gray-500 col-span-2">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
+               {{ end }}
             </div>
          </div>
-		</div>
-	</div>
+
+         <hr class="my-4">
+         <!-- área dos botões -->
+         <div class="modal-buttons">
+            {{ template "modal-button" "PickImages" }}
+            <span class="modal-next" hidden>Name</span>
+            <span class="modal-prev" hidden>UploadImages</span>
+         </div>
+       </div>
+      </div>
+   </div>
 </div>
 {{ end }}

@@ -24,106 +24,91 @@
 	<!-- Fim usuário e empresa -->
 
 	<!-- Resumo do prato -->
-	<form action="">
-		<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-			<h1 class="text-2xl font-semibold text-gray-900 mb-4">Novo Prato</h1>
+	<form action="" class="min-h-[60vh] flex flex-col justify-between mb-32">
+		<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 flex-1"></div>
+			<h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">Novo Prato</h3>
 			<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 lg:p-8">
 				<div class="space-y-6">
 					<!-- Nome do prato -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Nome do Prato</h2>
-							<input type="checkbox" id="summary-active" name="active" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500" placeholder="Defina o nome do prato." readonly>
+							<button type="button" onclick="openModal('modal_dish_name')" class="text-lg text-blue-900 w-full text-left">Editar Nome do Prato</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_name')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="checkbox" id="summary-active" name="active" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o nome do prato." readonly>
+						</div>
 					</div>
 					<!-- Fim nome do prato -->
 					<!-- Descrição do prato -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Descrição do Prato</h2>
-							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-description" name="description" class="mt-1 text-sm text-gray-500" placeholder="Defina a descrição do prato." readonly>
+							<button type="button" onclick="openModal('modal_dish_description')" class="text-lg text-blue-900 w-full text-left">Editar Descrição do Prato</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_description')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-description" name="description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." readonly>
+						</div>
 					</div>
 					<!-- Fim descrição do prato -->
 					<!-- Preço do prato -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Preço do Prato</h2>
-							<input type="checkbox" id="summary-showPrice" name="showPrice" title="showPrice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-price" name="price" class="mt-1 text-sm text-gray-500" placeholder="Defina o preço do prato." readonly>
+							<button type="button" onclick="openModal('modal_dish_price')" class="text-lg text-blue-900 w-full text-left">Editar Preço do Prato</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_price')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="checkbox" id="summary-showPrice" name="showPrice" title="showPrice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-price" name="price" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o preço do prato." readonly>
+						</div>
 					</div>
 					<!-- Fim preço do prato -->
 					<!-- Seção do prato -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Seção do Prato</h2>
-							<input type="text" id="summary-section" name="section" class="mt-1 text-sm text-gray-500" placeholder="Defina a seção do prato." value="" readonly>
+							<button type="button" onclick="openModal('modal_dish_section')" class="text-lg text-blue-900 w-full text-left">Editar Seção do Prato</button>
+						</div>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="text" id="summary-section" name="section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="" readonly>
 							<input hidden id="summary-section-id" name="section_id" class="mt-1 text-sm text-gray-500">
 						</div>
-						<button type="button" onclick="openModal('modal_dish_section')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
 					</div>
 					<!-- Fim seção do prato -->
 					<!-- Dias da semana -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Dias da Semana</h2>
-							<input type="text" id="summary-weekdays" name="weekdays" class="mt-1 text-sm text-gray-500" placeholder="Defina os dias da semana." readonly>
+							<button type="button" onclick="openModal('modal_dish_weekdays')" class="text-lg text-blue-900 w-full text-left">Editar Dias da Semana</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_weekdays')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="text" id="summary-weekdays" name="weekdays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana." readonly>
+						</div>
 					</div>
 					<!-- Fim dias da semana -->
 					<!-- Horário -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Horário</h2>
-							<input type="text" id="summary-time" name="time" class="mt-1 text-sm text-gray-500" placeholder="Defina o horário de disponibilidade do prato." readonly>
+							<button type="button" onclick="openModal('modal_dish_time')" class="text-lg text-blue-900 w-full text-left">Editar Horário</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_time')" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="text" id="summary-time" name="time" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." readonly>
+						</div>
 					</div>
 					<!-- Fim horário -->
 					<!-- Imagens do prato -->
-					<div class="flex items-center justify-between">
+					<div class="flex flex-col w-full">
 						<div>
-							<h2 class="text-lg font-medium text-gray-900">Imagens do Prato</h2>
-							<input type="text" id="summary-images" name="images" class="mt-1 text-sm text-gray-500" placeholder="Defina as imagens do prato." readonly>
+							<button type="button" onclick="openModal('modal_dish_pickimages');" class="text-lg text-blue-900 w-full text-left">Editar Imagens do Prato</button>
 						</div>
-						<button type="button" onclick="openModal('modal_dish_pickimages'); loadDishImages();" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">	
-							Editar
-						</button>
+						<div class="flex items-center space-x-1 w-full">
+							<input type="text" id="summary-images" name="images" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina as imagens do prato." readonly>
+						</div>
 					</div>
 					<!-- Fim imagens do prato -->
-					<!-- Resumo -->
-					<div class="border-t pt-4">
-						<h2 class="text-lg font-medium text-gray-900">Resumo do Prato</h2>
-						<p class="mt-1 text-sm text-gray-500">Confira as informações do prato antes de salvar.</p>
-						<div class="mt-4 space-y-2">
-							<p id="summary-modal-name" class="text-gray-700">Nome do prato não definido.</p>
-							<!-- Adicione mais resumos conforme necessário -->
-						</div>
-					</div>
-					<!-- Fim resumo -->
 					<!-- Botão salvar -->
+					<hr class="my-4">
 					<div class="flex justify-end">
+						<p class="mt-1 text-sm text-gray-500">Confira as informações do prato antes de salvar.</p>
 						<button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-							Salvar Prato
+							Salvar
 						</button>
 					</div>
 					<!-- Fim botão salvar -->
@@ -139,7 +124,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_name');
+		//openModal('modal_dish_name');
 	});
 
 	function updateSummary() {
@@ -161,7 +146,30 @@
 		var price = document.getElementById('modal-price').value;
 		var showPrice = document.getElementById('modal-showPrice').checked;
 		console.log('Price:', price, 'ShowPrice:', showPrice);
-		document.getElementById('summary-price').value = price ? 'R$' + parseFloat(price).toFixed(2) : 'Preço do prato não definido.';
+
+		// Considera a vírgula como divisor decimal
+		if (price) {
+			// Troca ponto por vírgula se necessário
+			let formattedPrice = price.replace('.', ',');
+			// Se já tem vírgula, mantém
+			if (!formattedPrice.includes(',')) {
+				// Se não tem vírgula, mas tem ponto, já foi trocado
+				// Se não tem nenhum, adiciona ,00
+				formattedPrice += ',00';
+			} else {
+				// Garante duas casas decimais
+				let parts = formattedPrice.split(',');
+				if (parts[1] && parts[1].length === 1) {
+					formattedPrice += '0';
+				}
+				if (!parts[1]) {
+					formattedPrice += '00';
+				}
+			}
+			document.getElementById('summary-price').value = 'R$' + formattedPrice;
+		} else {
+			document.getElementById('summary-price').value = 'Preço do prato não definido.';
+		}
 		document.getElementById('summary-showPrice').checked = showPrice;
 		// Seção
 		var checkedSection = document.querySelector('input[name="modal_section"]:checked');
@@ -179,9 +187,18 @@
 		console.log('Time:', time);
 		document.getElementById('summary-time').value = time ? time : 'Horário do prato não definido.';
 		// Imagens
-		var images = document.querySelectorAll('#selected-images img');
-		console.log('Images:', images);
-		document.getElementById('summary-images').textContent = images.length > 0 ? images.length + ' imagem(s) selecionada(s).' : 'Nenhuma imagem selecionada.';
+		var images = Array.from(document.querySelectorAll('input[name="modal-dish-pick-images"]:checked')).map(cb => cb.value);
+		console.log('Images:', images, "total selected:", images.length);
+		if (images.length > 0) {
+			const imageNames = images.map(img => {
+				const parts = img.split('/');
+				const filename = parts[parts.length - 1];
+				return filename.replace(/\.[^/.]+$/, "");
+			});
+			document.getElementById('summary-images').value = imageNames.join(', ');
+		} else {
+			document.getElementById('summary-images').value = 'Nenhuma imagem selecionada.';
+		}
 	};
 
 	// Executar quando clear-times for pressionado
@@ -318,8 +335,8 @@
 			const responseData = await response.json();
 			console.log('Dish images:', responseData);
 			// Atualiza o conteúdo do form com o json retornado
-			const formPickImages = document.getElementById('formPickImages');
-			formPickImages.innerHTML = responseData.html;
+			const imageSelection = document.getElementById('image-selection');
+			imageSelection.innerHTML = responseData.html;
 
 		} catch (error) {
 			console.log('Error fetching dish images:', error);
@@ -369,7 +386,8 @@
 		console.log('Modal dish name closed');
 		var name = document.getElementById('modal-name').value;
 		var active = document.getElementById('modal-active').checked;
-		document.getElementById('summary-modal-name').textContent = name + (active ? ' (Ativo)' : ' (Inativo)');
+		document.getElementById('summary-name').value = name;
+		document.getElementById('summary-active').checked = active;
 	}
 	
 </script>
