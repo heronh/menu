@@ -11,12 +11,9 @@
          <div class="mb-4">
             <div id="image-selection" class="grid grid-cols-2 sm:flex sm:overflow-x-auto sm:space-x-4 py-2 gap-4">
                {{ range .Images }}
-               <div class="relative flex-shrink-0 w-full sm:w-32 px-1 mb-4">
-                  <img src="{{ .UniqueName }}" alt="{{ .OriginalFileName }}" class="w-full h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer">
-                  <input type="checkbox" id="image_{{ .ID }}" name="modal-dish-pick-images" title="__{{ .ID }}" value="{{ .OriginalFileName }}" class="absolute top-2 right-2 h-5 w-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
-               </div>
+                  {{ template "box-image.html" . }}
                {{ else }}
-               <p class="text-center text-gray-500 col-span-2">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
+                  <p class="text-center text-gray-500 col-span-2">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
                {{ end }}
             </div>
          </div>

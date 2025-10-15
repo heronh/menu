@@ -106,8 +106,6 @@ func CreateSection(c *gin.Context) {
 	}
 	fmt.Println("Section created successfully with ID:", section.ID)
 
-	//tmpl, _ := template.ParseFiles("templates/dish/box-section.html")
-	//tmpl.ExecuteTemplate(c.Writer, "box-section", section)
 	renderedHTML, err := renderSectionBox(section)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to render section HTML"})
@@ -135,6 +133,5 @@ func renderSectionBox(section models.Section) (string, error) {
 		fmt.Println("Error rendering template:", err)
 		return "", err
 	}
-	fmt.Println("Rendered HTML:", buf.String())
 	return buf.String(), nil
 }

@@ -124,7 +124,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_section');
+		openModal('modal_dish_uploadimages');
 	});
 
 	function updateSummary() {
@@ -300,7 +300,6 @@
 
 	// Executar quando upload-button for pressionado
 	document.getElementById('upload-button').addEventListener('click', function() {
-		console.log('Closing modal images');
 		saveImages();
 	});
 
@@ -348,63 +347,45 @@
 	// Function to save images (placeholder)
 	function saveImages() {
 		console.log('Saving images...');
-		// Aqui você pode adicionar a lógica para salvar as imagens
-		const fileInput = document.getElementById('images');
-		const files = fileInput.files;
-		if (files.length == 0) {
-			console.log('No images selected.');
+		// Carrega os arquivos de upload-image-list
+		const uploadInput = document.getElementById('upload-images');
+		const uploadFiles = uploadInput.files;
+		if (uploadFiles.length == 0) {
+			console.log('No images selected for upload.');
 			return;
 		}
-		
-		// Cria um objeto FormData
-		const formData = new FormData();
 
 		// Adiciona cada arquivo ao objeto FormData
-		for (let i = 0; i < files.length; i++) {
-			formData.append('images[]', files[i]);
-			console.log('Added file:', files[i].name);
+		let formData = new FormData();
+		for (let i = 0; i < uploadFiles.length; i++) {
+			formData.append('images[]', uploadFiles[i]);
+			console.log('Added file:', uploadFiles[i].name);
 		}
 
-		// Envia os arquivos para o servidor usando fetch
-		fetch('images/upload-images', {
+		// Envia os arquivos para o servidor
+		fetch('images/upload-multiple-images', {
 			method: 'POST',
 			body: formData
 		})
 		.then(response => response.json())
 		.then(data => {
 			console.log('Success:', data);
+			if (data.success) {
+				// // Atualiza a lista de imagens no modal de seleção
+				const imageSelection = document.getElementById('image-selection');
+				imageSelection.insertAdjacentHTML('beforeend', data.renderedHTML);
+				// Fecha o modal de upload
+				closeModal('modal_dish_uploadimages');
+				// Abre o modal de seleção de imagens
+				openModal('modal_dish_pickimages');
+			} else {
+				console.log('Error uploading images:', data);
+				alert(data.error || 'Erro ao fazer upload das imagens.');
+			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
 		});
-	}
-
-	// Function to load dish images (placeholder)
-	async function loadDishImages() {
-
-		console.log('Loading dish images...');
-		let CompanyId = document.getElementById('company_id').value;
-		console.log('CompanyId:', CompanyId);
-
-		try {
-			const response = await fetch(`/dishes/images/list/${CompanyId}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const responseData = await response.json();
-			console.log('Dish images:', responseData);
-			// Atualiza o conteúdo do form com o json retornado
-			const imageSelection = document.getElementById('image-selection');
-			imageSelection.innerHTML = responseData.html;
-
-		} catch (error) {
-			console.log('Error fetching dish images:', error);
-		}
 	}
 
 	// Close modal function
