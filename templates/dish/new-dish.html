@@ -124,7 +124,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		//openModal('modal_dish_name');
+		openModal('modal_dish_section');
 	});
 
 	function updateSummary() {
@@ -201,6 +201,34 @@
 		}
 	};
 
+	// executar quando o botão delete-section for pressionado
+	document.querySelectorAll('.delete-section').forEach(button => {
+		button.addEventListener('click', function(event) {
+			const sectionId = button.getAttribute('data-section-id');
+			if (confirm('Tem certeza que deseja excluir esta seção?')) {
+				console.log('Deleting section with ID:', sectionId);
+				fetch(`/sections/delete/${sectionId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+					if (data.success) {
+						// Remove a seção da lista de opções
+						const sectionElement = document.querySelector(`button[data-section-id="${sectionId}"]`).closest('div');
+						sectionElement.remove();
+					} else {
+						console.log('Error deleting section:', data);
+						alert(data.error || 'Erro ao excluir a seção.');
+					}
+				});
+			}
+		});
+	});
+
 	// Executar quando enter for pressionado em section
 	document.getElementById('modal-input-section').addEventListener('keypress', function(event) {
 		if (event.key === 'Enter') {
@@ -229,19 +257,9 @@
 				console.log('Success:', data);
 				if (data.success) {
 					// Adiciona a nova seção na lista de opções
+					console.log('Adding new section to the list:', data.renderedHTML);
 					const sectionList = document.getElementById('modal-section-list');
-					const newOption = document.createElement('div');
-					newOption.className = 'flex items-center';
-					newOption.innerHTML = `
-						<input type="radio" id="section-${data.section.id}" name="modal_section" value="${data.section.id}" title="${data.section.description}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-						<label for="section-${data.section.id}" class="text-gray-700 font-medium mr-4">${data.section.description}</label>
-						<button type="button" data-section-id="${data.section.id}" class="delete-section text-red-600 hover:text-red-800 focus:outline-none">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L10 8.586 7.707 6.293a1 1 0 00-1.414 1.414L8.586 10l-2.293 2.293a1 1 0 001.414 1.414L10 11.414l2.293 2.293a1 1 0 001.414-1.414L11.414 10l2.293-2.293z" clip-rule="evenodd" />
-							</svg>
-						</button>
-					`;
-					sectionList.appendChild(newOption);
+					sectionList.insertAdjacentHTML('beforeend', data.renderedHTML);
 					// Limpa o campo de entrada
 					document.getElementById('modal-input-section').value = '';
 				} else {

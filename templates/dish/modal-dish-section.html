@@ -12,12 +12,7 @@
             <label class="block text-gray-700 font-medium mb-2">Escolha os setores:</label>
             <div id="modal-section-list" class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
                {{ range .Sections }}
-               <div>
-                  <input type="radio" id="section_{{ .ID }}" name="modal_section" title="{{ .Description }}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="{{ .ID }}">
-                  <label for="section_{{ .ID }}" class="text-gray-700 font-medium mr-4">{{ .Description }}</label>
-               </div>
-               {{ else }}
-               <p class="text-gray-500">Nenhum setor disponível. Crie um novo setor acima.</p>
+                  {{ template "box-section" . }}
                {{ end }}
             </div>
          </div>            

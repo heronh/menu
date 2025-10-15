@@ -86,7 +86,7 @@ func main() {
 
 	// Funções relativas as seções dos pratos
 	r.POST("/sections/new", middleware.JWTAuthMiddleware(), controllers.CreateSection)
-	r.POST("/sections/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteSection)
+	r.DELETE("/sections/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteSection)
 
 	// Exemplo de componentes do tailwind
 	r.StaticFile("/components", "templates/components.html")

@@ -47,8 +47,12 @@ func NewDishPage(c *gin.Context) {
 	companyID, _ := c.Get("company_id")
 	userID, _ := c.Get("user_id")
 
-	sections := []models.Section{}
-	database.DB.Find(&sections)
+	Sections := []models.Section{}
+	if err := database.DB.Where("company_id = ?", companyID).Find(&Sections).Error; err != nil {
+		c.String(http.StatusInternalServerError, "Error fetching sections: %v", err)
+		return
+	}
+	fmt.Println("Total sections found:", len(Sections))
 
 	var Images []models.Image
 	if err := database.DB.Where("company_id = ?", companyID).Find(&Images).Error; err != nil {
@@ -69,7 +73,7 @@ func NewDishPage(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
 		"title":     "Adicionar novo prato",
-		"Sections":  sections,
+		"Sections":  Sections,
 		"Images":    Images,
 		"CompanyId": companyID,
 		"UserId":    userID,
@@ -385,7 +389,7 @@ func CreateImageBox(c *gin.Context) {
 
 func renderImageBox(image models.Image) (string, error) {
 
-	var tmpl, err = template.ParseFiles("templates/dish/image-box.html")
+	var tmpl, err = template.ParseFiles("templates/dish/box-image.html")
 	if err != nil {
 		fmt.Println("Error loading template:", err)
 		return "", err
