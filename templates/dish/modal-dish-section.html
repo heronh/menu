@@ -12,7 +12,7 @@
             <label class="block text-gray-700 font-medium mb-2">Escolha os setores:</label>
             <div id="modal-section-list" class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
                {{ range .Sections }}
-                  {{ template "box-section" . }}
+                  {{ template "box-section.html" . }}
                {{ end }}
             </div>
          </div>            
