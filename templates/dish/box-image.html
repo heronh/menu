@@ -1,4 +1,9 @@
 <div class="relative flex-shrink-0 w-full sm:w-32 px-1 mb-4">
    <img src="{{ .UniqueName }}" alt="{{ .OriginalFileName }}" class="w-full h-32 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer">
    <input type="checkbox" id="image_{{ .ID }}" name="modal-dish-pick-images" title="__{{ .ID }}" value="{{ .OriginalFileName }}" class="absolute top-2 right-2 h-5 w-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+   <button type="button" data-image-id="{{ .ID }}" class="delete-image text-red-600 hover:text-red-800 focus:outline-none" title="Excluir imagem">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L10 8.586 7.707 6.293a1 1 0 00-1.414 1.414L8.586 10l-2.293 2.293a1 1 0 001.414 1.414L10 11.414l2.293 2.293a1 1 0 001.414-1.414L11.414 10l2.293-2.293z" clip-rule="evenodd" />
+      </svg>
+   </button>
 </div>

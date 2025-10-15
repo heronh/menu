@@ -79,7 +79,7 @@ func main() {
 
 	// Funções relativas as imagens dos pratos
 	r.POST("/dishes/images/upload/:id", middleware.JWTAuthMiddleware(), controllers.UploadDishImage)
-	r.POST("/dishes/images/delete/:dish_id/:image_id", middleware.JWTAuthMiddleware(), controllers.DeleteDishImage)
+	r.DELETE("/dishes/images/delete/:image_id", middleware.JWTAuthMiddleware(), controllers.DeleteDishImage)
 	r.POST("/dishes/images/upload-multiple-images", middleware.JWTAuthMiddleware(), controllers.UploadMultipleDishImages)
 	r.POST("/dishes/images/list/:id", middleware.JWTAuthMiddleware(), controllers.ListDishImages)
 

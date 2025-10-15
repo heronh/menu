@@ -124,7 +124,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_uploadimages');
+		openModal('modal_dish_pickimages');
 	});
 
 	function updateSummary() {
@@ -200,6 +200,34 @@
 			document.getElementById('summary-images').value = 'Nenhuma imagem selecionada.';
 		}
 	};
+
+	// executar quando o botão delete-image for pressionado
+	document.querySelectorAll('.delete-image').forEach(button => {
+		button.addEventListener('click', function(event) {
+			const imageId = button.getAttribute('data-image-id');
+			if (confirm('Tem certeza que deseja excluir esta imagem?')) {
+				console.log('Deleting image with ID:', imageId);
+				fetch(`/dishes/images/delete/${imageId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+					if (data.success) {
+						// Remove a imagem da lista de opções
+						const imageElement = document.querySelector(`button[data-image-id="${imageId}"]`).closest('div');
+						imageElement.remove();
+					} else {
+						console.log('Error deleting image:', data);
+						alert(data.error || 'Erro ao excluir a imagem.');
+					}
+				});
+			}
+		});
+	});
 
 	// executar quando o botão delete-section for pressionado
 	document.querySelectorAll('.delete-section').forEach(button => {

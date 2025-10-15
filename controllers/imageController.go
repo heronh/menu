@@ -51,13 +51,20 @@ func UploadDishImage(c *gin.Context) {
 }
 
 func DeleteDishImage(c *gin.Context) {
-	dishID := c.Param("dish_id")
 	imageID := c.Param("image_id")
 
 	// Fetch the dish image to ensure it exists
 	var dishImage models.Image
-	if err := database.DB.Where("id = ? AND dish_id = ?", imageID, dishID).First(&dishImage).Error; err != nil {
+	if err := database.DB.Where("id = ?", imageID).First(&dishImage).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error fetching dish image: %v", err)
+		return
+	}
+
+	// Check if image is not used in any dish
+	var count int64
+	database.DB.Model(&models.Dish{}).Where("image_id = ?", imageID).Count(&count)
+	if count > 0 {
+		c.String(http.StatusBadRequest, "Cannot delete image: it is currently used in one or more dishes.")
 		return
 	}
 
@@ -67,7 +74,12 @@ func DeleteDishImage(c *gin.Context) {
 		return
 	}
 
-	c.Redirect(http.StatusSeeOther, "/dishes/edit/"+dishID)
+	// Delete the image file from the filesystem
+	if err := os.Remove(dishImage.OriginalFileName); err != nil {
+		fmt.Printf("Warning: could not delete image file: %v\n", err)
+		// Not returning error to user since the DB record is already deleted
+	}
+	c.JSON(http.StatusOK, gin.H{"success": "Image deleted successfully"})
 }
 
 func UploadMultipleDishImages(c *gin.Context) {
