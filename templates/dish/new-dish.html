@@ -201,9 +201,10 @@
 		}
 	};
 
-	// executar quando o botão delete-image for pressionado
-	document.querySelectorAll('.delete-image').forEach(button => {
-		button.addEventListener('click', function(event) {
+	// Delegação de evento para delete-image (funciona para estáticos e dinâmicos)
+	document.addEventListener('click', function(event) {
+		const button = event.target.closest('.delete-image');
+		if (button) {
 			const imageId = button.getAttribute('data-image-id');
 			if (confirm('Tem certeza que deseja excluir esta imagem?')) {
 				console.log('Deleting image with ID:', imageId);
@@ -217,8 +218,7 @@
 				.then(data => {
 					console.log('Success:', data);
 					if (data.success) {
-						// Remove a imagem da lista de opções
-						const imageElement = document.querySelector(`button[data-image-id="${imageId}"]`).closest('div');
+						const imageElement = button.closest('div');
 						imageElement.remove();
 					} else {
 						console.log('Error deleting image:', data);
@@ -226,12 +226,13 @@
 					}
 				});
 			}
-		});
+		}
 	});
 
-	// executar quando o botão delete-section for pressionado
-	document.querySelectorAll('.delete-section').forEach(button => {
-		button.addEventListener('click', function(event) {
+	// Delegação de evento para delete-section (funciona para estáticos e dinâmicos)
+	document.addEventListener('click', function(event) {
+		const button = event.target.closest('.delete-section');
+		if (button) {
 			const sectionId = button.getAttribute('data-section-id');
 			if (confirm('Tem certeza que deseja excluir esta seção?')) {
 				console.log('Deleting section with ID:', sectionId);
@@ -245,8 +246,7 @@
 				.then(data => {
 					console.log('Success:', data);
 					if (data.success) {
-						// Remove a seção da lista de opções
-						const sectionElement = document.querySelector(`button[data-section-id="${sectionId}"]`).closest('div');
+						const sectionElement = button.closest('div');
 						sectionElement.remove();
 					} else {
 						console.log('Error deleting section:', data);
@@ -254,7 +254,7 @@
 					}
 				});
 			}
-		});
+		}
 	});
 
 	// Executar quando enter for pressionado em section
