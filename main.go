@@ -76,6 +76,7 @@ func main() {
 	r.GET("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.EditDishPage)
 	r.POST("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.UpdateDish)
 	r.POST("/dishes/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteDish)
+	r.POST("/dishes/dish/validate", middleware.JWTAuthMiddleware(), controllers.ValidateDish)
 
 	// Funções relativas as imagens dos pratos
 	r.POST("/dishes/images/upload/:id", middleware.JWTAuthMiddleware(), controllers.UploadDishImage)

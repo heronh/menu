@@ -35,7 +35,6 @@
 							<button type="button" onclick="openModal('modal_dish_name')" class="text-lg text-blue-900 w-full text-left">Editar Nome do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="checkbox" id="summary-active" name="active" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
 							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o nome do prato." readonly>
 						</div>
 					</div>
@@ -107,7 +106,7 @@
 					<hr class="my-4">
 					<div class="flex justify-end">
 						<p class="mt-1 text-sm text-gray-500">Confira as informações do prato antes de salvar.</p>
-						<button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+						<button type="submit" id="btn-save-dish" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" disabled>
 							Salvar
 						</button>
 					</div>
@@ -124,18 +123,19 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_pickimages');
+		openModal('modal_dish_name');
 	});
 
+
+	// Atualiza o resumo do prato
 	function updateSummary() {
+		// Verifica se o prato é válido para habilitar o botão de salvar
+		checkDishValidity();
 		// Atualiza o resumo com os valores dos modais
 		console.log('Updating summary...');
 		// Nome e ativo
 		var name = document.getElementById('modal-name').value;
-		var active = document.getElementById('modal-active').checked;
-		console.log('Name:', name, 'Active:', active);
 		document.getElementById('summary-name').value = name;
-		document.getElementById('summary-active').checked = active;
 		// Descrição e mostrar descrição
 		var description = document.getElementById('modal-description').value;
 		var showDescription = document.getElementById('modal-showdescription').checked;
@@ -146,7 +146,6 @@
 		var price = document.getElementById('modal-price').value;
 		var showPrice = document.getElementById('modal-showPrice').checked;
 		console.log('Price:', price, 'ShowPrice:', showPrice);
-
 		// Considera a vírgula como divisor decimal
 		if (price) {
 			// Troca ponto por vírgula se necessário
@@ -339,6 +338,8 @@
 			const modalId = parentContainer.querySelector('.modal-identifier').textContent;
 			console.log('Closing modal from', modalId);
 			closeModal('modal_dish_' + modalId.toLowerCase());
+			// Ao sair do modal, atualiza o resumo
+			updateSummary();
 		});
 	});
 
@@ -439,9 +440,6 @@
 		else {
 			console.log('No callback function found for', modalId);
 		}
-
-		// Ao sair do modal, atualiza o resumo
-		updateSummary();
 	};
 	// Open modal function
 	window.openModal = function(modalId) {
@@ -455,12 +453,31 @@
 		modalContent.classList.add('scale-100', 'opacity-100');
 	};
 
-	function modal_dish_name_closed(event) {
-		console.log('Modal dish name closed');
-		var name = document.getElementById('modal-name').value;
-		var active = document.getElementById('modal-active').checked;
-		document.getElementById('summary-name').value = name;
-		document.getElementById('summary-active').checked = active;
+	// Função para verificar a validade do prato
+	function checkDishValidity() {
+		console.log('Checking dish validity...');
+		let formData = new FormData();
+		formData.append('name', document.getElementById('summary-name').value.trim());
+		formData.append('description', document.getElementById('summary-description').value.trim());
+		formData.append('price', document.getElementById('summary-price').value.trim());
+		formData.append('section_id', document.getElementById('summary-section-id').value.trim());
+
+		// Verifica se o prato é válido
+		fetch('dish/validate', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.valid) {
+				console.log('Dish is valid.');
+			} else {
+				console.log('Dish is invalid.');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
 	}
 	
 </script>

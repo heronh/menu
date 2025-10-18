@@ -111,9 +111,6 @@ func TodoPage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not retrieve todos"})
 		return
 	}
-	for _, todo := range todos {
-		fmt.Printf("Todo: %s\n", todo.Description)
-	}
 
 	// look for first user by privilege
 	var user models.User
@@ -123,7 +120,6 @@ func TodoPage(c *gin.Context) {
 			gin.H{"error": "Could not find user with privilege 'su'"})
 		return
 	}
-	fmt.Println("User found:", user.Email)
 
 	// retrieve email and user id from the context
 	Email := user.Email

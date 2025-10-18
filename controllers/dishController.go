@@ -190,3 +190,15 @@ func DeleteDish(c *gin.Context) {
 	}
 	c.Redirect(http.StatusSeeOther, "/company")
 }
+
+func ValidateDish(c *gin.Context) {
+	// Example validation: check if name is provided
+	name := c.PostForm("name")
+	if name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"valid": false, "error": "Name is required"})
+		return
+	}
+	// Additional validations can be added here
+
+	c.JSON(http.StatusOK, gin.H{"valid": true})
+}
