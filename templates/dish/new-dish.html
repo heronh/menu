@@ -24,18 +24,19 @@
 	<!-- Fim usuário e empresa -->
 
 	<!-- Resumo do prato -->
-	<form action="" class="min-h-[60vh] flex flex-col justify-between mb-32">
+	<form action="dish/new" class="min-h-[60vh] flex flex-col justify-between mb-32">
 		<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 flex-1"></div>
 			<h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">Novo Prato</h3>
 			<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 lg:p-8">
-				<div class="space-y-6">
+				<div class="space-y-2">
 					<!-- Nome do prato -->
-					<div class="flex flex-col w-full">
+					<div id="summary-name-container" class="flex flex-col w-full">
 						<div>
 							<button type="button" onclick="openModal('modal_dish_name')" class="text-lg text-blue-900 w-full text-left">Editar Nome do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o nome do prato." readonly>
+							<input type="checkbox" id="summary-showname" name="showname" title="showname" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim nome do prato -->
@@ -62,7 +63,7 @@
 					</div>
 					<!-- Fim preço do prato -->
 					<!-- Seção do prato -->
-					<div class="flex flex-col w-full">
+					<div id="summary-section-container" class="flex flex-col w-full">
 						<div>
 							<button type="button" onclick="openModal('modal_dish_section')" class="text-lg text-blue-900 w-full text-left">Editar Seção do Prato</button>
 						</div>
@@ -126,16 +127,15 @@
 		openModal('modal_dish_name');
 	});
 
-
 	// Atualiza o resumo do prato
 	function updateSummary() {
-		// Verifica se o prato é válido para habilitar o botão de salvar
-		checkDishValidity();
 		// Atualiza o resumo com os valores dos modais
 		console.log('Updating summary...');
 		// Nome e ativo
 		var name = document.getElementById('modal-name').value;
+		var showName = document.getElementById('modal-showname').checked;
 		document.getElementById('summary-name').value = name;
+		document.getElementById('summary-showname').checked = showName;
 		// Descrição e mostrar descrição
 		var description = document.getElementById('modal-description').value;
 		var showDescription = document.getElementById('modal-showdescription').checked;
@@ -198,6 +198,11 @@
 		} else {
 			document.getElementById('summary-images').value = 'Nenhuma imagem selecionada.';
 		}
+
+		// *** Esta chamada TEM que ser feita no fim do updateSummary
+		// Verifica se o prato é válido para habilitar o botão de salvar
+		checkDishValidity();
+
 	};
 
 	// Delegação de evento para delete-image (funciona para estáticos e dinâmicos)
@@ -456,10 +461,10 @@
 	// Função para verificar a validade do prato
 	function checkDishValidity() {
 		console.log('Checking dish validity...');
+
 		let formData = new FormData();
 		formData.append('name', document.getElementById('summary-name').value.trim());
 		formData.append('description', document.getElementById('summary-description').value.trim());
-		formData.append('price', document.getElementById('summary-price').value.trim());
 		formData.append('section_id', document.getElementById('summary-section-id').value.trim());
 
 		// Verifica se o prato é válido
@@ -469,16 +474,50 @@
 		})
 		.then(response => response.json())
 		.then(data => {
-			if (data.valid) {
-				console.log('Dish is valid.');
-			} else {
-				console.log('Dish is invalid.');
-			}
+			dishValid(data);
 		})
 		.catch(error => {
 			console.error('Error:', error);
 		});
 	}
-	
+
+	function dishValid(data) {
+
+		console.log('Dish validity response:', data);
+
+		if (data.valid) {
+			console.log('Dish is valid.');
+			// Habilita o botão de salvar
+			document.getElementById('btn-save-dish').disabled = false;
+		} else {
+			console.log('Dish is invalid:\n' + JSON.stringify(data, null, 2));
+			// Desabilita o botão de salvar
+			document.getElementById('btn-save-dish').disabled = true;
+		}
+		
+		if ( data.errors.name ) {
+			console.log('Name error:', data.errors.name);
+			alert(data.errors.name);
+			// Change summary-name-container background to red briefly
+			const nameContainer = document.getElementById('summary-name-container');
+			nameContainer.classList.add('bg-red-100');
+		} else {
+			// Remove red background if no error
+			const nameContainer = document.getElementById('summary-name-container');
+			nameContainer.classList.remove('bg-red-100');
+		}
+
+		if (data.errors.section_id) {
+			console.log('Section ID error:', data.errors.section_id);
+			alert(data.errors.section_id);
+			// Change summary-section-container background to red briefly
+			const sectionContainer = document.getElementById('summary-section-container');
+			sectionContainer.classList.add('bg-red-100');
+		} else {
+			// Remove red background if no error
+			const sectionContainer = document.getElementById('summary-section-container');
+			sectionContainer.classList.remove('bg-red-100');
+		}
+	}
 </script>
 

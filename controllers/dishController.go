@@ -58,16 +58,6 @@ func NewDishPage(c *gin.Context) {
 	}
 	fmt.Println("Total images found:", len(Images))
 
-	for _, img := range Images {
-		fmt.Println("Image:", img.ID, img.OriginalFileName, img.UniqueName)
-		// Check if file exists
-		if _, err := os.Stat(img.UniqueName); os.IsNotExist(err) {
-			fmt.Println("File does not exist:", img.UniqueName)
-		} else {
-			fmt.Println("File exists:", img.UniqueName)
-		}
-	}
-
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
 		"title":     "Adicionar novo prato",
 		"Sections":  Sections,
@@ -193,12 +183,41 @@ func DeleteDish(c *gin.Context) {
 
 func ValidateDish(c *gin.Context) {
 	// Example validation: check if name is provided
-	name := c.PostForm("name")
-	if name == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"valid": false, "error": "Name is required"})
-		return
+	dish := models.Dish{
+		Name: c.PostForm("name"),
+		SectionID: func() uint {
+			sectionIDStr := c.PostForm("section_id")
+			sectionID, err := strconv.ParseUint(sectionIDStr, 10, 64)
+			if err != nil {
+				return 0
+			}
+			return uint(sectionID)
+		}(),
 	}
-	// Additional validations can be added here
+	fmt.Println("Validating dish:", dish.Name, "SectionID:", dish.SectionID)
 
-	c.JSON(http.StatusOK, gin.H{"valid": true})
+	name := ""
+	if dish.Name == "" {
+		name = "Nome do prato é obrigatório."
+	} else if len(dish.Name) < 5 {
+		name = "Nome do prato deve ter pelo menos 5 caracteres."
+	}
+
+	section_id := ""
+	if dish.SectionID == 0 {
+		section_id = "Seção do prato é obrigatória."
+	}
+
+	valid := true
+	if name != "" || section_id != "" {
+		valid = false
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"valid": valid,
+		"errors": gin.H{
+			"name":       name,
+			"section_id": section_id,
+		},
+	})
 }
