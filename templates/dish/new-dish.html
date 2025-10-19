@@ -18,17 +18,17 @@
 	{{ template "modal-dish-pick-images" . }}
 	<!-- Fim da lista com modais -->
 
-	<!-- Usuário e empresa -->
-	<input type="text" id="user_id" value="{{ .UserId }}" readonly hidden>
-	<input type="text" id="company_id" value="{{ .CompanyId }}" readonly hidden>
-	<!-- Fim usuário e empresa -->
-
 	<!-- Resumo do prato -->
-	<form action="dish/new" class="min-h-[60vh] flex flex-col justify-between mb-32">
+	<form action="dish/new" class="min-h-[60vh] flex flex-col justify-between mb-32" method="post">
 		<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 flex-1"></div>
 			<h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">Novo Prato</h3>
 			<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 lg:p-8">
 				<div class="space-y-2">
+
+					<!-- Usuário e empresa -->
+					<input id="CompanyID" name="CompanyID" type="number" value="{{ .CompanyID }}" hidden>
+					<input id="UserID" name="UserID" type="number" value="{{ .UserID }}" hidden>
+					<!-- Fim de usuário/empresa -->
 					<!-- Nome do prato -->
 					<div id="summary-name-container" class="flex flex-col w-full">
 						<div>
@@ -36,7 +36,7 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showname" name="showname" title="showname" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-name" name="name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." readonly>
+							<input type="text" id="summary-name" name="Name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim nome do prato -->
@@ -47,7 +47,7 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-description" name="description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." readonly>
+							<input type="text" id="summary-description" name="Description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim descrição do prato -->
@@ -58,7 +58,8 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showPrice" name="showPrice" title="showPrice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-price" name="price" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o preço do prato." readonly>
+							<input type="text" id="summary-price-text" name="Price-text" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o preço do prato." readonly>
+							<input id="summary-price-number" name="Price" hidden>
 						</div>
 					</div>
 					<!-- Fim preço do prato -->
@@ -68,8 +69,8 @@
 							<button type="button" onclick="openModal('modal_dish_section')" class="text-lg text-blue-900 w-full text-left">Editar Seção do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-section" name="section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="" readonly>
-							<input hidden id="summary-section-id" name="section_id" class="mt-1 text-sm text-gray-500">
+							<input type="text" id="summary-section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="" readonly>
+							<input hidden id="summary-section-id" name="SectionID" class="mt-1 text-sm text-gray-500">
 						</div>
 					</div>
 					<!-- Fim seção do prato -->
@@ -79,7 +80,7 @@
 							<button type="button" onclick="openModal('modal_dish_weekdays')" class="text-lg text-blue-900 w-full text-left">Editar Dias da Semana</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-weekdays" name="weekdays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana." readonly>
+							<input type="text" id="summary-weekdays" name="WeekDays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana." readonly>
 						</div>
 					</div>
 					<!-- Fim dias da semana -->
@@ -124,7 +125,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_name');
+		openModal('modal_dish_section');
 	});
 
 	// Atualiza o resumo do prato
@@ -147,6 +148,7 @@
 		var showPrice = document.getElementById('modal-showPrice').checked;
 		console.log('Price:', price, 'ShowPrice:', showPrice);
 		// Considera a vírgula como divisor decimal
+		price == "" ? price = "0" : price;
 		if (price) {
 			// Troca ponto por vírgula se necessário
 			let formattedPrice = price.replace('.', ',');
@@ -165,9 +167,8 @@
 					formattedPrice += '00';
 				}
 			}
-			document.getElementById('summary-price').value = 'R$' + formattedPrice;
-		} else {
-			document.getElementById('summary-price').value = 'Preço do prato não definido.';
+			document.getElementById('summary-price-text').value = 'R$' + formattedPrice;
+			document.getElementById('summary-price-number').value = parseFloat(price.replace(',', '.'));
 		}
 		document.getElementById('summary-showPrice').checked = showPrice;
 		// Seção
@@ -271,8 +272,10 @@
 				return;
 			}
 			console.log('Creating new section:', sectionDescription);
-			let CompanyId = document.getElementById('company_id').value;
-			console.log('CompanyId:', CompanyId);
+			let CompanyID = document.getElementById('CompanyID').value;
+			console.log('CompanyID:', CompanyID);
+			let UserID = document.getElementById('UserID').value;
+			console.log('UserID: ', UserID)
 			fetch('/sections/new', {
 				method: 'POST',
 				headers: {
@@ -280,16 +283,14 @@
 				},
 				body: JSON.stringify({
 					"description": sectionDescription,
-					"author_id": document.getElementById('user_id').value,
-					"company_id": CompanyId
+					"UserID": parseInt(UserID),
+					"CompanyID": parseInt(CompanyID)
 				})
 			})
 			.then(response => response.json())
 			.then(data => {
-				console.log('Success:', data);
 				if (data.success) {
 					// Adiciona a nova seção na lista de opções
-					console.log('Adding new section to the list:', data.renderedHTML);
 					const sectionList = document.getElementById('modal-section-list');
 					sectionList.insertAdjacentHTML('beforeend', data.renderedHTML);
 					// Limpa o campo de entrada

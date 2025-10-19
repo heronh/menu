@@ -19,14 +19,11 @@ type Company struct {
 	Phone        string
 	Active       bool `gorm:"default:true"`
 	//CNPJ         string `gorm:"unique;not null"`
-	Level     int `gorm:"type:integer;check:level >= 0 AND level <= 100"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index;default:null"`
-	Users     []User         `gorm:"foreignKey:CompanyID"`
-	Dishes    []Dish         `gorm:"foreignKey:CompanyID"`
-	Images    []Image        `gorm:"foreignKey:CompanyID"`
-	Messages  []Message      `gorm:"foreignKey:SenderCompanyID"`
+	Level    int       `gorm:"type:integer;check:level >= 0 AND level <= 100"`
+	Users    []User    `gorm:"foreignKey:CompanyID"`
+	Dishes   []Dish    `gorm:"foreignKey:CompanyID"`
+	Images   []Image   `gorm:"foreignKey:CompanyID"`
+	Messages []Message `gorm:"foreignKey:SenderCompanyID"`
 }
 
 // Message represents a message between users
@@ -36,7 +33,7 @@ type Message struct {
 	Subject         string
 	SenderID        uint    `gorm:"not null"`
 	Sender          User    `gorm:"foreignKey:SenderID"`
-	SenderCompanyID uint    // Can be null if sender is SU or not associated with a company for the message
+	SenderCompanyID *uint   `gorm:"default:null"`
 	SenderCompany   Company `gorm:"foreignKey:SenderCompanyID"`
 	RecipientID     uint    `gorm:"not null"`
 	Recipient       User    `gorm:"foreignKey:RecipientID"`

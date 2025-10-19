@@ -1,15 +1,39 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"main/database"
 	"main/models"
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
+
+// Estrutura para formatar a resposta de erro
+type FieldError struct {
+	Field string `json:"field"`
+	Tag   string `json:"tag"`
+	Msg   string `json:"message"` // Mensagem de erro customizada (opcional)
+}
+
+func getErrorMsg(fe validator.FieldError) string {
+	switch fe.Tag() {
+	case "required":
+		return "Este campo é obrigatório"
+	case "min":
+		return "O valor é muito curto"
+	case "gt":
+		return "Deve ser maior que zero"
+	// Adicione mais casos conforme necessário
+	default:
+		return "Erro de validação no campo"
+	}
+}
 
 var TimeList = []string{
 	"00:00", "00:30",
@@ -41,18 +65,20 @@ var TimeList = []string{
 func NewDishPage(c *gin.Context) {
 
 	//userID, _ := c.Get("user_id")
-	companyID, _ := c.Get("company_id")
-	userID, _ := c.Get("user_id")
+	CompanyID, _ := c.Get("company_id")
+	UserID, _ := c.Get("user_id")
+	fmt.Println("CompanyID: ", CompanyID)
+	fmt.Println("UserID: ", UserID)
 
 	Sections := []models.Section{}
-	if err := database.DB.Where("company_id = ?", companyID).Find(&Sections).Error; err != nil {
+	if err := database.DB.Where("company_id = ?", CompanyID).Find(&Sections).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error fetching sections: %v", err)
 		return
 	}
 	fmt.Println("Total sections found:", len(Sections))
 
 	var Images []models.Image
-	if err := database.DB.Where("company_id = ?", companyID).Find(&Images).Error; err != nil {
+	if err := database.DB.Where("company_id = ?", CompanyID).Find(&Images).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error fetching images: %v", err)
 		return
 	}
@@ -62,52 +88,75 @@ func NewDishPage(c *gin.Context) {
 		"title":     "Adicionar novo prato",
 		"Sections":  Sections,
 		"Images":    Images,
-		"CompanyId": companyID,
-		"UserId":    userID,
+		"CompanyID": CompanyID,
+		"UserID":    UserID,
 		"TimeList":  TimeList,
 	})
 }
 
 func CreateDish(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		c.Redirect(http.StatusSeeOther, "/login?error=Usuário não autenticado")
+
+	fmt.Println("CreateDish called")
+	dish := models.Dish{}
+	if err := c.ShouldBind(&dish); err != nil {
+
+		// 1. Tenta fazer type assertion para ValidationErrors (erros de validação)
+		var ve validator.ValidationErrors
+		if errors.As(err, &ve) {
+			// Há erros de validação, podemos iterar sobre eles
+			out := make([]FieldError, len(ve))
+			for i, fe := range ve {
+				out[i] = FieldError{
+					Field: fe.Field(), // Nome do campo na struct (ex: Name, Price)
+					Tag:   fe.Tag(),   // Tag de validação que falhou (ex: required, min)
+					Msg:   getErrorMsg(fe),
+				}
+			}
+
+			// Retorna uma resposta JSON detalhada com os erros
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Erros de validação nos campos",
+				"errors":  out,
+			})
+			c.String(http.StatusInternalServerError, "Error parsing dish: %v", err)
+			return
+		}
+
+		// 2. Se não for um erro de validação (ex: JSON malformado, tipo de dado incorreto)
+		// Retorna o erro genérico de binding
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Erro no formato dos dados ou binding",
+			"details": err.Error(),
+		})
+		c.String(http.StatusInternalServerError, "Error dish: %v", err)
 		return
 	}
 
-	var user models.User
-	if err := database.DB.Where("id = ?", userID).First(&user).Error; err != nil {
-		c.Redirect(http.StatusSeeOther, "/login?error=Usuário não autenticado")
-		return
+	dish.CreatedAt = time.Now()
+	dish.UpdatedAt = time.Now()
+	fmt.Printf("Dish fields:\n")
+	fmt.Printf("ID: %v\n", dish.ID)
+	fmt.Printf("Name: %v\n", dish.Name)
+	fmt.Printf("Description: %v\n", dish.Description)
+	fmt.Printf("Price: %v\n", dish.Price)
+	fmt.Printf("SectionID: %v\n", dish.SectionID)
+	fmt.Printf("CompanyID: %v\n", dish.CompanyID)
+	fmt.Printf("CreatedAt: %v\n", dish.CreatedAt)
+	fmt.Printf("UpdatedAt: %v\n", dish.UpdatedAt)
+
+	newDish := models.Dish{
+		Name:        dish.Name,
+		Description: dish.Description,
+		Price:       dish.Price,
+		SectionID:   dish.SectionID,
+		CompanyID:   dish.CompanyID,
+		UserID:      dish.UserID,
 	}
-
-	var company models.Company
-	if err := database.DB.Where("id = ?", user.CompanyID).First(&company).Error; err != nil {
-		c.String(http.StatusInternalServerError, "Error fetching company: %v", err)
-		return
-	}
-
-	name := c.PostForm("name")
-	description := c.PostForm("description")
-	priceStr := c.PostForm("price")
-
-	price, err := strconv.ParseFloat(priceStr, 64)
-	if err != nil {
-		c.String(http.StatusBadRequest, "Preço inválido: %v", err)
-		return
-	}
-
-	dish := models.Dish{
-		Name:        name,
-		Description: description,
-		Price:       price,
-		CompanyID:   company.ID,
-	}
-
-	if err := database.DB.Create(&dish).Error; err != nil {
+	if err := database.DB.Create(&newDish).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error creating dish: %v", err)
 		return
 	}
+	fmt.Println("Dish created with ID:", newDish.ID)
 
 	c.Redirect(http.StatusSeeOther, "/company")
 }

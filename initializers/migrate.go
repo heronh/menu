@@ -11,6 +11,7 @@ func SyncDatabase() {
 		log.Fatal("Database connection not initialized before SyncDatabase")
 		return
 	}
+
 	log.Println("Running Migrations")
 	err := database.DB.AutoMigrate(
 		&models.Privilege{},

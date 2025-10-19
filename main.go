@@ -14,11 +14,25 @@ import (
 )
 
 func init() {
+
 	// Load .env file (if any)
 	initializers.LoadEnvVariables()
 
 	// Connect to DB
 	database.Connect()
+
+	// Reinicia o banco de dados
+	// fmt.Println("Resetting database...")
+	// initializers.ResetDatabase(database.DB, []any{
+	// 	&models.Section{},
+	// 	&models.Image{},
+	// 	&models.Dish{},
+	// 	&models.Todo{},
+	// 	&models.Privilege{},
+	// 	&models.Message{},
+	// 	&models.User{},
+	// 	&models.Company{},
+	// })
 
 	// Run Migrations
 	initializers.SyncDatabase()
@@ -72,7 +86,7 @@ func main() {
 
 	// Funções relativas aos pratos
 	r.GET("/dishes/new", middleware.JWTAuthMiddleware(), controllers.NewDishPage)
-	r.POST("/dishes/new", middleware.JWTAuthMiddleware(), controllers.CreateDish)
+	r.POST("/dishes/dish/new", middleware.JWTAuthMiddleware(), controllers.CreateDish)
 	r.GET("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.EditDishPage)
 	r.POST("/dishes/edit/:id", middleware.JWTAuthMiddleware(), controllers.UpdateDish)
 	r.POST("/dishes/delete/:id", middleware.JWTAuthMiddleware(), controllers.DeleteDish)

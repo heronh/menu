@@ -39,10 +39,14 @@ func DeleteSection(c *gin.Context) {
 }
 
 func CreateSection(c *gin.Context) {
+
+	fmt.Println("CreateSection called")
+
 	type SectionInput struct {
 		Description string `json:"description" binding:"required"`
+		UserID      uint
+		CompanyID   uint
 	}
-	fmt.Println("CreateSection called")
 
 	var input SectionInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -61,11 +65,6 @@ func CreateSection(c *gin.Context) {
 		return
 	}
 
-	if len(input.Description) > 100 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Description must be less than 100 characters"})
-		return
-	}
-
 	for _, char := range input.Description {
 		if (char < 'a' || char > 'z') && (char < 'A' || char > 'Z') && (char < '0' || char > '9') && char != ' ' && char != '-' && char != '_' {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Description contains invalid characters"})
@@ -73,28 +72,14 @@ func CreateSection(c *gin.Context) {
 		}
 	}
 
-	userId, exists := c.Get("user_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in token"})
-		return
-	}
-	fmt.Println("User ID from token:", userId)
-
-	companyID, exists := c.Get("company_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Company ID not found in token"})
-		return
-	}
-	fmt.Println("Company ID from token:", companyID)
-
 	section := models.Section{
 		Description: input.Description,
-		CompanyID:   companyID.(uint),
-		AuthorID:    userId.(uint),
+		CompanyID:   input.CompanyID,
+		UserID:      input.UserID,
 	}
 
 	var existingSection models.Section
-	if err := database.DB.Where("description = ? AND company_id = ?", input.Description, companyID.(uint)).First(&existingSection).Error; err == nil {
+	if err := database.DB.Where("description = ? AND company_id = ?", input.Description, input.CompanyID).First(&existingSection).Error; err == nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Esta seção já existe"})
 		return
 	}

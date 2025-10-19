@@ -1,24 +1,20 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 // User represents a user in the system
 type User struct {
 	gorm.Model
-	Name             string `gorm:"not null"`
-	Email            string `gorm:"unique;not null"`
-	Password         string `gorm:"not null"`
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+	Name             string    `gorm:"not null"`
+	Email            string    `gorm:"unique;not null"`
+	Password         string    `gorm:"not null"`
 	CompanyID        *uint     // Pointer to allow null
 	Company          Company   `gorm:"foreignKey:CompanyID"`
-	AuthoredSections []Section `gorm:"foreignKey:AuthorID"`
-	AuthoredDishes   []Dish    `gorm:"foreignKey:AuthorLastChangeID"`
-	InsertedImages   []Image   `gorm:"foreignKey:InsertedByID"`
+	Sections         []Section `gorm:"foreignKey:UserID"`
+	Dishes           []Dish    `gorm:"foreignKey:UserID"`
+	Images           []Image   `gorm:"foreignKey:UserID"`
 	SentMessages     []Message `gorm:"foreignKey:SenderID"`
 	ReceivedMessages []Message `gorm:"foreignKey:RecipientID"`
 	Todo             []Todo    `gorm:"foreignKey:UserID"`
@@ -28,13 +24,10 @@ type User struct {
 
 type Todo struct {
 	gorm.Model
-	ID          uint      `json:"id" gorm:"primary_key"`
-	Completed   bool      `json:"completed"`
-	CreatedAt   time.Time `json:"createdat"`
-	UpdatedAt   time.Time `json:"updatedat"`
-	Description string    `json:"description"`
-	UserID      uint      `json:"userId"`
-	User        User      `gorm:"foreignKey:UserID"`
+	Completed   bool   `json:"completed"`
+	Description string `json:"description"`
+	UserID      uint   `json:"userId"`
+	User        User   `gorm:"foreignKey:UserID"`
 }
 
 // Privilege represents the user privilege levels

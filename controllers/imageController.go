@@ -40,7 +40,6 @@ func UploadDishImage(c *gin.Context) {
 	}
 	// Create a new Image record
 	dishImage := models.Image{
-		ID:               dish.ID,
 		OriginalFileName: filePath, // In a real app, this would be a URL accessible by the frontend
 	}
 	if err := database.DB.Create(&dishImage).Error; err != nil {
@@ -138,7 +137,7 @@ func UploadMultipleDishImages(c *gin.Context) {
 			OriginalFileName: file.Filename,
 			UniqueName:       uploadPath + UniqueName,
 			Storage:          "local",
-			InsertedByID:     userID.(uint),
+			UserID:           userID.(uint),
 			CompanyID:        companyID.(uint),
 			CreatedAt:        time.Now(),
 		}
