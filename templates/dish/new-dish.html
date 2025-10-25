@@ -61,7 +61,7 @@
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showPrice" name="showPrice" title="showPrice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
 							<input type="text" id="summary-price-text" name="Price-text" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o preço do prato." readonly>
-							<input id="summary-price-number" name="Price" hidden>
+							<input id="summary-price-number" name="Price" value="1.54" hidden>
 						</div>
 					</div>
 					<!-- Fim preço do prato -->
@@ -82,7 +82,7 @@
 							<button type="button" onclick="openModal('modal_dish_weekdays')" class="text-lg text-blue-900 w-full text-left">Editar Dias da Semana</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-weekdays" name="WeekDays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana." readonly>
+							<input type="text" id="summary-weekdays" name="WeekDays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana."  value="Segunda, Terça, Quarta" readonly>
 						</div>
 					</div>
 					<!-- Fim dias da semana -->
@@ -92,7 +92,7 @@
 							<button type="button" onclick="openModal('modal_dish_time')" class="text-lg text-blue-900 w-full text-left">Editar Horário</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-time" name="Availability" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." readonly>
+							<input type="text" id="summary-time" name="Availability" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." value="00:30 - 03:30, 07:30 - 13:00" readonly>
 						</div>
 					</div>
 					<!-- Fim horário -->

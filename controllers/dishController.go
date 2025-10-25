@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -134,16 +135,71 @@ func CreateDish(c *gin.Context) {
 	} else {
 		ActiveBool = false
 	}
-
 	// create pointer for Active to match models.Dish.Active (*bool)
 	activePtr := ActiveBool
+
+	ShowPriceStr := c.PostForm("ShowPrice")
+	var ShowPriceBool bool
+	if ShowPriceStr == "on" || ShowPriceStr == "true" || ShowPriceStr == "1" || ShowPriceStr == "checked" {
+		ShowPriceBool = true
+	} else {
+		ShowPriceBool = false
+	}
+	// create pointer for ShowPrice to match models.Dish.ShowPrice (*bool)
+	showPricePtr := ShowPriceBool
+
+	ShowDescriptionStr := c.PostForm("ShowDescription")
+	var ShowDescriptionBool bool
+	if ShowDescriptionStr == "on" || ShowDescriptionStr == "true" || ShowDescriptionStr == "1" || ShowDescriptionStr == "checked" {
+		ShowDescriptionBool = true
+	} else {
+		ShowDescriptionBool = false
+	}
+	// create pointer for ShowDescription to match models.Dish.ShowDescription (*bool)
+	showDescriptionPtr := ShowDescriptionBool
+	// Set Availability from comma-separated string if provided
+	availabilityStr := c.PostForm("Availability")
+	var Availability []string
+	if availabilityStr != "" {
+		for _, v := range strings.Split(availabilityStr, ",") {
+			v = strings.TrimSpace(v)
+			if v != "" {
+				Availability = append(Availability, v)
+			}
+		}
+	}
+
+	// Set WeekDays from comma-separated string if provided
+	weekDaysStr := c.PostForm("WeekDays")
+	var WeekDays []string
+	if weekDaysStr != "" {
+		for _, v := range strings.Split(weekDaysStr, ",") {
+			v = strings.TrimSpace(v)
+			if v != "" {
+				WeekDays = append(WeekDays, v)
+			}
+		}
+	}
+
+	PriceStr := c.PostForm("Price")
+	Price, err := strconv.ParseFloat(PriceStr, 64)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Preço inválido: %v", err)
+		return
+	}
+
 	dish := models.Dish{
-		Name:        c.PostForm("Name"),
-		CompanyID:   companyID,
-		UserID:      userID,
-		SectionID:   sectionID,
-		Active:      &activePtr,
-		Description: c.PostForm("Description"),
+		Name:            c.PostForm("Name"),
+		CompanyID:       companyID,
+		UserID:          userID,
+		SectionID:       sectionID,
+		Active:          &activePtr,
+		Description:     c.PostForm("Description"),
+		Price:           Price,
+		ShowPrice:       &showPricePtr,
+		Availability:    Availability,
+		ShowDescription: &showDescriptionPtr,
+		WeekDays:        WeekDays,
 	}
 
 	fmt.Printf("Dish fields:\n")
@@ -157,11 +213,12 @@ func CreateDish(c *gin.Context) {
 	fmt.Printf("CreatedAt: %v\n", dish.CreatedAt)
 	fmt.Printf("UpdatedAt: %v\n", dish.UpdatedAt)
 	fmt.Printf("Availability: %v\n", dish.Availability)
+	fmt.Printf("WeekDays: %v\n", dish.WeekDays)
 
 	// Force GORM to include the Active field in the INSERT so a false value
 	// is not accidentally omitted and the DB default (true) applied.
 	// Use Debug() to print the generated SQL so we can verify Active is included
-	if err := database.DB.Debug().Select("Name", "Description", "Price", "SectionID", "CompanyID", "UserID", "Active", "Availability", "WeekDays").Create(&dish).Error; err != nil {
+	if err := database.DB.Debug().Select("Name", "Description", "Price", "SectionID", "CompanyID", "UserID", "Active", "Availability", "WeekDays", "ShowPrice", "ShowDescription").Create(&dish).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error creating dish: %v", err)
 		return
 	}

@@ -13,9 +13,9 @@ type Dish struct {
 	Name            string         `gorm:"not null"`
 	Active          *bool          `gorm:"default:true"`
 	Description     string         `gorm:"type:text"`
-	ShowDescription bool           `gorm:"default:true"`
+	ShowDescription *bool          `gorm:"default:true"`
 	Price           float64        `gorm:"not null"`
-	ShowPrice       bool           `gorm:"default:true"`
+	ShowPrice       *bool          `gorm:"default:true"`
 	Availability    pq.StringArray `gorm:"type:text[]"`
 	WeekDays        pq.StringArray `gorm:"type:text[]"`
 	UserID          uint           `gorm:"not null"`
