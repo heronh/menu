@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	"errors"
 	"fmt"
 	"main/database"
 	"main/models"
+	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -85,78 +84,100 @@ func NewDishPage(c *gin.Context) {
 	fmt.Println("Total images found:", len(Images))
 
 	c.HTML(http.StatusOK, "new-dish.html", gin.H{
-		"title":     "Adicionar novo prato",
-		"Sections":  Sections,
-		"Images":    Images,
-		"CompanyID": CompanyID,
-		"UserID":    UserID,
-		"TimeList":  TimeList,
+		"title":           "Adicionar novo prato",
+		"Sections":        Sections,
+		"Images":          Images,
+		"CompanyID":       CompanyID,
+		"UserID":          UserID,
+		"TimeList":        TimeList,
+		"DishName":        "Batata frita " + strconv.Itoa(rand.Intn(1000)),
+		"DishDescription": "Deliciosas batatas fritas crocantes, perfeitas para acompanhar qualquer refeição.",
 	})
 }
 
 func CreateDish(c *gin.Context) {
 
 	fmt.Println("CreateDish called")
-	dish := models.Dish{}
-	if err := c.ShouldBind(&dish); err != nil {
 
-		// 1. Tenta fazer type assertion para ValidationErrors (erros de validação)
-		var ve validator.ValidationErrors
-		if errors.As(err, &ve) {
-			// Há erros de validação, podemos iterar sobre eles
-			out := make([]FieldError, len(ve))
-			for i, fe := range ve {
-				out[i] = FieldError{
-					Field: fe.Field(), // Nome do campo na struct (ex: Name, Price)
-					Tag:   fe.Tag(),   // Tag de validação que falhou (ex: required, min)
-					Msg:   getErrorMsg(fe),
-				}
-			}
-
-			// Retorna uma resposta JSON detalhada com os erros
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": "Erros de validação nos campos",
-				"errors":  out,
-			})
-			c.String(http.StatusInternalServerError, "Error parsing dish: %v", err)
-			return
+	companyIDStr := c.PostForm("CompanyID")
+	var companyID uint
+	if companyIDStr != "" {
+		if cid, err := strconv.ParseUint(companyIDStr, 10, 64); err == nil {
+			companyID = uint(cid)
 		}
-
-		// 2. Se não for um erro de validação (ex: JSON malformado, tipo de dado incorreto)
-		// Retorna o erro genérico de binding
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Erro no formato dos dados ou binding",
-			"details": err.Error(),
-		})
-		c.String(http.StatusInternalServerError, "Error dish: %v", err)
-		return
 	}
 
-	dish.CreatedAt = time.Now()
-	dish.UpdatedAt = time.Now()
+	userIDStr := c.PostForm("UserID")
+	var userID uint
+	if userIDStr != "" {
+		if uid, err := strconv.ParseUint(userIDStr, 10, 64); err == nil {
+			userID = uint(uid)
+		}
+	}
+
+	sectionIDStr := c.PostForm("SectionID")
+	var sectionID uint
+	if sectionIDStr != "" {
+		if sid, err := strconv.ParseUint(sectionIDStr, 10, 64); err == nil {
+			sectionID = uint(sid)
+		}
+	}
+
+	ActiveStr := c.PostForm("Active")
+	if ActiveStr == "" {
+		ActiveStr = c.PostForm("active")
+	}
+	fmt.Printf("Received Active form value: '%s'\n", ActiveStr)
+	var ActiveBool bool
+	if ActiveStr == "on" || ActiveStr == "true" || ActiveStr == "1" || ActiveStr == "checked" {
+		ActiveBool = true
+	} else {
+		ActiveBool = false
+	}
+
+	// create pointer for Active to match models.Dish.Active (*bool)
+	activePtr := ActiveBool
+	dish := models.Dish{
+		Name:        c.PostForm("Name"),
+		CompanyID:   companyID,
+		UserID:      userID,
+		SectionID:   sectionID,
+		Active:      &activePtr,
+		Description: c.PostForm("Description"),
+	}
+
 	fmt.Printf("Dish fields:\n")
 	fmt.Printf("ID: %v\n", dish.ID)
 	fmt.Printf("Name: %v\n", dish.Name)
 	fmt.Printf("Description: %v\n", dish.Description)
+	fmt.Printf("Active (from form): %v\n", ActiveBool)
 	fmt.Printf("Price: %v\n", dish.Price)
 	fmt.Printf("SectionID: %v\n", dish.SectionID)
 	fmt.Printf("CompanyID: %v\n", dish.CompanyID)
 	fmt.Printf("CreatedAt: %v\n", dish.CreatedAt)
 	fmt.Printf("UpdatedAt: %v\n", dish.UpdatedAt)
+	fmt.Printf("Availability: %v\n", dish.Availability)
 
-	newDish := models.Dish{
-		Name:        dish.Name,
-		Description: dish.Description,
-		Price:       dish.Price,
-		SectionID:   dish.SectionID,
-		CompanyID:   dish.CompanyID,
-		UserID:      dish.UserID,
-	}
-	if err := database.DB.Create(&newDish).Error; err != nil {
+	// Force GORM to include the Active field in the INSERT so a false value
+	// is not accidentally omitted and the DB default (true) applied.
+	// Use Debug() to print the generated SQL so we can verify Active is included
+	if err := database.DB.Debug().Select("Name", "Description", "Price", "SectionID", "CompanyID", "UserID", "Active", "Availability", "WeekDays").Create(&dish).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error creating dish: %v", err)
 		return
 	}
-	fmt.Println("Dish created with ID:", newDish.ID)
+
+	// Read back the created record to confirm what was stored in DB
+	var created models.Dish
+	if err := database.DB.Where("id = ?", dish.ID).First(&created).Error; err == nil {
+		if created.Active != nil {
+			fmt.Printf("Created dish Active in DB: %v\n", *created.Active)
+		} else {
+			fmt.Printf("Created dish Active in DB: <nil>\n")
+		}
+	} else {
+		fmt.Printf("Could not read back created dish: %v\n", err)
+	}
+	fmt.Println("Dish created with ID:", dish.ID)
 
 	c.Redirect(http.StatusSeeOther, "/company")
 }

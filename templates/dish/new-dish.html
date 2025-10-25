@@ -28,6 +28,8 @@
 					<!-- Usuário e empresa -->
 					<input id="CompanyID" name="CompanyID" type="number" value="{{ .CompanyID }}" hidden>
 					<input id="UserID" name="UserID" type="number" value="{{ .UserID }}" hidden>
+					<!-- Hidden fallback for Active (0 = false, 1 = true). Updated by JS in updateSummary() -->
+					<input id="ActiveHidden" name="Active" type="hidden" value="0">
 					<!-- Fim de usuário/empresa -->
 					<!-- Nome do prato -->
 					<div id="summary-name-container" class="flex flex-col w-full">
@@ -35,8 +37,8 @@
 							<button type="button" onclick="openModal('modal_dish_name')" class="text-lg text-blue-900 w-full text-left">Editar Nome do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="checkbox" id="summary-showname" name="showname" title="showname" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-name" name="Name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." readonly>
+							<input type="checkbox" id="summary-showname" title="showname" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
+							<input type="text" id="summary-name" name="Name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." value="{{ .DishName }}" readonly>
 						</div>
 					</div>
 					<!-- Fim nome do prato -->
@@ -47,7 +49,7 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-description" name="Description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." readonly>
+							<input type="text" id="summary-description" name="Description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." value="{{ .DishDescription }}" readonly>
 						</div>
 					</div>
 					<!-- Fim descrição do prato -->
@@ -69,8 +71,8 @@
 							<button type="button" onclick="openModal('modal_dish_section')" class="text-lg text-blue-900 w-full text-left">Editar Seção do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="" readonly>
-							<input hidden id="summary-section-id" name="SectionID" class="mt-1 text-sm text-gray-500">
+							<input type="text" id="summary-section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="Petiscos" readonly>
+							<input hidden id="summary-section-id" name="SectionID" class="mt-1 text-sm text-gray-500" value="1">
 						</div>
 					</div>
 					<!-- Fim seção do prato -->
@@ -90,7 +92,7 @@
 							<button type="button" onclick="openModal('modal_dish_time')" class="text-lg text-blue-900 w-full text-left">Editar Horário</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-time" name="time" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." readonly>
+							<input type="text" id="summary-time" name="Availability" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim horário -->
@@ -108,7 +110,7 @@
 					<hr class="my-4">
 					<div class="flex justify-end">
 						<p class="mt-1 text-sm text-gray-500">Confira as informações do prato antes de salvar.</p>
-						<button type="submit" id="btn-save-dish" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" disabled>
+						<button type="submit" id="btn-save-dish" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
 							Salvar
 						</button>
 					</div>
@@ -125,7 +127,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		console.log('Opening modal');
-		openModal('modal_dish_section');
+		//openModal('modal_dish_name');
 	});
 
 	// Atualiza o resumo do prato
@@ -137,6 +139,11 @@
 		var showName = document.getElementById('modal-showname').checked;
 		document.getElementById('summary-name').value = name;
 		document.getElementById('summary-showname').checked = showName;
+		// Update hidden Active field so the form always submits the correct value
+		var activeHidden = document.getElementById('ActiveHidden');
+		if (activeHidden) {
+			activeHidden.value = showName ? '1' : '0';
+		}
 		// Descrição e mostrar descrição
 		var description = document.getElementById('modal-description').value;
 		var showDescription = document.getElementById('modal-showdescription').checked;

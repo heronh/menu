@@ -11,7 +11,7 @@ import (
 type Dish struct {
 	gorm.Model
 	Name            string         `gorm:"not null"`
-	Active          bool           `gorm:"default:true"`
+	Active          *bool          `gorm:"default:true"`
 	Description     string         `gorm:"type:text"`
 	ShowDescription bool           `gorm:"default:true"`
 	Price           float64        `gorm:"not null"`
