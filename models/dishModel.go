@@ -24,6 +24,7 @@ type Dish struct {
 	Section         Section        `gorm:"foreignKey:SectionID"`
 	CompanyID       uint           `gorm:"not null"`
 	Company         Company        `gorm:"foreignKey:CompanyID"`
+	Images          []Image        `gorm:"many2many:dish_images;"`
 }
 
 // Image represents an image file
@@ -31,7 +32,7 @@ type Image struct {
 	gorm.Model
 	OriginalFileName string  `gorm:"not null"`
 	UniqueName       string  `gorm:"unique;not null"`
-	Storage          string  // e.g., local, s3
+	Storage          string  `gorm:"default:'local'"`
 	UserID           uint    `gorm:"not null"`
 	User             User    `gorm:"foreignKey:UserID"`
 	CompanyID        uint    `gorm:"not null"`

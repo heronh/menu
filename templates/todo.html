@@ -12,8 +12,8 @@
 	 <title>{{ .Title }}</title>  
 </head>
 
-<body class="bg-gray-100 min-h-screen">
-	<div class="max-w-2xl mx-auto py-8 px-2">
+<body class="bg-gray-600 min-h-screen">
+	<div class="w-full mx-auto py-8 px-4">
 		<div class="bg-white rounded-xl shadow-lg overflow-hidden">
 			<div class="bg-blue-600 text-white px-6 py-4 text-xl font-bold">
 				Lista de Tarefas:
@@ -44,8 +44,8 @@
 							{{ end }}
 							<span class="text-xs text-gray-400 w-24">{{ .UpdatedAt.Format "02/01/2006" }}</span>
 							<input type="text" class="todo_id" name="{{.ID}}" value="{{.ID}}" hidden>
+							<span class="ml-4 flex-1 min-w-0 {{ if .Completed }}text-gray-400 line-through{{ end }}">{{ .Description }}</span>
 						</div>
-						<span class="block mt-2 ml-14 {{if .Completed}}text-gray-400 line-through{{end}}">{{ .Description }}</span>
 					</li>
 				{{ end }}
 			</ul>

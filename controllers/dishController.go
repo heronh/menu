@@ -188,6 +188,24 @@ func CreateDish(c *gin.Context) {
 		return
 	}
 
+	ImagesStr := c.PostForm("Images")
+	var Images []models.Image
+	if ImagesStr != "" {
+		for _, idStr := range strings.Split(ImagesStr, ",") {
+			idStr = strings.TrimSpace(idStr)
+			if idStr != "" {
+				if imgID, err := strconv.ParseUint(idStr, 10, 64); err == nil {
+					var img models.Image
+					if err := database.DB.Where("id = ? AND company_id = ?", uint(imgID), companyID).First(&img).Error; err == nil {
+						Images = append(Images, img)
+					} else {
+						fmt.Printf("Image with ID %d not found for CompanyID %d\n", uint(imgID), companyID)
+					}
+				}
+			}
+		}
+	}
+
 	dish := models.Dish{
 		Name:            c.PostForm("Name"),
 		CompanyID:       companyID,
@@ -200,6 +218,7 @@ func CreateDish(c *gin.Context) {
 		Availability:    Availability,
 		ShowDescription: &showDescriptionPtr,
 		WeekDays:        WeekDays,
+		Images:          Images,
 	}
 
 	fmt.Printf("Dish fields:\n")
@@ -214,11 +233,16 @@ func CreateDish(c *gin.Context) {
 	fmt.Printf("UpdatedAt: %v\n", dish.UpdatedAt)
 	fmt.Printf("Availability: %v\n", dish.Availability)
 	fmt.Printf("WeekDays: %v\n", dish.WeekDays)
+	fmt.Printf("ShowPrice: %v\n", ShowPriceBool)
+	fmt.Printf("ShowDescription: %v\n", ShowDescriptionBool)
+	for _, img := range dish.Images {
+		fmt.Println(img.OriginalFileName)
+	}
 
 	// Force GORM to include the Active field in the INSERT so a false value
 	// is not accidentally omitted and the DB default (true) applied.
 	// Use Debug() to print the generated SQL so we can verify Active is included
-	if err := database.DB.Debug().Select("Name", "Description", "Price", "SectionID", "CompanyID", "UserID", "Active", "Availability", "WeekDays", "ShowPrice", "ShowDescription").Create(&dish).Error; err != nil {
+	if err := database.DB.Debug().Select("Name", "Description", "Price", "SectionID", "CompanyID", "UserID", "Active", "Availability", "WeekDays", "ShowPrice", "ShowDescription", "Images").Create(&dish).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error creating dish: %v", err)
 		return
 	}
