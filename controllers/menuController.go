@@ -21,12 +21,7 @@ func ViewCompanyMenu(c *gin.Context) {
 
 	for _, dish := range dishes {
 		fmt.Println("\n", dish.Name)
-		// safe check for *bool
-		if dish.Active != nil && *dish.Active {
-			fmt.Println("Active: true")
-		} else {
-			fmt.Println("Active: false")
-		}
+		fmt.Println("Active:", dish.Active)
 		fmt.Println(dish.Description)
 		fmt.Println(dish.Price)
 		fmt.Println("Images:")

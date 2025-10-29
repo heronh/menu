@@ -124,39 +124,15 @@ func CreateDish(c *gin.Context) {
 		}
 	}
 
-	ActiveStr := c.PostForm("Active")
-	if ActiveStr == "" {
-		ActiveStr = c.PostForm("active")
-	}
-	fmt.Printf("Received Active form value: '%s'\n", ActiveStr)
-	var ActiveBool bool
-	if ActiveStr == "on" || ActiveStr == "true" || ActiveStr == "1" || ActiveStr == "checked" {
-		ActiveBool = true
-	} else {
-		ActiveBool = false
-	}
-	// create pointer for Active to match models.Dish.Active (*bool)
-	activePtr := ActiveBool
+	Active := c.PostForm("Active") == "on"
+	fmt.Printf("Received Active form value: '%t'\n", Active)
 
-	ShowPriceStr := c.PostForm("ShowPrice")
-	var ShowPriceBool bool
-	if ShowPriceStr == "on" || ShowPriceStr == "true" || ShowPriceStr == "1" || ShowPriceStr == "checked" {
-		ShowPriceBool = true
-	} else {
-		ShowPriceBool = false
-	}
-	// create pointer for ShowPrice to match models.Dish.ShowPrice (*bool)
-	showPricePtr := ShowPriceBool
+	ShowPrice := c.PostForm("ShowPrice") == "on"
+	fmt.Printf("Received ShowPrice form value: '%t'\n", ShowPrice)
 
-	ShowDescriptionStr := c.PostForm("ShowDescription")
-	var ShowDescriptionBool bool
-	if ShowDescriptionStr == "on" || ShowDescriptionStr == "true" || ShowDescriptionStr == "1" || ShowDescriptionStr == "checked" {
-		ShowDescriptionBool = true
-	} else {
-		ShowDescriptionBool = false
-	}
-	// create pointer for ShowDescription to match models.Dish.ShowDescription (*bool)
-	showDescriptionPtr := ShowDescriptionBool
+	ShowDescription := c.PostForm("ShowDescription") == "on"
+	fmt.Printf("Received ShowDescription form value: '%t'\n", ShowDescription)
+
 	// Set Availability from comma-separated string if provided
 	availabilityStr := c.PostForm("Availability")
 	var Availability []string
@@ -211,12 +187,12 @@ func CreateDish(c *gin.Context) {
 		CompanyID:       companyID,
 		UserID:          userID,
 		SectionID:       sectionID,
-		Active:          &activePtr,
+		Active:          Active,
 		Description:     c.PostForm("Description"),
 		Price:           Price,
-		ShowPrice:       &showPricePtr,
+		ShowPrice:       ShowPrice,
 		Availability:    Availability,
-		ShowDescription: &showDescriptionPtr,
+		ShowDescription: ShowDescription,
 		WeekDays:        WeekDays,
 		Images:          Images,
 	}
@@ -225,7 +201,7 @@ func CreateDish(c *gin.Context) {
 	fmt.Printf("ID: %v\n", dish.ID)
 	fmt.Printf("Name: %v\n", dish.Name)
 	fmt.Printf("Description: %v\n", dish.Description)
-	fmt.Printf("Active (from form): %v\n", ActiveBool)
+	fmt.Printf("Active (from form): %v\n", Active)
 	fmt.Printf("Price: %v\n", dish.Price)
 	fmt.Printf("SectionID: %v\n", dish.SectionID)
 	fmt.Printf("CompanyID: %v\n", dish.CompanyID)
@@ -233,8 +209,8 @@ func CreateDish(c *gin.Context) {
 	fmt.Printf("UpdatedAt: %v\n", dish.UpdatedAt)
 	fmt.Printf("Availability: %v\n", dish.Availability)
 	fmt.Printf("WeekDays: %v\n", dish.WeekDays)
-	fmt.Printf("ShowPrice: %v\n", ShowPriceBool)
-	fmt.Printf("ShowDescription: %v\n", ShowDescriptionBool)
+	fmt.Printf("ShowPrice: %v\n", ShowPrice)
+	fmt.Printf("ShowDescription: %v\n", ShowDescription)
 	for _, img := range dish.Images {
 		fmt.Println(img.OriginalFileName)
 	}
@@ -246,19 +222,6 @@ func CreateDish(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "Error creating dish: %v", err)
 		return
 	}
-
-	// Read back the created record to confirm what was stored in DB
-	var created models.Dish
-	if err := database.DB.Where("id = ?", dish.ID).First(&created).Error; err == nil {
-		if created.Active != nil {
-			fmt.Printf("Created dish Active in DB: %v\n", *created.Active)
-		} else {
-			fmt.Printf("Created dish Active in DB: <nil>\n")
-		}
-	} else {
-		fmt.Printf("Could not read back created dish: %v\n", err)
-	}
-	fmt.Println("Dish created with ID:", dish.ID)
 
 	c.Redirect(http.StatusSeeOther, "/company")
 }
