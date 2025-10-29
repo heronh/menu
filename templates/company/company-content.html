@@ -10,14 +10,9 @@
 
 		<br><hr><br>
 		<ul class="list-disc list-inside space-y-2 mt-4 text-gray-700">
-			
-			{{ if not .Dishes }}
-			<li class="text-red-600"><strong>Nenhum prato cadastrado:</strong> Adicione pratos para começar a usar todas as funcionalidades.</li>
-			{{ else }}
-			<li class="text-green-600"><strong>Pratos cadastrados:</strong> Você tem {{ len .Dishes }} prato(s) cadastrado(s). Continue adicionando mais!</li>
-			{{ end }}
-
-			<li><a href="/dishes/new" class="text-blue-600 underline hover:text-blue-800">Adicionar prato 🍱</a></li>
+			<li><a href="/dishes/new" class="text-blue-600 hover:text-blue-800">Adicionar pratos 🍱</a></li>
+			<li><a href="/menu/view/company" class="text-blue-600 hover:text-blue-800">Visualizar e controlar o cardápio da sua empresa</a></li>
+			<li><a href="/menu/view/customer/{{ .CompanyID }}" class="text-blue-600 hover:text-blue-800">Visualizar cardápio do cliente</a></li>
 			<li><strong>Gerenciar cardápios:</strong> Crie, edite e organize seus menus facilmente.</li>
 			<li><strong>Controlar pedidos:</strong> Acompanhe pedidos em tempo real e otimize o atendimento.&#128507;</li>
 			<li><strong>Administrar reservas:</strong> Gerencie reservas de mesas de forma prática.</li>

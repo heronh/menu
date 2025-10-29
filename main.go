@@ -66,6 +66,10 @@ func main() {
 
 	r.GET("/", controllers.WelcomePage)
 
+	// Função relativa ao menu completo, acessivel por qualquer cliente não autenticado
+	r.GET("/menu/view/company", middleware.JWTAuthMiddleware(), controllers.ViewCompanyMenu)
+	r.GET("/menu/view/customer/:id", controllers.ViewCustomerMenu)
+
 	// Funções relativas as tarefas
 	r.GET("/todo", controllers.TodoPage)
 	r.POST("/todo", controllers.SaveTodo)

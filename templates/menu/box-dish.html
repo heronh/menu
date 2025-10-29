@@ -1,0 +1,19 @@
+{{ define "box-dish" }}
+<li class="py-2 px-2 border-b border-gray-200">
+   <div class="flex items-center">
+      <input id="active_{{ .ID }}" type="checkbox" class="h-4 w-4 text-blue-600 rounded-md border-gray-300 focus:ring-blue-500" {{ if .Active }}checked{{ end }}>
+      <label for="active_{{ .ID }}" class="ml-2 block text-sm text-gray-900 px-4">
+         Disponível
+      </label>
+      <div class="font-bold">
+         {{ .Name }}
+      </div>
+   </div>
+   <div class="text-gray-500">
+      {{ .Description }}
+   </div>
+   <div class="font-bold">
+      {{ .Price }}
+   </div>
+</li>
+{{ end }}

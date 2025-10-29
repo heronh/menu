@@ -35,8 +35,8 @@ func CompanyPage(c *gin.Context) {
 	}
 
 	// List all dishes of the company
-	var dishes []models.Dish
-	if err := database.DB.Where("company_id = ?", company.ID).Find(&dishes).Error; err != nil {
+	var Dishes []models.Dish
+	if err := database.DB.Where("company_id = ?", company.ID).Find(&Dishes).Error; err != nil {
 		c.String(http.StatusInternalServerError, "Error fetching dishes: %v", err)
 		return
 	}
@@ -47,6 +47,7 @@ func CompanyPage(c *gin.Context) {
 		"user_name":    user.Name,
 		"user_email":   user.Email,
 		"company_name": company.Name,
-		"dishes":       dishes,
+		"Dishes":       Dishes,
+		"CompanyID":    company.ID,
 	})
 }
