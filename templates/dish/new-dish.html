@@ -193,7 +193,7 @@
 		// Horário
 		var time = document.getElementById('modal-selected-times').textContent;
 		console.log('Time:', time);
-		document.getElementById('summary-time').value = time ? time : 'Horário do prato não definido.';
+		document.getElementById('summary-time').value = time ? time : '';
 		// Imagens
 		var images = Array.from(document.querySelectorAll('input[name="modal-dish-pick-images"]:checked')).map(cb => cb.value);
 		console.log('Images:', images, "total selected:", images.length);
