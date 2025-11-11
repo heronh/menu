@@ -70,6 +70,10 @@
 	});
 
 	$('.btn_delete').click(function(event) {
+		// Criar confirmação antes de excluir
+		if (!confirm('Tem certeza que deseja excluir esta tarefa?\nEsta ação não pode ser desfeita.')) {
+			return;
+		}
 		event.preventDefault();
 		parseId($(this),'/todo_delete');
 	});
