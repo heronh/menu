@@ -53,15 +53,9 @@ func IsDishAvailableNow(dish *models.Dish) bool {
 		// Catch current time in "HH:MM" format
 		currentTime := time.Now().Format("15:04")
 		for _, timeRange := range dish.Availability {
-			if timeRange == "all" {
-				Availability = true
-				break
-			}
 			var startTime, endTime string
-			n, err := fmt.Sscanf(timeRange, "%5s-%5s", &startTime, &endTime)
-			if err != nil || n != 2 {
-				continue // Skip invalid time ranges
-			}
+			fmt.Sscanf(timeRange, "%5s - %5s", &startTime, &endTime)
+			fmt.Println("currentTime:", currentTime, ", startTime:", startTime, ", endTime:", endTime)
 			if currentTime >= startTime && currentTime <= endTime {
 				Availability = true
 				break
@@ -85,6 +79,7 @@ func IsDishAvailableNow(dish *models.Dish) bool {
 			WeekDays = true
 		}
 	}
+	fmt.Println("Availability:", Availability, "WeekDays:", WeekDays)
 
 	return Availability && WeekDays
 }
@@ -99,24 +94,23 @@ func ViewCompanyMenu(c *gin.Context) {
 		return
 	}
 
-	for _, dish := range dishes {
-		fmt.Println("\n", dish.Name)
-		fmt.Println("Active:", dish.Active)
-		fmt.Println(dish.Description)
-		fmt.Println(dish.Price)
-		fmt.Println("Availability:", dish.Availability)
-		fmt.Println("WeekDays:", dish.WeekDays)
+	for i := range dishes {
+		fmt.Println("\n", dishes[i].Name)
+		fmt.Println("Active:", dishes[i].Active)
+		fmt.Println(dishes[i].Description)
+		fmt.Println(dishes[i].Price)
+		fmt.Println("Availability:", dishes[i].Availability)
+		fmt.Println("WeekDays:", dishes[i].WeekDays)
+		dishes[i].AvailableNow = IsDishAvailableNow(&dishes[i])
+		fmt.Println("Available Now:", dishes[i].AvailableNow)
+
 		fmt.Println("Images:")
 		// You can access dish.Images here
-		_ = dish.Images // Just to avoid unused variable warning
-		for _, img := range dish.Images {
+		_ = dishes[i].Images // Just to avoid unused variable warning
+		for _, img := range dishes[i].Images {
 			fmt.Println(" - Image URL:", img.OriginalFileName)
 			fmt.Println(" - Stored as:", img.UniqueName)
 		}
-
-		// Process AvailableNow logic
-		dish.AvailableNow = IsDishAvailableNow(&dish)
-		fmt.Println("Available Now:", dish.AvailableNow)
 	}
 
 	// Render the menu template
