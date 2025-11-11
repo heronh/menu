@@ -26,6 +26,7 @@ type Dish struct {
 	Company         Company        `gorm:"foreignKey:CompanyID"`
 	Images          []Image        `gorm:"many2many:dish_images;"`
 	AvailableNow    bool           `gorm:"-:all"` // Transient field, not stored in DB
+	DishSection     string
 }
 
 // Image represents an image file

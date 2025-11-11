@@ -89,18 +89,26 @@ func ViewCompanyMenu(c *gin.Context) {
 	// Get all dishes from this company
 	CompanyID, _ := c.Get("company_id")
 	var dishes []models.Dish
-	if err := database.DB.Preload("Images").Where("company_id = ?", CompanyID).Order("created_at DESC").Find(&dishes).Error; err != nil {
+	if err := database.DB.
+		Preload("Images").
+		Preload("Section").
+		Where("company_id = ?", CompanyID).
+		Order("created_at DESC").
+		Find(&dishes).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve dishes"})
 		return
 	}
 
 	for i := range dishes {
 		fmt.Println("\n", dishes[i].Name)
-		fmt.Println("Active:", dishes[i].Active)
-		fmt.Println(dishes[i].Description)
-		fmt.Println(dishes[i].Price)
+		//fmt.Println("Active:", dishes[i].Active)
+		//fmt.Println(dishes[i].Description)
+		//fmt.Println(dishes[i].Price)
+		//fmt.Println("Section: ", dishes[0].Section.Description)
 		fmt.Println("Availability:", dishes[i].Availability)
 		fmt.Println("WeekDays:", dishes[i].WeekDays)
+		dishes[i].DishSection = dishes[i].Section.Description
+		fmt.Println("Dish Section:", dishes[i].DishSection)
 		dishes[i].AvailableNow = IsDishAvailableNow(&dishes[i])
 		fmt.Println("Available Now:", dishes[i].AvailableNow)
 
