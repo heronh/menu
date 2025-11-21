@@ -38,7 +38,7 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showname" title="showname" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-name" name="Name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." value="{{ .DishName }}" readonly>
+							<input type="text" id="summary-name" name="Name" class="mt-1 text-sm text-gray-500 w-full" placeholder="*Defina o nome do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim nome do prato -->
@@ -49,7 +49,7 @@
 						</div>
 						<div class="flex items-center space-x-1 w-full">
 							<input type="checkbox" id="summary-showdescription" name="showdescription" title="showdescription" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" readonly>
-							<input type="text" id="summary-description" name="Description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." value="{{ .DishDescription }}" readonly>
+							<input type="text" id="summary-description" name="Description" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a descrição do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim descrição do prato -->
@@ -71,8 +71,8 @@
 							<button type="button" onclick="openModal('modal_dish_section')" class="text-lg text-blue-900 w-full text-left">Editar Seção do Prato</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." value="Petiscos" readonly>
-							<input hidden id="summary-section-id" name="SectionID" class="mt-1 text-sm text-gray-500" value="1">
+							<input type="text" id="summary-section" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina a seção do prato." readonly>
+							<input hidden id="summary-section-id" name="SectionID" class="mt-1 text-sm text-gray-500">
 						</div>
 					</div>
 					<!-- Fim seção do prato -->
@@ -82,7 +82,7 @@
 							<button type="button" onclick="openModal('modal_dish_weekdays')" class="text-lg text-blue-900 w-full text-left">Editar Dias da Semana</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-weekdays" name="WeekDays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana."  value="Segunda, Terça, Quarta" readonly>
+							<input type="text" id="summary-weekdays" name="WeekDays" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina os dias da semana." readonly>
 						</div>
 					</div>
 					<!-- Fim dias da semana -->
@@ -92,7 +92,7 @@
 							<button type="button" onclick="openModal('modal_dish_time')" class="text-lg text-blue-900 w-full text-left">Editar Horário</button>
 						</div>
 						<div class="flex items-center space-x-1 w-full">
-							<input type="text" id="summary-time" name="Availability" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." value="00:30 - 03:30, 07:30 - 13:00" readonly>
+							<input type="text" id="summary-time" name="Availability" class="mt-1 text-sm text-gray-500 w-full" placeholder="Defina o horário de disponibilidade do prato." readonly>
 						</div>
 					</div>
 					<!-- Fim horário -->

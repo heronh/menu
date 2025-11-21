@@ -3,26 +3,26 @@
 	<div class="modal-content">
 		<div class="container mx-auto px-4 py-12 mr-4 mt-4">  
 			<div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
-				<div>
-					<label for="modal-price" class="block text-gray-900 mb-2">Preço</label>
+				<div class="mt-2">
+					<label for="modal-price" class="block text-xl font-medium mb-2">Preço</label>
 					<input type="text" id="modal-price" name="modal-price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-					placeholder="Ex: R$ 29,90" value="29.90">
+					placeholder="Ex: R$ 29,90">
 				</div>
-				<div>
+				<div class="mt-2">
 					<div class="flex items-center">
 						<input type="checkbox" id="modal-showPrice" name="modal-showPrice" title="Ativo" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" value="true" checked>
 						<label for="modal-showPrice" class="text-gray-700 font-medium ml-2">Exibir preço</label>
 					</div>
 				</div>
-				<div class="mt-4 mb-2 text-gray-700 font-small">
+				<div class="p-2 text-gray-700 text-sm shadow-md">
 					<p>A opção "Exibir preço" controla se o prato será mostrado no cardápio e poderá ser alterada a qualquer momento.</p>
 				</div>
 
 	         <!-- Área de botões -->
 				<div class="modal-buttons">
 					{{ template "modal-button" "Price" }}
-					<span class="modal-next">Section</span>
-					<span class="modal-prev">Description</span>
+					<span class="modal-next" hidden>Section</span>
+					<span class="modal-prev" hidden>Description</span>
 	         </div>
 	         <!-- Área de botões -->
 			</div>

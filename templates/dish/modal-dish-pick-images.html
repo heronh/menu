@@ -2,30 +2,27 @@
 <div id="modal_dish_pickimages" class="fixed inset-0 flex items-center justify-center modal-overlay opacity-0 invisible z-50">
    <div class="modal-content max-h-screen overflow-y-auto">
       <div class="container mx-auto px-4 py-12 mr-4 mt-4">  
-         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
-
-         <div class="mt-2 mb-1 text-gray-700 font-medium">
-            <p>Imagens para este prato.</p>
-         </div>
-
-         <div class="mb-4">
-            <div id="image-selection" class="grid grid-cols-2 sm:flex sm:overflow-x-auto sm:space-x-4 py-2 gap-4">
-               {{ range .Images }}
-                  {{ template "box-image.html" . }}
-               {{ else }}
-                  <p class="text-center text-gray-500 col-span-2">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
-               {{ end }}
+         <div class="bg-white p-8 rounded-lg max-w-lg mx-auto">
+            <span class="block text-xl font-medium mb-2">Imagens deste prato</span>
+            <div class="mb-4">
+               <div id="image-selection" class="grid grid-cols-2 sm:flex sm:overflow-x-auto sm:space-x-4 py-2 gap-4">
+                  {{ range .Images }}
+                     {{ template "box-image.html" . }}
+                  {{ else }}
+                     <p class="text-center text-gray-500 col-span-2">Nenhuma imagem disponível. Por favor, faça o upload de imagens primeiro.</p>
+                  {{ end }}
+               </div>
             </div>
-         </div>
 
-         <hr class="my-4">
-         <!-- área dos botões -->
-         <div class="modal-buttons">
-            {{ template "modal-button" "PickImages" }}
-            <span class="modal-next" hidden>Name</span>
-            <span class="modal-prev" hidden>UploadImages</span>
+            <hr class="my-4">
+            <!-- área dos botões -->
+            <div class="modal-buttons">
+               {{ template "modal-button" "PickImages" }}
+               <span class="modal-next" hidden>Name</span>
+               <span class="modal-prev" hidden>UploadImages</span>
+            </div>
+            <!-- área dos botões -->
          </div>
-       </div>
       </div>
    </div>
 </div>
